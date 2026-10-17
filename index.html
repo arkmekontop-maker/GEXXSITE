@@ -1,403 +1,214 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f3ef">
-  <meta name="description" content="Ein verständlicher, praxisorientierter Guide zu Malware: Arten, Infektionswege, Erkennung, sichere Tests und Reaktion auf Vorfälle.">
-  <title>Malware verstehen — Sicherheitswissen, das weiterhilft</title>
+  <meta name="theme-color" content="#ecece5">
+  <meta name="description" content="GEXX Fieldnotes — a practical desk for open-source intelligence, Linux, digital research, and official investigation resources.">
+  <title>GEXX — Open Source Fieldnotes</title>
   <style>
-    :root{
-      color-scheme:light;
-      --paper:#f4f3ef;--surface:#fffefa;--ink:#20231f;--muted:#666d65;
-      --line:#dcded6;--soft:#e9ebe4;--blue:#214fe5;--blue-dark:#183bb2;
-      --orange:#d85c33;--green:#336b50;--serif:Georgia,"Times New Roman",serif;
-      --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-      --max:1200px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:86px}
-    body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
-    a{color:inherit}
-    button,input,select{font:inherit}
-    .wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
-    .site-header{position:sticky;top:0;z-index:30;background:#f4f3efeF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-    .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:14px;font-weight:850;letter-spacing:-.035em;white-space:nowrap}
-    .brand-mark{width:29px;height:29px;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-size:15px;font-weight:700}
-    .nav-links{display:flex;align-items:center;gap:25px}
-    .nav-links a{font-size:11px;color:#555d55;font-weight:700;text-decoration:none}
-    .nav-links a:hover{color:var(--blue)}
-    .nav-action{background:var(--ink);color:white;padding:10px 13px;border-radius:3px;text-decoration:none;font-size:10px;font-weight:800;white-space:nowrap}
-    .hero{padding:76px 0 62px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);gap:64px;align-items:center}
-    .eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--blue)}
-    .eyebrow:before{content:"";width:20px;height:1px;background:currentColor}
-    h1,h2,h3,p{margin-top:0}
-    h1{font-family:var(--serif);font-weight:400;font-size:clamp(50px,6.7vw,86px);letter-spacing:-.065em;line-height:.98;margin:22px 0 24px;max-width:730px}
-    h1 em{font-weight:400;color:var(--blue)}
-    .hero-lead{font-size:17px;color:#565e55;line-height:1.75;max-width:635px;margin-bottom:27px}
-    .hero-lead strong{color:var(--ink);font-weight:750}
-    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 15px;border:1px solid var(--blue);background:var(--blue);color:white;text-decoration:none;border-radius:3px;font-size:11px;font-weight:800;cursor:pointer;transition:background .15s,border-color .15s}
-    .btn:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
-    .btn.secondary{background:transparent;color:var(--ink);border-color:#c8ccc3}
-    .btn.secondary:hover{background:white;border-color:#aeb5aa}
-    .hero-art{min-height:422px;background:#202925;position:relative;overflow:hidden;color:#f9f8f2;padding:26px;display:flex;flex-direction:column;justify-content:space-between}
-    .hero-art:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#2b3730 0%,#202925 56%,#17201b 100%)}
-    .art-top,.art-bottom,.art-main{position:relative;z-index:1}
-    .art-top{display:flex;justify-content:space-between;gap:12px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#c7cec4;font-weight:750}
-    .art-main{padding:36px 0 30px}
-    .art-number{font:clamp(104px,15vw,185px)/.8 var(--serif);letter-spacing:-.11em;color:#d8e5d5}
-    .art-rule{height:1px;background:#d8e5d54b;margin:27px 0 15px}
-    .art-caption{display:flex;justify-content:space-between;gap:14px;align-items:end}
-    .art-caption strong{font-size:15px;font-weight:650;display:block}
-    .art-caption span{color:#b9c3b8;font-size:10px;display:block;margin-top:4px}
-    .art-stamp{border:1px solid #c5d3c4a0;border-radius:50%;width:73px;height:73px;display:grid;place-items:center;text-align:center;font-size:9px;line-height:1.3;transform:rotate(-10deg);color:#dbe8d8}
-    .hero-index{font-size:10px;color:#9aa99a}
-    .proof-strip{border-block:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}
-    .proof{padding:18px 20px;border-right:1px solid var(--line)}
-    .proof:last-child{border-right:0}
-    .proof b{font-size:12px;display:block;font-weight:800}
-    .proof span{display:block;margin-top:4px;font-size:10px;color:var(--muted)}
-    .section{padding:83px 0;border-bottom:1px solid var(--line)}
-    .section-head{display:grid;grid-template-columns:1fr .68fr;gap:38px;align-items:end;margin-bottom:32px}
-    .section-no{font-size:10px;color:var(--blue);font-weight:850;letter-spacing:.12em;text-transform:uppercase}
-    h2{font-family:var(--serif);font-size:clamp(37px,4.7vw,59px);line-height:1;letter-spacing:-.06em;font-weight:400;margin:12px 0 0}
-    .intro{font-size:13px;color:var(--muted);line-height:1.85;margin:0;max-width:470px}
-    .intro strong{color:var(--ink)}
-    .definition{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .definition-main{background:var(--blue);color:#fff;padding:29px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
-    .definition-main .small{font-size:10px;letter-spacing:.13em;font-weight:800;text-transform:uppercase;color:#dce4ff}
-    .definition-main h3{font-family:var(--serif);font-size:35px;line-height:1.06;letter-spacing:-.04em;font-weight:400;margin:23px 0 14px;max-width:480px}
-    .definition-main p{font-size:12px;color:#e2e8ff;margin:0;max-width:500px}
-    .definition-note{border:1px solid var(--line);background:var(--surface);padding:27px;display:flex;flex-direction:column;justify-content:space-between}
-    .definition-note .big-mark{font-family:var(--serif);font-size:58px;line-height:1;color:var(--orange)}
-    .definition-note h3{font-size:17px;margin:22px 0 7px;letter-spacing:-.025em}
-    .definition-note p{font-size:12px;color:var(--muted);margin:0}
-    .filterbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:32px 0 16px}
-    .filterbar label{font-size:10px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.1em}
-    .filterbar input{width:min(290px,55vw);border:1px solid #cdd1c8;background:var(--surface);padding:10px 12px;border-radius:3px;outline:none;font-size:12px}
-    .filterbar input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #214fe51a}
-    .malware-list{border-top:1px solid var(--line)}
-    .malware-row{display:grid;grid-template-columns:54px 1.1fr 1.5fr .8fr;gap:20px;align-items:start;padding:21px 5px;border-bottom:1px solid var(--line)}
-    .malware-row[hidden]{display:none}
-    .malware-n{font-size:10px;color:var(--blue);font-weight:800;padding-top:3px}
-    .malware-row h3{font-size:16px;letter-spacing:-.025em;margin:0 0 5px}
-    .malware-row .plain{font-size:11px;color:var(--muted);line-height:1.7}
-    .malware-row .behavior{font-size:11px;color:#454e45;line-height:1.7}
-    .badge{display:inline-block;background:#e8eae3;color:#4a5547;padding:5px 7px;font-size:9px;font-weight:800;border-radius:2px;white-space:nowrap}
-    .badge.orange{background:#f5e5db;color:#984321}
-    .badge.blue{background:#e4e9ff;color:#2942a5}
-    .lifecycle{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--surface)}
-    .life-step{padding:21px 19px;position:relative;border-right:1px solid var(--line);min-height:172px}
-    .life-step:last-child{border-right:0}
-    .life-step .n{font-size:10px;color:var(--blue);font-weight:850}
-    .life-step h3{font-size:14px;margin:20px 0 7px}
-    .life-step p{font-size:11px;color:var(--muted);line-height:1.7;margin:0}
-    .callout{margin-top:16px;padding:17px 20px;background:#e8eae3;display:grid;grid-template-columns:125px 1fr;gap:18px;font-size:11px;line-height:1.8;color:#4e594d}
-    .callout strong{color:var(--ink)}
-    .simulator{display:grid;grid-template-columns:.9fr 1.1fr;border:1px solid var(--line);background:var(--surface)}
-    .sim-controls{padding:26px;border-right:1px solid var(--line)}
-    .sim-controls h3,.sim-output h3{font-size:19px;letter-spacing:-.035em;margin:9px 0}
-    .sim-controls p{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:20px}
-    .field{margin:14px 0}
-    .field label{display:block;font-size:10px;font-weight:800;letter-spacing:.05em;margin-bottom:7px}
-    .field select,.field input{width:100%;padding:11px;border:1px solid #cdd1c8;background:#fffefa;color:var(--ink);font-size:12px;border-radius:2px;outline:none}
-    .field select:focus,.field input:focus{border-color:var(--blue)}
-    .sim-controls .btn{margin-top:5px}
-    .sim-output{padding:26px;display:flex;flex-direction:column}
-    .output-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .output-state{font-size:9px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#686f67}
-    .output-card{margin-top:17px;border-top:2px solid var(--blue);background:#f3f4ef;padding:22px;flex:1}
-    .output-card .overline{font-size:9px;color:var(--blue);font-weight:850;text-transform:uppercase;letter-spacing:.12em}
-    .output-card h4{font-size:22px;font-weight:650;letter-spacing:-.04em;margin:11px 0}
-    .output-card p{font-size:12px;line-height:1.8;color:#5d655b;margin:0}
-    .riskline{margin-top:20px;display:flex;align-items:center;gap:5px}
-    .riskline span{height:4px;flex:1;background:#d7dbd3}
-    .riskline span.on{background:var(--orange)}
-    .risk-caption{margin-top:8px;font-size:9px;color:#7b8177;text-transform:uppercase;letter-spacing:.1em}
-    .note{font-size:10px;color:#686f67;margin-top:14px;line-height:1.7}
-    .signs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .sign{padding:21px;border:1px solid var(--line);background:var(--surface);min-height:170px}
-    .sign .icon{font-size:20px;color:var(--orange)}
-    .sign h3{font-size:14px;margin:14px 0 7px}
-    .sign p{font-size:11px;color:var(--muted);line-height:1.75;margin:0}
-    .response{counter-reset:res;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
-    .response-step{counter-increment:res;display:grid;grid-template-columns:35px 1fr;gap:13px;padding:18px 0;border-top:1px solid var(--line)}
-    .response-step:before{content:counter(res,decimal-leading-zero);font-size:10px;color:var(--blue);font-weight:850;padding-top:2px}
-    .response-step h3{font-size:14px;margin:0 0 5px}
-    .response-step p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}
-    .test-panel{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;background:#e6e9df;padding:29px;border-left:3px solid var(--green)}
-    .test-panel h3{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:-.045em;margin:9px 0 8px}
-    .test-panel p{font-size:12px;color:#596256;line-height:1.8;margin:0;max-width:740px}
-    .test-panel .actions{min-width:190px;display:flex;flex-direction:column;align-items:stretch}
-    .test-panel .btn{background:var(--ink);border-color:var(--ink)}
-    .test-panel .btn:hover{background:#363d36;border-color:#363d36}
-    .small-warning{font-size:10px!important;color:#775c3f!important;margin-top:10px!important}
-    .quiz{display:grid;grid-template-columns:.75fr 1.25fr;gap:25px;padding:26px;background:var(--ink);color:white}
-    .quiz h3{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.05;letter-spacing:-.04em;margin:12px 0}
-    .quiz-intro p{font-size:11px;line-height:1.8;color:#bdc4ba}
-    .question{font-size:14px;font-weight:750;margin:0 0 13px}
-    .answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .answer{background:#2d332d;color:#e9eee5;border:1px solid #414a40;text-align:left;padding:12px;font-size:10px;border-radius:2px;cursor:pointer}
-    .answer:hover{border-color:#9dae94}
-    .answer.correct{background:#243d31;border-color:#77c49b;color:#b5f1cb}
-    .answer.wrong{background:#442a25;border-color:#d98568;color:#ffb6a0}
-    .answer:disabled{cursor:default}
-    .quiz-feedback{min-height:40px;margin-top:12px;color:#c2cabf;font-size:10px;line-height:1.7}
-    .quiz-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px}
-    .quiz-score{font-size:9px;letter-spacing:.1em;color:#a9b3a7;font-weight:800}
-    .quiz .btn{background:var(--blue);border-color:var(--blue);color:white}
-    .resources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .resource{padding:22px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start}
-    .resource-top{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%}
-    .resource .rno{font-size:9px;letter-spacing:.1em;color:var(--blue);font-weight:850}
-    .resource h3{font-size:16px;margin:21px 0 8px}
-    .resource p{font-size:11px;color:var(--muted);line-height:1.8;margin:0 0 18px;flex:1}
-    .resource a{font-size:10px;font-weight:850;text-decoration:none;color:var(--blue);border-bottom:1px solid #aab9ff;padding-bottom:3px}
-    .privacy{margin-top:13px;border:1px solid #e6c6b8;background:#f6e9e2;padding:16px 18px;font-size:10px;line-height:1.8;color:#754732}
-    .faq{max-width:930px}
-    details{padding:17px 0;border-bottom:1px solid var(--line)}
-    details summary{display:flex;justify-content:space-between;gap:15px;cursor:pointer;font-size:13px;font-weight:750;list-style:none}
-    details summary::-webkit-details-marker{display:none}
-    details summary:after{content:"+";font-size:17px;color:var(--blue);line-height:1}
-    details[open] summary:after{content:"−"}
-    details p{max-width:800px;margin:12px 0 0;font-size:11px;line-height:1.85;color:var(--muted)}
-    .footer{padding:27px 0 35px}
-    .footer-top{display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:10px;color:var(--muted)}
-    .footer-top strong{color:var(--ink)}
-    .footer-top a{color:var(--blue);text-decoration:none}
-    .source-list{font-size:9px;line-height:1.9;color:#737a70;max-width:970px;margin-top:14px}
-    .source-list a{color:#535d52;text-decoration:underline;text-underline-offset:2px}
-    @media(max-width:900px){.hero{gap:32px;grid-template-columns:1fr .8fr}.hero-art{min-height:370px}.section-head{grid-template-columns:1fr .8fr}.lifecycle{grid-template-columns:repeat(3,1fr)}.life-step:nth-child(3){border-right:0}.life-step:nth-child(-n+3){border-bottom:1px solid var(--line)}.resources{grid-template-columns:1fr 1fr}.resource:last-child{grid-column:1/-1}.malware-row{grid-template-columns:35px 1fr 1.3fr}.malware-row>div:last-child{grid-column:2/-1}.response{gap:0 20px}}
-    @media(max-width:650px){.wrap{width:calc(100% - 30px)}.nav{height:65px}.nav-links{display:none}.brand{font-size:13px}.nav-action{padding:9px;font-size:9px}.hero{padding:50px 0 43px;grid-template-columns:1fr;gap:29px}.hero-art{min-height:330px}.art-number{font-size:130px}h1{font-size:clamp(53px,14.5vw,78px)}.hero-lead{font-size:15px}.proof-strip{grid-template-columns:1fr 1fr}.proof{padding:14px 11px;border-bottom:1px solid var(--line)}.proof:nth-child(2){border-right:0}.proof:nth-child(n+3){border-bottom:0}.section{padding:62px 0}.section-head{grid-template-columns:1fr;gap:14px;margin-bottom:25px}h2{font-size:clamp(38px,10vw,52px)}.definition{grid-template-columns:1fr}.definition-main{min-height:240px}.filterbar{align-items:flex-start;flex-direction:column}.filterbar input{width:100%}.malware-row{grid-template-columns:29px 1fr;gap:8px 12px;padding:18px 2px}.malware-row .behavior,.malware-row>div:last-child{grid-column:2}.lifecycle{grid-template-columns:1fr 1fr}.life-step{padding:16px 13px;min-height:157px}.life-step:nth-child(2n){border-right:0}.life-step:nth-child(3){border-right:1px solid var(--line)}.life-step:nth-child(4){border-right:0}.life-step:nth-child(4){border-bottom:1px solid var(--line)}.callout{grid-template-columns:1fr;gap:5px}.simulator{grid-template-columns:1fr}.sim-controls{border-right:0;border-bottom:1px solid var(--line);padding:20px}.sim-output{padding:20px}.signs-grid{grid-template-columns:1fr}.sign{min-height:0}.response{grid-template-columns:1fr}.test-panel{grid-template-columns:1fr;padding:22px;gap:20px}.test-panel .actions{min-width:0;align-items:flex-start}.quiz{grid-template-columns:1fr;padding:21px;gap:12px}.answers{grid-template-columns:1fr}.resources{grid-template-columns:1fr}.resource:last-child{grid-column:auto}.footer-top{align-items:flex-start;flex-direction:column}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+    :root{color-scheme:light;--paper:#ecece5;--white:#f8f8f3;--ink:#1c211d;--muted:#697168;--line:#d0d3c9;--blue:#284de4;--blue2:#dfe5ff;--acid:#d5f36a;--red:#bf5237;--green:#3d674d;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--max:1220px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}a{color:inherit}button,input,textarea{font:inherit}.wrap{width:min(var(--max),calc(100% - 48px));margin:auto}
+    .header{height:76px;position:sticky;top:0;z-index:50;background:#ecece5ef;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:14px;font-weight:900;letter-spacing:-.04em;white-space:nowrap}.brand-mark{height:30px;width:30px;background:var(--ink);color:var(--acid);display:grid;place-items:center;font-size:14px;letter-spacing:-.1em}.brand small{display:block;margin-top:2px;color:var(--muted);font-size:8px;letter-spacing:.17em;text-transform:uppercase;font-weight:800}.nav-links{display:flex;align-items:center;gap:24px}.nav-links a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#555f55;font-weight:800}.nav-links a:hover{color:var(--blue)}.nav-cta{padding:10px 13px;background:var(--blue);color:white;text-decoration:none;font-size:10px;font-weight:800;border-radius:2px;white-space:nowrap}
+    .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(335px,.9fr);gap:70px;align-items:center;padding:78px 0 70px}.eyebrow{display:flex;align-items:center;gap:9px;color:var(--blue);font-size:9px;font-weight:900;letter-spacing:.17em;text-transform:uppercase}.eyebrow:before{content:"";height:1px;width:22px;background:currentColor}.hero h1{font-family:var(--serif);font-size:clamp(56px,7.3vw,94px);line-height:.93;letter-spacing:-.075em;font-weight:400;margin:23px 0 24px;max-width:760px}.hero h1 em{font-weight:400;color:var(--blue)}.hero-intro{max-width:650px;color:#59625a;font-size:16px;line-height:1.85;margin-bottom:27px}.hero-intro strong{color:var(--ink);font-weight:750}.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:white;border:1px solid var(--blue);padding:12px 15px;border-radius:2px;text-decoration:none;font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s}.button:hover{background:#1839bf}.button.secondary{background:transparent;color:var(--ink);border-color:#c3c8bd}.button.secondary:hover{background:var(--white);border-color:#99a195}.hero-note{font-size:10px;color:#80877c;margin-top:17px}.hero-note strong{color:var(--ink)}
+    .cover{background:var(--ink);color:#f1f2e9;min-height:420px;padding:25px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}.cover:after{content:"";position:absolute;width:300px;height:300px;border:1px solid #ffffff18;border-radius:50%;right:-80px;top:55px;box-shadow:0 0 0 35px #ffffff05,0 0 0 70px #ffffff04}.cover-head,.cover-body,.cover-foot{position:relative;z-index:1}.cover-head{display:flex;justify-content:space-between;gap:15px;font-size:8px;color:#b2bcaf;letter-spacing:.15em;font-weight:800;text-transform:uppercase}.cover-logo{font:clamp(95px,14vw,166px)/.76 var(--serif);letter-spacing:-.12em;margin:48px 0 29px;color:var(--acid)}.cover-logo span{color:#f0f2e7}.cover-rule{height:1px;background:#ffffff35;margin-bottom:15px}.cover-description{display:flex;align-items:end;justify-content:space-between;gap:16px}.cover-description strong{display:block;font-size:14px;font-weight:650}.cover-description p{margin:4px 0 0;color:#aab4a6;font-size:10px}.seal{width:67px;height:67px;border:1px solid #e5edcf88;border-radius:50%;display:grid;place-items:center;text-align:center;line-height:1.4;font-size:8px;color:var(--acid);transform:rotate(-8deg);flex:none}.cover-foot{font-size:8px;color:#7e897b;letter-spacing:.13em;text-transform:uppercase;margin-top:24px;display:flex;justify-content:space-between}
+    .signalbar{border-block:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}.signal{padding:17px 18px;border-right:1px solid var(--line)}.signal:last-child{border-right:0}.signal b{font-size:11px;letter-spacing:-.01em}.signal span{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+    .section{padding:82px 0;border-bottom:1px solid var(--line)}.section-head{display:grid;grid-template-columns:1fr .7fr;gap:38px;align-items:end;margin-bottom:33px}.section-no{font-size:9px;color:var(--blue);font-weight:900;letter-spacing:.15em;text-transform:uppercase}.section h2{font:400 clamp(38px,5vw,62px)/.99 var(--serif);letter-spacing:-.065em;margin:12px 0 0}.lede{font-size:12px;line-height:1.9;color:var(--muted);margin:0;max-width:490px}.lede strong{color:var(--ink)}
+    .manifesto{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.manifesto-main{background:var(--blue);color:white;padding:28px;min-height:242px;display:flex;flex-direction:column;justify-content:space-between}.manifesto-main .micro{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:850;color:#dce4ff}.manifesto-main blockquote{font:400 31px/1.1 var(--serif);letter-spacing:-.045em;margin:25px 0;max-width:560px}.manifesto-main p{font-size:11px;line-height:1.8;color:#e1e7ff;max-width:600px;margin:0}.manifesto-side{border:1px solid var(--line);background:var(--white);padding:27px;display:flex;flex-direction:column;justify-content:space-between}.manifesto-side .symbol{font:58px/1 var(--serif);color:var(--red)}.manifesto-side h3{font-size:17px;margin:20px 0 8px;letter-spacing:-.035em}.manifesto-side p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}
+    .method{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);background:var(--white)}.method-step{padding:19px 17px;min-height:184px;border-right:1px solid var(--line)}.method-step:last-child{border-right:0}.method-step .count{font-size:9px;color:var(--blue);font-weight:900;letter-spacing:.12em}.method-step h3{font-size:14px;letter-spacing:-.03em;margin:23px 0 7px}.method-step p{font-size:10px;color:var(--muted);line-height:1.8;margin:0}.principle{margin-top:13px;padding:14px 18px;background:#e2e4dc;font-size:10px;line-height:1.8;color:#596258}.principle strong{color:var(--ink)}
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tool{border:1px solid var(--line);background:var(--white);padding:22px;min-height:205px;display:flex;flex-direction:column}.tool-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.tool-id{font-size:9px;color:var(--blue);font-weight:900;letter-spacing:.14em}.tool-type{font-size:8px;padding:4px 6px;background:#e8e9e0;color:#61695d;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.tool h3{font-size:17px;letter-spacing:-.035em;margin:19px 0 7px}.tool p{font-size:11px;color:var(--muted);line-height:1.8;margin:0 0 19px;flex:1}.tool a{font-size:9px;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;font-weight:900;text-decoration:none;align-self:flex-start;border-bottom:1px solid #b7c3ff;padding-bottom:3px}.tool a:hover{color:var(--blue-dark)}
+    .linux-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:14px}.linux-card{background:#dfe4da;padding:25px;display:flex;flex-direction:column;justify-content:space-between}.linux-card h3{font:400 32px/1.06 var(--serif);letter-spacing:-.045em;margin:12px 0}.linux-card p{font-size:11px;line-height:1.9;color:#586256}.linux-card .tagline{font:italic 13px var(--serif);color:var(--green);margin-top:22px}.terminal{background:#1c211d;color:#e6e9de;padding:22px;min-width:0}.terminal-top{display:flex;justify-content:space-between;gap:14px;align-items:center;padding-bottom:14px;border-bottom:1px solid #ffffff20;font-size:8px;color:#9da79b;letter-spacing:.14em;text-transform:uppercase;font-weight:800}.terminal-lines{font:11px/2 var(--mono);margin:20px 0 18px;overflow-wrap:anywhere}.terminal-lines .prompt{color:var(--acid)}.terminal-lines .comment{color:#9aa695}.terminal-lines .output{color:#aebbd0}.cmd-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #ffffff1c;padding-top:12px}.cmd-desc{font-size:9px;line-height:1.6;color:#adb6a8}.copy-btn{background:transparent;border:1px solid #6f7a6c;color:#e4ecdd;padding:7px 9px;font-size:9px;cursor:pointer;white-space:nowrap}.copy-btn:hover{border-color:var(--acid);color:var(--acid)}
+    .workbench{border:1px solid var(--line);background:var(--white);display:grid;grid-template-columns:.9fr 1.1fr}.work-form{padding:25px;border-right:1px solid var(--line)}.work-form h3,.work-output h3{font-size:19px;letter-spacing:-.035em;margin:9px 0}.work-form p{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:19px}.field{margin:14px 0}.field label{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:7px}.field select,.field input,.field textarea{width:100%;padding:11px 12px;border:1px solid #cbd0c4;background:#fcfcf8;border-radius:2px;color:var(--ink);font-size:11px;outline:none}.field select:focus,.field input:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px #284de415}.field textarea{resize:vertical;min-height:82px}.local-notice{border-left:2px solid var(--green);padding:8px 11px;font-size:9px;line-height:1.75;color:#626b60;background:#e7ebe2;margin-top:15px}.work-output{padding:25px;min-width:0}.output-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.status{background:#e4e9ff;color:#2744bb;padding:5px 7px;font-size:8px;text-transform:uppercase;letter-spacing:.1em;font-weight:900}.checklist{list-style:none;padding:0;margin:17px 0;border-top:1px solid var(--line)}.checklist li{padding:11px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:18px 1fr;gap:10px;font-size:10px;line-height:1.7;color:#5e665c}.checklist li:before{content:"□";color:var(--blue);font-size:14px}.checklist li.checked:before{content:"✓";font-weight:900}.checklist li strong{display:block;color:var(--ink);font-size:10px}.checklist li span{display:block}.work-output .button{margin-top:2px}
+    .fbi-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.agency-card{border:1px solid var(--line);background:var(--white);padding:24px;display:flex;flex-direction:column}.agency-card .agency-kicker{font-size:9px;color:var(--blue);font-weight:900;letter-spacing:.13em;text-transform:uppercase}.agency-card h3{font:400 29px/1.05 var(--serif);letter-spacing:-.045em;margin:20px 0 9px}.agency-card p{font-size:11px;color:var(--muted);line-height:1.85;margin:0 0 18px;flex:1}.agency-links{display:flex;flex-wrap:wrap;gap:8px}.text-link{font-size:9px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;color:var(--blue);border-bottom:1px solid #a9b9ff;padding-bottom:3px}
+    .notice{margin-top:13px;background:#f2e2d9;padding:15px 18px;border-left:2px solid var(--red);font-size:10px;color:#72452f;line-height:1.8}.notice strong{color:#502d1e}
+    .quiz{background:var(--ink);color:white;padding:27px;display:grid;grid-template-columns:.75fr 1.25fr;gap:27px}.quiz h3{font:400 31px/1.06 var(--serif);letter-spacing:-.04em;margin:12px 0}.quiz-intro p{font-size:10px;line-height:1.85;color:#c0c6b9}.quiz-count{font-size:8px;color:#aab5a4;letter-spacing:.12em;font-weight:900}.question{font-size:13px;font-weight:750;margin-bottom:13px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}.answer{background:#30372f;color:#e9ece3;border:1px solid #475044;text-align:left;padding:12px;font-size:10px;line-height:1.6;cursor:pointer}.answer:hover{border-color:#b2c9a0}.answer:disabled{cursor:default}.answer.correct{background:#294637;border-color:#7dc39b;color:#c7f4d5}.answer.wrong{background:#4a3028;border-color:#d89173;color:#ffd0ba}.feedback{min-height:42px;font-size:10px;line-height:1.8;color:#c8d0c2;margin-top:12px}.quiz-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px}.quiz .button{background:var(--acid);color:var(--ink);border-color:var(--acid)}
+    .footer{padding:27px 0 35px}.footer-top{display:flex;justify-content:space-between;align-items:center;gap:18px;font-size:10px;color:var(--muted)}.footer-top strong{color:var(--ink)}.footer-top a{color:var(--blue);text-decoration:none}.sources{margin-top:14px;max-width:1000px;font-size:9px;line-height:1.9;color:#7a8276}.sources a{color:#58634f;text-decoration:underline;text-underline-offset:2px}
+    @media(max-width:900px){.hero{gap:32px;grid-template-columns:1fr .85fr}.hero h1{font-size:clamp(54px,7vw,76px)}.section-head{grid-template-columns:1fr .8fr}.method{grid-template-columns:repeat(3,1fr)}.method-step:nth-child(3){border-right:0}.method-step:nth-child(-n+3){border-bottom:1px solid var(--line)}.tool-grid{grid-template-columns:repeat(2,1fr)}.linux-layout{grid-template-columns:1fr}.workbench{grid-template-columns:1fr}.work-form{border-right:0;border-bottom:1px solid var(--line)}.malware-row{grid-template-columns:36px 1fr 1.3fr}.malware-row>div:last-child{grid-column:2/-1}}
+    @media(max-width:650px){.wrap{width:calc(100% - 30px)}.header{height:66px}.nav-links{display:none}.nav-cta{font-size:9px;padding:9px}.brand{font-size:13px}.hero{grid-template-columns:1fr;padding:50px 0 44px;gap:27px}.hero h1{font-size:clamp(51px,13.7vw,73px)}.hero-intro{font-size:14px}.cover{min-height:335px;padding:21px}.cover-logo{font-size:125px}.signalbar{grid-template-columns:1fr 1fr}.signal{padding:13px 11px;border-bottom:1px solid var(--line)}.signal:nth-child(2){border-right:0}.signal:nth-child(n+3){border-bottom:0}.section{padding:61px 0}.section-head{grid-template-columns:1fr;gap:13px;margin-bottom:26px}.section h2{font-size:clamp(38px,10vw,52px)}.manifesto{grid-template-columns:1fr}.manifesto-main{min-height:250px}.method{grid-template-columns:1fr 1fr}.method-step{padding:16px 13px;min-height:160px}.method-step:nth-child(2n){border-right:0}.method-step:nth-child(3){border-right:1px solid var(--line)}.method-step:nth-child(4){border-right:0}.tool-grid{grid-template-columns:1fr}.tool{min-height:0}.terminal{padding:18px}.work-form,.work-output{padding:19px}.fbi-layout{grid-template-columns:1fr}.quiz{grid-template-columns:1fr;padding:21px;gap:14px}.answers{grid-template-columns:1fr}.footer-top{align-items:flex-start;flex-direction:column}.malware-row{grid-template-columns:28px 1fr;gap:8px 10px}.malware-row .behavior,.malware-row>div:last-child{grid-column:2}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
   </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap nav">
-    <a class="brand" href="#start"><span class="brand-mark">M</span><span>Malware verstehen</span></a>
-    <nav class="nav-links" aria-label="Hauptnavigation"><a href="#grundlagen">Grundlagen</a><a href="#arten">Malware-Arten</a><a href="#analyse">Simulation</a><a href="#vorfall">Im Ernstfall</a><a href="#quellen">Quellen</a></nav>
-    <a class="nav-action" href="#sicher-testen">Sicher testen ↗</a>
-  </div>
-</header>
+<header class="header"><div class="wrap nav">
+  <a class="brand" href="#home"><span class="brand-mark">GX</span><span>GEXX <small>FIELDNOTES / 001</small></span></a>
+  <nav class="nav-links" aria-label="Main navigation"><a href="#method">Method</a><a href="#osint">OSINT</a><a href="#linux">Linux</a><a href="#fbi">FBI resources</a><a href="#workspace">Workspace</a></nav>
+  <a class="nav-cta" href="#workspace">Open field desk ↗</a>
+</div></header>
 
-<main id="start">
+<main id="home">
   <section class="wrap hero">
     <div>
-      <div class="eyebrow">Ein unabhängiger Sicherheitsguide</div>
-      <h1>Schadsoftware verstehen. <em>Risiken richtig einschätzen.</em></h1>
-      <p class="hero-lead">Was ist ein Virus, wie gelangt Malware auf ein Gerät und was solltest du tun, wenn etwas verdächtig aussieht? Ein praktischer Überblick – <strong>ohne Panik, Mythen oder gefährliche Downloads.</strong></p>
-      <div class="actions"><a class="btn" href="#grundlagen">Zum Guide <span>↓</span></a><a class="btn secondary" href="#analyse">Interaktive Risikosimulation</a></div>
+      <div class="eyebrow">Open-source intelligence · Linux · research</div>
+      <h1>Look closer.<br><em>Verify more.</em></h1>
+      <p class="hero-intro"><strong>GEXX Fieldnotes</strong> is a practical desk for digital research: how to find public information, check where it came from, use Linux tools with purpose, and build conclusions you can actually support.</p>
+      <div class="actions"><a class="button" href="#method">Explore the method ↓</a><a class="button secondary" href="#tools">Browse research tools</a></div>
+      <p class="hero-note">Independent learning project · <strong>Not affiliated with the FBI or any government agency.</strong></p>
     </div>
-    <aside class="hero-art" aria-label="Illustration: Bedrohungen, Signale und Schutz">
-      <div class="art-top"><span>Security field notes / 01</span><span>Stand: Grundlagen</span></div>
-      <div class="art-main"><div class="art-number">01<span style="color:#83a4ff">.</span></div><div class="art-rule"></div><div class="art-caption"><div><strong>Erkennen ist nicht dasselbe wie beweisen.</strong><span>Signale bewerten. Quellen prüfen. Überlegt reagieren.</span></div><div class="art-stamp">RESEARCH<br>NOTES<br>DE / 001</div></div></div>
-      <div class="hero-foot"><span class="hero-index">Malware · Analyse · Prävention</span><span class="hero-index">Lernen statt raten</span></div>
+    <aside class="cover">
+      <div class="cover-head"><span>GEXX / Research desk</span><span>Issue No. 001</span></div>
+      <div class="cover-body"><div class="cover-logo">G<span>.</span>X</div><div class="cover-rule"></div><div class="cover-description"><div><strong>Evidence over assumptions.</strong><p>Public sources. Reproducible steps. Clear limits.</p></div><div class="seal">OPEN<br>SOURCE<br>NOTES</div></div></div>
+      <div class="cover-foot"><span>OSINT / Linux / Verification</span><span>Personal fieldnotes</span></div>
     </aside>
   </section>
 
-  <div class="wrap proof-strip" aria-label="Seiteninhalte">
-    <div class="proof"><b>01 / Verstehen</b><span>Definitionen und Malware-Kategorien</span></div>
-    <div class="proof"><b>02 / Einordnen</b><span>Angriffswege und Warnsignale</span></div>
-    <div class="proof"><b>03 / Üben</b><span>Lokale Simulation und Wissensquiz</span></div>
-    <div class="proof"><b>04 / Handeln</b><span>Tests, Prävention und Vorfallhilfe</span></div>
+  <div class="wrap signalbar" aria-label="Site topics">
+    <div class="signal"><b>01 / OSINT</b><span>Open, lawful, public-source research</span></div>
+    <div class="signal"><b>02 / LINUX</b><span>Tools, shell basics and file integrity</span></div>
+    <div class="signal"><b>03 / PUBLIC RECORDS</b><span>Official agency and case resources</span></div>
+    <div class="signal"><b>04 / METHOD</b><span>Evidence, provenance and uncertainty</span></div>
   </div>
 
-  <section class="wrap section" id="grundlagen">
-    <div class="section-head"><div><div class="section-no">01 — Die Grundlagen</div><h2>Virus ist nicht gleich Malware.</h2></div><p class="intro">Malware ist der Oberbegriff für Software, die absichtlich schädliche Funktionen ausführt. Ein <strong>Computervirus</strong> ist nur eine Kategorie davon. Im Alltag werden die Begriffe häufig vermischt – technisch lohnt sich die Unterscheidung.</p></div>
-    <div class="definition">
-      <article class="definition-main"><div class="small">Begriff · Malware</div><div><h3>Software, die gegen die Interessen des Nutzers arbeitet.</h3><p>Zum Beispiel indem sie Daten stiehlt, Dateien verschlüsselt, unerlaubten Zugriff ermöglicht oder ein Gerät für weitere Angriffe missbraucht.</p></div></article>
-      <article class="definition-note"><div class="big-mark">≠</div><div><h3>Verdächtig ist nicht automatisch bösartig.</h3><p>Ungewöhnliches Verhalten kann auch durch legitime Software, Fehler oder aggressive Werbung entstehen. Eine seriöse Bewertung berücksichtigt Belege, Kontext und die Möglichkeit eines Fehlalarms.</p></div></article>
+  <section class="wrap section" id="method">
+    <div class="section-head"><div><div class="section-no">01 — The method</div><h2>Research is a process, not a search bar.</h2></div><p class="lede">Open-source intelligence (OSINT) means extracting and assessing information from publicly accessible sources. Good work keeps facts, interpretation and unknowns separate. It does not mean breaking into accounts or collecting everything about a person.</p></div>
+    <div class="manifesto">
+      <article class="manifesto-main"><div class="micro">GEXX principle / 001</div><div><blockquote>“A strong conclusion should survive someone else checking your sources.”</blockquote><p>Keep a trail: what you looked at, when you saw it, where it came from, what it proves — and what it does not prove.</p></div></article>
+      <article class="manifesto-side"><div class="symbol">↗</div><div><h3>Start with a question. End with evidence.</h3><p>Define the question before collecting material. Prefer primary sources, record dates and context, corroborate key claims independently, and stop when the research question has been answered.</p></div></article>
+    </div>
+    <div style="height:16px"></div>
+    <div class="method">
+      <article class="method-step"><div class="count">STEP 01</div><h3>Scope</h3><p>Write one specific question, the time period and the information you genuinely need.</p></article>
+      <article class="method-step"><div class="count">STEP 02</div><h3>Collect</h3><p>Use lawful public sources, official records, published reports and archived pages.</p></article>
+      <article class="method-step"><div class="count">STEP 03</div><h3>Verify</h3><p>Check the original source, author, date, context and independent corroboration.</p></article>
+      <article class="method-step"><div class="count">STEP 04</div><h3>Document</h3><p>Save relevant URLs, timestamps, quotations and hashes when they help preserve integrity.</p></article>
+      <article class="method-step"><div class="count">STEP 05</div><h3>Qualify</h3><p>Label what is confirmed, what is inferred and what remains unknown.</p></article>
+    </div>
+    <div class="principle"><strong>Practical rule:</strong> screenshots and search snippets are leads, not proof on their own. A page can be edited, a date can be misleading, an image can be reused, and two sites can simply repeat the same original claim.</div>
+  </section>
+
+  <section class="wrap section" id="osint">
+    <div class="section-head"><div><div class="section-no">02 — OSINT desk</div><h2>Tools for finding and verifying public information.</h2></div><p class="lede">Use tools to answer a clear research question — not to build dossiers on private people. These resources support journalism, research, verification and learning.</p></div>
+    <div class="tool-grid">
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 01</span><span class="tool-type">Toolkit</span></div><h3>Bellingcat Investigation Toolkit</h3><p>A curated index covering maps, geolocation, image and video verification, social platforms and web archiving. Useful for choosing a method before choosing a tool.</p><a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer">Explore toolkit ↗</a></article>
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 02</span><span class="tool-type">Index</span></div><h3>OSINT Framework</h3><p>A browsable map of public-source research utilities. Check each service's scope, terms and limits before using it; third-party listings are not blanket endorsements.</p><a href="https://osintframework.com/" target="_blank" rel="noopener noreferrer">Browse framework ↗</a></article>
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 03</span><span class="tool-type">Archives</span></div><h3>Internet Archive</h3><p>Archived pages can help compare how a public website changed over time. Availability is incomplete and captures may miss content or timing details.</p><a href="https://web.archive.org/" target="_blank" rel="noopener noreferrer">Search captures ↗</a></article>
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 04</span><span class="tool-type">Verification</span></div><h3>Google Lens</h3><p>Reverse-image search can surface earlier appearances or visually similar copies. It produces leads; check the source, context and original publication separately.</p><a href="https://lens.google/" target="_blank" rel="noopener noreferrer">Open Lens ↗</a></article>
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 05</span><span class="tool-type">Maps</span></div><h3>OpenStreetMap</h3><p>A collaborative geographic database. Useful for general mapping and checking public place context; map completeness and positional accuracy can vary.</p><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">Open map ↗</a></article>
+      <article class="tool"><div class="tool-top"><span class="tool-id">OSINT / 06</span><span class="tool-type">Primary sources</span></div><h3>Official websites & registries</h3><p>When possible, follow a claim back to the organisation, court, regulator or dataset that originally published it. Note jurisdiction and publication date.</p><a href="#fbi">Open official resources ↗</a></article>
     </div>
   </section>
 
-  <section class="wrap section" id="arten">
-    <div class="section-head"><div><div class="section-no">02 — Die wichtigsten Kategorien</div><h2>Sechs Arten, sechs unterschiedliche Verhaltensweisen.</h2></div><p class="intro">Die Einordnung hilft zu verstehen, welches Risiko besteht und welche Schutzmaßnahmen sinnvoll sind. Suche unten nach einer Kategorie oder einem Begriff.</p></div>
-    <div class="filterbar"><label for="malwareSearch">Malware-Arten durchsuchen</label><input id="malwareSearch" type="search" placeholder="Zum Beispiel: Daten stehlen, Wurm, Verschlüsselung …" autocomplete="off"></div>
-    <div class="malware-list" id="malwareList">
-      <article class="malware-row" data-search="virus computervirus datei infizieren host programm verbreitung"><div class="malware-n">01</div><div><h3>Computervirus</h3><div class="plain">Verbindet sich mit einer Wirtsdatei oder einem Programm.</div></div><div class="behavior">Kann sich weiterverbreiten, wenn infizierter Code gestartet oder eine infizierte Datei verwendet wird. Moderne Schutzprogramme prüfen unter anderem bekannte Signaturen und verdächtiges Verhalten.</div><div><span class="badge blue">Datei-Infektion</span></div></article>
-      <article class="malware-row" data-search="wurm worm netzwerk selbstverbreitung schwachstelle"><div class="malware-n">02</div><div><h3>Wurm</h3><div class="plain">Verbreitet sich ohne klassische Wirtsdatei.</div></div><div class="behavior">Kann automatisch weitere erreichbare Systeme angreifen. Ungepatchte Schwachstellen, offene Dienste und unsichere Netzwerkkonfigurationen können die Ausbreitung erleichtern.</div><div><span class="badge orange">Netzwerk-Ausbreitung</span></div></article>
-      <article class="malware-row" data-search="trojaner trojan täuschung fake app downloader zugriff"><div class="malware-n">03</div><div><h3>Trojaner</h3><div class="plain">Tarnt sich als nützliches oder legitimes Programm.</div></div><div class="behavior">Wird häufig durch Täuschung installiert. Abhängig von der Variante kann er weitere Komponenten laden, Informationen sammeln oder Fernzugriff ermöglichen.</div><div><span class="badge orange">Tarnung</span></div></article>
-      <article class="malware-row" data-search="ransomware erpressung verschlüsselung dateien backup lösegeld"><div class="malware-n">04</div><div><h3>Ransomware</h3><div class="plain">Soll Daten sperren oder deren Veröffentlichung androhen.</div></div><div class="behavior">Verschlüsselt häufig Dateien und kann zusätzlich Daten stehlen. Getrennte, regelmäßig getestete Backups helfen bei der Wiederherstellung; Lösegeld garantiert keine Rückgabe.</div><div><span class="badge orange">Daten & Erpressung</span></div></article>
-      <article class="malware-row" data-search="spyware stealer keylogger passwort browser daten spionage"><div class="malware-n">05</div><div><h3>Spyware & Infostealer</h3><div class="plain">Zielen auf Informationen oder Zugangsdaten ab.</div></div><div class="behavior">Können beispielsweise Browserdaten, gespeicherte Sitzungen oder Tastatureingaben abgreifen. Bei Verdacht Passwörter von einem sauberen Gerät ändern und aktive Sitzungen widerrufen.</div><div><span class="badge">Datendiebstahl</span></div></article>
-      <article class="malware-row" data-search="rootkit backdoor botnet remote access fernzugriff verstecken"><div class="malware-n">06</div><div><h3>Rootkit, Backdoor & Botnet</h3><div class="plain">Verbergen oder erhalten unbefugten Zugriff.</div></div><div class="behavior">Rootkits versuchen Aktivitäten zu verstecken; Backdoors ermöglichen einen alternativen Zugang. Ein Botnet besteht aus kompromittierten Geräten, die koordiniert missbraucht werden können.</div><div><span class="badge blue">Verdeckter Zugriff</span></div></article>
-      <article class="malware-row" data-search="pua adware werbung potenziell unerwünscht browser toolbars"><div class="malware-n">07</div><div><h3>Adware & PUA</h3><div class="plain">Unerwünschte Werbung oder fragwürdiges Verhalten.</div></div><div class="behavior">Nicht jede potenziell unerwünschte Anwendung ist Malware. Manche bündelt zusätzliche Programme, ändert Browsereinstellungen oder zeigt aufdringliche Werbung an.</div><div><span class="badge">Graubereich</span></div></article>
-    </div>
-    <p class="note" id="searchStatus" aria-live="polite">7 Kategorien · Suchfilter wirkt direkt auf die Liste.</p>
-  </section>
-
-  <section class="wrap section" id="wege">
-    <div class="section-head"><div><div class="section-no">03 — Wie Infektionen beginnen</div><h2>Der Weg ins System ist oft der entscheidende Teil.</h2></div><p class="intro">Malware kommt nicht einfach „aus dem Internet“. Häufig gibt es einen konkreten Auslöser: eine manipulierte Datei, eine kompromittierte Zugangsdaten-Kombination oder eine ungepatchte Schwachstelle.</p></div>
-    <div class="lifecycle">
-      <article class="life-step"><div class="n">PHASE 01</div><h3>Kontakt</h3><p>Phishing-Mail, gefälschter Download, kompromittierte Website oder USB-Gerät.</p></article>
-      <article class="life-step"><div class="n">PHASE 02</div><h3>Ausführung</h3><p>Eine Datei wird gestartet, ein Makro zugelassen oder eine Schwachstelle ausgenutzt.</p></article>
-      <article class="life-step"><div class="n">PHASE 03</div><h3>Einrichtung</h3><p>Je nach Angriff folgen weitere Komponenten, Berechtigungen oder ein Autostart-Mechanismus.</p></article>
-      <article class="life-step"><div class="n">PHASE 04</div><h3>Aktion</h3><p>Datendiebstahl, Verschlüsselung, Spionage, Fernzugriff oder Missbrauch von Ressourcen.</p></article>
-      <article class="life-step"><div class="n">PHASE 05</div><h3>Reaktion</h3><p>Erkennung, Eindämmung, Bereinigung und Wiederherstellung aus vertrauenswürdigen Quellen.</p></article>
-    </div>
-    <div class="callout"><strong>Wichtiger Kontext</strong><span>Ein Besuch auf einer Website führt nicht automatisch zu einer Infektion. Risiken können dennoch durch Browser-Schwachstellen, täuschende Downloads, unsichere Plugins oder Phishing entstehen. Updates und vorsichtiges Verhalten reduzieren das Risiko deutlich.</span></div>
-  </section>
-
-  <section class="wrap section" id="analyse">
-    <div class="section-head"><div><div class="section-no">04 — Lern-Simulation</div><h2>Übe, Risiken richtig einzuschätzen.</h2></div><p class="intro">Wähle ein Beispiel und vergleiche die typischen Warnzeichen. Der Bericht ist absichtlich nur eine Lehrsimulation – kein echter Scan und keine Aussage über eine konkrete Datei.</p></div>
-    <div class="simulator">
-      <div class="sim-controls"><div class="section-no">Fallanalyse / lokal</div><h3>Was liegt vor?</h3><p>Wähle die Situation, die du beurteilen möchtest. Die Website lädt oder startet dabei nichts und fordert keine Dateien an.</p>
-        <div class="field"><label for="caseName">Beispiel / Notiz</label><input id="caseName" maxlength="80" value="Unbekannter E-Mail-Anhang" autocomplete="off"></div>
-        <div class="field"><label for="caseType">Situation</label><select id="caseType"><option value="attachment">Unerwarteter Anhang von unbekanntem Absender</option><option value="macro">Dokument fordert aktivierte Makros</option><option value="login">Link verlangt plötzlich Login-Daten</option><option value="official">Update aus der offiziellen App heraus</option><option value="scanner">Ein Scanner meldet null Treffer</option><option value="slow">PC ist langsamer als sonst</option></select></div>
-        <button type="button" class="btn" id="analyseBtn">Beispiel auswerten →</button>
-        <p class="note">Die Risikostufe beschreibt nur das gewählte Szenario. Der eingegebene Text beeinflusst den Bericht nicht technisch.</p>
+  <section class="wrap section" id="linux">
+    <div class="section-head"><div><div class="section-no">03 — Linux workbench</div><h2>Useful tools start with understanding the output.</h2></div><p class="lede">Linux is a flexible environment for scripting, inspecting files and organising research. Kali Linux is based on Debian and designed for penetration testing and security auditing; it is not a magic shortcut or a requirement for OSINT.</p></div>
+    <div class="linux-layout">
+      <article class="linux-card"><div><div class="section-no">FIELD GUIDE / LINUX</div><h3>Small commands.<br>Reliable habits.</h3><p>Begin with commands that explain your environment and help you inspect files. Work on files you own or have permission to analyse. Verify downloads from official sources and avoid running unknown scripts with elevated privileges.</p><p class="tagline">Understand every command before you run it.</p></div><div class="actions"><a class="button" href="https://www.kali.org/docs/introduction/what-is-kali-linux/" target="_blank" rel="noopener noreferrer">Kali documentation ↗</a><a class="button secondary" href="https://www.kali.org/docs/introduction/download-images-securely/" target="_blank" rel="noopener noreferrer">Verify downloads ↗</a></div></article>
+      <div class="terminal">
+        <div class="terminal-top"><span>Terminal notes / safe examples</span><span>LINUX</span></div>
+        <div class="terminal-lines">
+          <div><span class="prompt">$</span> uname -a</div>
+          <div class="comment"># Show kernel and system information</div>
+          <div class="output">Linux hostname ... x86_64 GNU/Linux</div>
+          <div style="height:9px"></div>
+          <div><span class="prompt">$</span> file sample.pdf</div>
+          <div class="comment"># Inspect a file's detected type</div>
+          <div class="output">sample.pdf: PDF document</div>
+          <div style="height:9px"></div>
+          <div><span class="prompt">$</span> sha256sum sample.pdf</div>
+          <div class="comment"># Calculate a file's SHA-256 hash</div>
+          <div class="output">e3b0...  sample.pdf</div>
+        </div>
+        <div class="cmd-row"><div class="cmd-desc">Examples only. Replace sample.pdf with a file you trust and have permission to inspect.</div><button class="copy-btn" id="copyCommands" type="button">Copy commands</button></div>
       </div>
-      <div class="sim-output" aria-live="polite"><div class="output-top"><div><div class="section-no">Einschätzung</div><h3 id="reportHeading">Noch keine Auswahl analysiert</h3></div><span class="output-state" id="reportState">Demo-Modus</span></div>
-        <div class="output-card"><div class="overline" id="reportCategory">Ergebnis erscheint hier</div><h4 id="reportTitle">Wähle einen Fall.</h4><p id="reportText">Klicke auf „Beispiel auswerten“, um Hinweise und sinnvolle nächste Schritte für die gewählte Situation zu sehen.</p><div class="riskline" aria-label="Simulierte Risikostufe"><span id="r1"></span><span id="r2"></span><span id="r3"></span><span id="r4"></span><span id="r5"></span></div><div class="risk-caption" id="riskCaption">Noch keine Bewertung</div></div>
+    </div>
+    <div class="principle"><strong>What these commands do:</strong> <code>uname -a</code> prints system and kernel information; <code>file</code> describes the detected format; <code>sha256sum</code> computes a hash to compare file identity. A hash can show that two files differ, but does not establish that either file is safe.</div>
+  </section>
+
+  <section class="wrap section" id="fbi">
+    <div class="section-head"><div><div class="section-no">04 — Official investigation resources</div><h2>FBI and public records: go straight to the source.</h2></div><p class="lede">This section links to publicly available U.S. government resources for cybercrime reporting and published case information. These links are for reference and learning — this website is not an FBI service, does not represent the Bureau and cannot submit tips on your behalf.</p></div>
+    <div class="fbi-layout">
+      <article class="agency-card"><div class="agency-kicker">U.S. Federal Bureau of Investigation</div><h3>Public cybercrime information</h3><p>The FBI publishes public information on cyber investigations and wanted subjects. Read agency announcements carefully, distinguish allegations from proven findings, and use the original page rather than reposted screenshots.</p><div class="agency-links"><a class="text-link" href="https://www.fbi.gov/wanted/cyber" target="_blank" rel="noopener noreferrer">Cyber wanted listings ↗</a><a class="text-link" href="https://www.fbi.gov/how-we-can-help-you/online-safety" target="_blank" rel="noopener noreferrer">Online safety ↗</a></div></article>
+      <article class="agency-card"><div class="agency-kicker">Official reporting channels</div><h3>Report suspected cybercrime</h3><p>The FBI's public tip page directs reports of cyber-enabled crime to the Internet Crime Complaint Center (IC3). For immediate danger in the U.S., the FBI says to contact emergency services rather than use the web form.</p><div class="agency-links"><a class="text-link" href="https://www.ic3.gov/" target="_blank" rel="noopener noreferrer">IC3 official site ↗</a><a class="text-link" href="https://tips.fbi.gov/" target="_blank" rel="noopener noreferrer">FBI tips ↗</a></div></article>
+    </div>
+    <div class="notice"><strong>Important:</strong> “OSINT” does not grant access to private accounts, restricted systems or non-public databases. Do not impersonate officials, harass people, publish private personal information or interfere with investigations. For incidents outside the United States, use the appropriate local reporting channel.</div>
+  </section>
+
+  <section class="wrap section" id="workspace">
+    <div class="section-head"><div><div class="section-no">05 — GEXX research workspace</div><h2>Build a clean research note.</h2></div><p class="lede">Use this local template to structure a public-source research task. It creates a checklist based on your topic. The information stays in this page session and is not sent to a server or saved automatically.</p></div>
+    <div class="workbench">
+      <div class="work-form"><div class="section-no">New field note</div><h3>Define the question first.</h3><p>Keep the scope focused. Use this for a public event, a published claim, a website you manage, or another lawful research topic — not for invasive profiling of a private person.</p>
+        <div class="field"><label for="projectName">Project label</label><input id="projectName" maxlength="80" placeholder="e.g. Verify a public claim"></div>
+        <div class="field"><label for="researchType">Research type</label><select id="researchType"><option value="claim">Verify a public claim</option><option value="site">Review a website I own / can assess</option><option value="incident">Document a security incident</option><option value="archive">Compare archived public pages</option></select></div>
+        <div class="field"><label for="researchQuestion">Research question</label><textarea id="researchQuestion" maxlength="600" placeholder="What exactly do you want to confirm?"></textarea></div>
+        <button class="button" type="button" id="buildPlan">Build my checklist ↗</button>
+        <div class="local-notice">Privacy: the checklist is generated locally in your browser. This static page has no form endpoint and does not submit your notes.</div>
       </div>
-    </div>
-  </section>
-
-  <section class="wrap section" id="signale">
-    <div class="section-head"><div><div class="section-no">05 — Signale richtig lesen</div><h2>Was kann auffällig sein – und was beweist es nicht?</h2></div><p class="intro">Einzelne Symptome sind selten eindeutig. Die Bewertung wird besser, wenn mehrere Signale zusammenkommen und zeitlich mit einem Download, Update oder Login-Ereignis übereinstimmen.</p></div>
-    <div class="signs-grid">
-      <article class="sign"><div class="icon">↗</div><h3>Ungewöhnliche Anmeldung</h3><p>Unbekannte Login-Benachrichtigungen, neue Geräte oder Passwort-Resets können auf kompromittierte Zugangsdaten hindeuten. Prüfe den Kontoverlauf direkt beim Anbieter.</p></article>
-      <article class="sign"><div class="icon">⌁</div><h3>Neue Apps oder Autostarts</h3><p>Programme, Browser-Erweiterungen oder Startobjekte, die du nicht zuordnen kannst, sollten geprüft werden. Nicht jede unbekannte Komponente ist schädlich.</p></article>
-      <article class="sign"><div class="icon">◷</div><h3>Ungewöhnliche Systemlast</h3><p>Hohe CPU- oder Netzwerkauslastung kann viele Ursachen haben: Updates, Browser-Tabs, Backups, Hardwareprobleme – oder unerwünschte Software.</p></article>
-      <article class="sign"><div class="icon">⊘</div><h3>Schutzprogramm deaktiviert</h3><p>Wenn Schutzfunktionen unerwartet aus sind oder Einstellungen verändert wurden, aktiviere nicht blind zusätzliche Tools. Prüfe zuerst Windows-Sicherheit und den Änderungsverlauf.</p></article>
-      <article class="sign"><div class="icon">▤</div><h3>Dateien plötzlich unlesbar</h3><p>Ungewöhnliche Dateiendungen, Lösegeldnotizen oder viele verschlüsselte Dateien sind ernste Warnzeichen. Trenne das betroffene Gerät bei Verdacht vom Netzwerk.</p></article>
-      <article class="sign"><div class="icon">◎</div><h3>Scanner meldet einen Fund</h3><p>Notiere Fundname, Pfad und Aktion des Schutzprogramms. Fehlalarme sind möglich, aber die Meldung sollte nicht ignoriert oder sofort als harmlos abgetan werden.</p></article>
-    </div>
-  </section>
-
-  <section class="wrap section" id="vorfall">
-    <div class="section-head"><div><div class="section-no">06 — Wenn du Malware vermutest</div><h2>Ein klarer Ablauf ist besser als hektisches Ausprobieren.</h2></div><p class="intro">Die nächsten Schritte hängen vom Gerät und vom möglichen Schaden ab. Bei einem Arbeitsgerät sollte auch die zuständige IT informiert werden.</p></div>
-    <div class="response">
-      <article class="response-step"><div><h3>Risiko begrenzen</h3><p>Bei einem aktiven Verdacht wie laufender Verschlüsselung oder unbekanntem Fernzugriff das Gerät vom WLAN/LAN trennen. Verdächtige Dateien nicht weiter öffnen.</p></div></article>
-      <article class="response-step"><div><h3>Keine „Cleaner“ aus Werbung installieren</h3><p>Nutze das bereits installierte Schutzprogramm oder bekannte offizielle Systemfunktionen. Zusätzliche Downloads aus Pop-ups können das Problem verschlimmern.</p></div></article>
-      <article class="response-step"><div><h3>Scan über Windows-Sicherheit starten</h3><p>Unter Windows: Windows-Sicherheit → Viren- & Bedrohungsschutz → Schnellüberprüfung oder Scanoptionen. Bei begründetem Verdacht kann eine Offlineüberprüfung sinnvoll sein.</p></div></article>
-      <article class="response-step"><div><h3>Wichtige Konten absichern</h3><p>Von einem sauberen Gerät aus Passwörter ändern, Mehr-Faktor-Authentifizierung aktivieren und unbekannte Sessions widerrufen – besonders nach einem vermuteten Stealer.</p></div></article>
-      <article class="response-step"><div><h3>Beweise und Warnungen notieren</h3><p>Halte Fundname, Uhrzeit und angezeigte Aktion fest. Bei Erpressung oder einem größeren Vorfall nicht vorschnell Dateien löschen; professionelle Hilfe hinzuziehen.</p></div></article>
-      <article class="response-step"><div><h3>Wiederherstellen und nachprüfen</h3><p>Nutze vertrauenswürdige Backups und bestätige, dass System und Programme aktualisiert sind. Ein sauberer Scan allein garantiert nicht, dass jedes Problem beseitigt ist.</p></div></article>
-    </div>
-  </section>
-
-  <section class="wrap section" id="sicher-testen">
-    <div class="section-head"><div><div class="section-no">07 — Antivirenschutz kontrolliert testen</div><h2>Ein Testsignal statt echter Schadsoftware.</h2></div><p class="intro">Die EICAR-Testdatei wurde für kontrollierte Erkennungstests entwickelt. Sie enthält keinen echten Virus, kann von kompatiblen Schutzprodukten aber als Testfund gemeldet oder blockiert werden.</p></div>
-    <div class="test-panel">
-      <div><div class="section-no">Standardisierte Testdatei</div><h3>EICAR Anti-Malware Testfile</h3><p>Nutze die offizielle EICAR-Seite und beachte deren Anleitung. Der Test kann zeigen, ob bestimmte Schutzfunktionen reagieren; er beweist nicht, dass dein Gerät gegen echte Malware geschützt ist. Schutzsoftware nicht deaktivieren, um den Test zu erzwingen.</p><p class="small-warning">Lade Testdateien nur herunter, wenn du weißt, wie dein Schutzprogramm mit Erkennungen und Quarantäne umgeht.</p></div>
-      <div class="actions"><a class="btn" href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Offizielle EICAR-Seite ↗</a><a class="btn secondary" href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Windows-Schutz-Hilfe ↗</a></div>
+      <div class="work-output"><div class="output-head"><div><div class="section-no">GEXX / Analysis plan</div><h3 id="planTitle">Your research checklist</h3></div><span class="status">Local draft</span></div><ul class="checklist" id="planList"><li><div><strong>Define scope</strong><span>Write a focused question and time period.</span></div></li><li><div><strong>Find primary sources</strong><span>Start with official publications and original material.</span></div></li><li><div><strong>Corroborate</strong><span>Check independent evidence rather than copied reports.</span></div></li><li><div><strong>Record provenance</strong><span>Save URLs, dates, context and relevant notes.</span></div></li><li><div><strong>State limitations</strong><span>Separate verified facts from hypotheses and unknowns.</span></div></li></ul><button type="button" class="button secondary" id="copyPlan">Copy checklist</button><p id="workspaceStatus" class="note" aria-live="polite">Add a project label and research question to personalise the checklist.</p></div>
     </div>
   </section>
 
   <section class="wrap section" id="quiz">
-    <div class="section-head"><div><div class="section-no">08 — Wissenscheck</div><h2>Wie würdest du entscheiden?</h2></div><p class="intro">Kurze Übung mit drei Fragen. Die Auflösung erklärt nicht nur, welche Antwort stimmt, sondern auch warum.</p></div>
-    <div class="quiz">
-      <div class="quiz-intro"><div class="section-no" style="color:#a9baff">Wissen anwenden</div><h3>Erst prüfen. Dann klicken.</h3><p>Es gibt keine Punkte für blindes Vertrauen in eine Datei oder einen Scanner. Gute Sicherheitsentscheidungen basieren auf Herkunft, Kontext und überprüfbaren Hinweisen.</p><div id="quizCount" class="quiz-score">FRAGE 01 / 03</div></div>
-      <div><div id="questionText" class="question">Du bekommst einen unerwarteten Anhang von einer unbekannten Adresse. Was ist der beste nächste Schritt?</div><div id="answerGrid" class="answers"></div><div id="quizFeedback" class="quiz-feedback" aria-live="polite">Wähle eine Antwort, um das Feedback zu sehen.</div><div class="quiz-bottom"><span id="quizScore" class="quiz-score">PUNKTE: 0</span><button type="button" id="nextQuestion" class="btn">Nächste Frage →</button></div></div>
-    </div>
+    <div class="section-head"><div><div class="section-no">06 — Source literacy</div><h2>Can you tell evidence from assumption?</h2></div><p class="lede">A short check on the habits that make research more reliable. You will get an explanation with each answer.</p></div>
+    <div class="quiz"><div class="quiz-intro"><div class="section-no" style="color:#b6c5ff">Three questions</div><h3>Good research is disciplined research.</h3><p>Source quality, independent verification and careful wording matter more than collecting a long list of links.</p><div class="quiz-count" id="quizCount">QUESTION 01 / 03</div></div><div><div id="questionText" class="question">Two websites repeat the same claim. Does that prove it?</div><div class="answers" id="answerGrid"></div><div class="feedback" id="quizFeedback" aria-live="polite">Choose an answer to see the reasoning.</div><div class="quiz-bottom"><span id="quizScore" class="quiz-count">SCORE: 0</span><button type="button" id="nextQuestion" class="button">Next question →</button></div></div></div>
   </section>
 
-  <section class="wrap section" id="quellen">
-    <div class="section-head"><div><div class="section-no">09 — Weiterführende Quellen</div><h2>Verlässliche Informationen und passende Tools.</h2></div><p class="intro">Hier findest du die offiziellen Anlaufstellen, die zu den Schutzempfehlungen dieser Seite passen. Prüfe bei externen Diensten immer, welche Daten du übermittelst.</p></div>
-    <div class="resources">
-      <article class="resource"><div class="resource-top"><span class="section-no">OFFIZIELLE ANLEITUNG</span><span class="badge">Windows</span></div><h3>Windows-Sicherheit</h3><p>Erklärt Schnellscan, vollständige und benutzerdefinierte Überprüfung sowie die Offlineüberprüfung von Microsoft Defender.</p><a href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Anleitung lesen ↗</a></article>
-      <article class="resource"><div class="resource-top"><span class="section-no">MEHRERE SCANNER</span><span class="badge blue">Analyse</span></div><h3>VirusTotal</h3><p>Analysiert Dateien und URLs mit zahlreichen Sicherheitsdiensten. Ergebnisse können Hinweise liefern, sind aber kein endgültiges Sicherheitsurteil.</p><a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer">Datei oder URL prüfen ↗</a></article>
-      <article class="resource"><div class="resource-top"><span class="section-no">SICHERER TEST</span><span class="badge">EICAR</span></div><h3>Erkennung testen</h3><p>Die standardisierte Testdatei ermöglicht eine kontrollierte Prüfung kompatibler Antivirenprodukte ohne echten Virus.</p><a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Test & Dokumentation ↗</a></article>
-    </div>
-    <div class="privacy"><strong>Datenschutz vor Uploads:</strong> Normale VirusTotal-Einsendungen werden laut Dokumentation mit einreichenden Nutzern und Analysepartnern geteilt. Lade keine privaten Dokumente, Ausweise, persönlichen Fotos, Zugangsdaten oder vertraulichen Unternehmensdateien hoch. VirusTotal dokumentiert auch eine separate Private-Scanning-Funktion, deren Voraussetzungen und Funktionsumfang sich von der öffentlichen Analyse unterscheiden.</div>
-  </section>
-
-  <section class="wrap section" id="faq">
-    <div class="section-head"><div><div class="section-no">10 — Häufige Fragen</div><h2>Was du dir merken solltest.</h2></div><p class="intro">Die wichtigsten Aussagen in kurzer Form.</p></div>
-    <div class="faq">
-      <details><summary>Kann ein einzelner Virenscan Sicherheit garantieren?</summary><p>Nein. Scanner erkennen bekannte Muster und verdächtiges Verhalten, können aber neue oder gezielt verschleierte Bedrohungen übersehen. Mehrere Signale und die Herkunft einer Datei sind wichtig.</p></details>
-      <details><summary>Warum zeigen verschiedene Scanner unterschiedliche Ergebnisse?</summary><p>Produkte nutzen unterschiedliche Signaturen, Modelle, Regeln und Analyseverfahren. Manche Treffer sind Fehlalarme; andere Scanner erkennen eine neue Bedrohung noch nicht. Ein einzelner Wert ist daher nicht die ganze Geschichte.</p></details>
-      <details><summary>Ist eine Datei mit der Endung .pdf oder .jpg automatisch sicher?</summary><p>Nein. Endungen und Dateinamen können irreführend sein, und auch Dokumente können riskante Inhalte enthalten. Öffne unerwartete Dateien nicht allein deshalb, weil der Name harmlos wirkt.</p></details>
-      <details><summary>Ist die Simulation ein echter Virenscanner?</summary><p>Nein. Sie bewertet ausschließlich ein ausgewähltes Lehrszenario und sendet keine Datei an einen Server. Für reale Dateien verwende ein vertrauenswürdiges lokales Schutzprogramm oder einen passenden professionellen Analysedienst.</p></details>
-      <details><summary>Was ist beim Upload zu VirusTotal zu beachten?</summary><p>Standardmäßig eingereichte Dateien und URLs können mit Analysepartnern geteilt werden. Prüfe die Datenschutzbedingungen und lade keine vertraulichen Daten hoch, wenn du nicht zur Weitergabe berechtigt bist.</p></details>
-    </div>
+  <section class="wrap section" id="about">
+    <div class="section-head"><div><div class="section-no">07 — About the project</div><h2>GEXX, without the noise.</h2></div><p class="lede">A personal learning hub for Linux, open-source research and digital investigation methods. Practical notes, reputable resources and a bias toward evidence you can explain.</p></div>
+    <div class="manifesto"><article class="manifesto-side"><div class="symbol">GX</div><div><h3>Curiosity with boundaries.</h3><p>Research public information for a clear purpose. Respect privacy, verify your findings, and use security tools only on systems and data you own or are authorised to assess.</p></div></article><article class="manifesto-main"><div class="micro">The GEXX standard</div><div><blockquote>Less theatre.<br>More signal.</blockquote><p>Linux is a tool. OSINT is a method. A government website is a source — not an endorsement. Trust should follow evidence.</p></div></article></div>
   </section>
 </main>
 
-<footer class="wrap footer">
-  <div class="footer-top"><span><strong>Malware verstehen</strong> · Ein unabhängiger Bildungs-Guide</span><a href="#start">Zurück nach oben ↑</a></div>
-  <div class="source-list">Quellen: <a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">EICAR — Anti-Malware Testfile</a> · <a href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Microsoft — Viren- und Bedrohungsschutz</a> · <a href="https://docs.virustotal.com/docs/how-it-works" target="_blank" rel="noopener noreferrer">VirusTotal — How it works</a> · <a href="https://docs.virustotal.com/docs/private-scanning" target="_blank" rel="noopener noreferrer">VirusTotal — Private Scanning</a>. Informationsseite zu Bildungszwecken, kein Ersatz für eine professionelle Incident-Response-Analyse.</div>
-</footer>
+<footer class="wrap footer"><div class="footer-top"><span><strong>GEXX Fieldnotes</strong> · Open-source research and Linux</span><a href="#home">Back to top ↑</a></div><div class="sources">External references: <a href="https://www.fbi.gov/wanted/cyber" target="_blank" rel="noopener noreferrer">FBI Cyber Wanted</a> · <a href="https://tips.fbi.gov/" target="_blank" rel="noopener noreferrer">FBI Tips</a> · <a href="https://www.ic3.gov/" target="_blank" rel="noopener noreferrer">IC3</a> · <a href="https://www.kali.org/docs/introduction/what-is-kali-linux/" target="_blank" rel="noopener noreferrer">Kali Linux Documentation</a> · <a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer">Bellingcat Toolkit</a> · <a href="https://osintframework.com/" target="_blank" rel="noopener noreferrer">OSINT Framework</a>. GEXX is an independent personal project and is not affiliated with the FBI or any government agency. Not legal advice and not a substitute for professional incident response.</div></footer>
 
 <script>
-  document.getElementById('malwareSearch').addEventListener('input', function(){
-    const query = this.value.trim().toLocaleLowerCase('de');
-    const rows = Array.from(document.querySelectorAll('.malware-row'));
-    let visible = 0;
-    rows.forEach(row => {
-      const content = (row.innerText + ' ' + row.dataset.search).toLocaleLowerCase('de');
-      const match = content.includes(query);
-      row.hidden = !match;
-      if(match) visible++;
-    });
-    document.getElementById('searchStatus').textContent = visible + ' von ' + rows.length + ' Kategorien sichtbar.';
+  document.getElementById('copyCommands').addEventListener('click', async function(){
+    const text = 'uname -a\nfile sample.pdf\nsha256sum sample.pdf';
+    try {
+      await navigator.clipboard.writeText(text);
+      this.textContent='Copied ✓';
+    } catch (e) {
+      const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.position='absolute';area.style.left='-9999px';document.body.appendChild(area);area.select();
+      let ok=false;try{ok=document.execCommand('copy')}catch(_){}
+      area.remove();this.textContent=ok?'Copied ✓':'Copy unavailable';
+    }
+    setTimeout(()=>this.textContent='Copy commands',1800);
   });
 
-  const cases = {
-    attachment:{level:4,state:'Hohes Risiko · Beispiel',category:'Unerwartete Datei',title:'Nicht öffnen, Herkunft prüfen.',text:'Ein unerwarteter Anhang kann legitim sein oder Schadsoftware enthalten. Öffne ihn nicht, um „mal nachzusehen“. Prüfe den Absender über einen bekannten Kontaktweg, bestätige den Anlass und verwende den Schutzscanner, den du bereits kennst.'},
-    macro:{level:4,state:'Erhöhte Vorsicht · Beispiel',category:'Aktive Inhalte',title:'Makros nicht auf Aufforderung aktivieren.',text:'Dokumente können dazu drängen, Makros oder andere aktive Inhalte zuzulassen. Solche Inhalte werden auch bei Angriffen missbraucht. Öffne nichts weiter, bis Absender und Zweck unabhängig bestätigt sind.'},
-    login:{level:4,state:'Phishing-Verdacht · Beispiel',category:'Anmeldedaten',title:'Link umgehen und Dienst selbst öffnen.',text:'Ein plötzlich angeforderter Login kann zu einer gefälschten Seite führen. Klicke nicht weiter. Öffne den Dienst über ein bekanntes Lesezeichen oder tippe seine Adresse selbst ein und prüfe aktive Sitzungen.'},
-    official:{level:1,state:'Günstigerer Kontext · Beispiel',category:'Update-Quelle',title:'Offizielle Quelle ist besser – aber keine Garantie.',text:'Ein Update direkt aus der integrierten App oder vom echten Hersteller ist in der Regel besser als ein Download über eine Werbeanzeige. Prüfe die Domain und die Signatur, sofern verfügbar. Die Simulation kann die konkrete Datei nicht verifizieren.'},
-    scanner:{level:2,state:'Kein abschließender Befund',category:'Scanner-Ergebnis',title:'Null Treffer bedeutet nicht risikofrei.',text:'Ein Scan ohne Erkennung ist ein nützlicher Hinweis, aber keine Garantie. Neue oder gezielt verschleierte Malware kann unentdeckt bleiben. Berücksichtige Quelle, erwartetes Verhalten und andere unabhängige Informationen.'},
-    slow:{level:2,state:'Unspezifisches Signal',category:'Systemverhalten',title:'Langsamkeit allein beweist keine Infektion.',text:'Prüfe Ressourcenverbrauch, kürzlich installierte Programme und Updates. Wenn weitere Signale dazukommen, führe einen Scan mit deinem vertrauenswürdigen Schutzprogramm aus. Vermeide unbekannte „PC-Cleaner“ aus Pop-ups.'}
-  };
-  document.getElementById('analyseBtn').addEventListener('click', function(){
-    const key = document.getElementById('caseType').value;
-    const item = cases[key];
-    const label = document.getElementById('caseName').value.trim() || 'Ausgewähltes Szenario';
-    document.getElementById('reportHeading').textContent = label;
-    document.getElementById('reportState').textContent = item.state;
-    document.getElementById('reportCategory').textContent = item.category;
-    document.getElementById('reportTitle').textContent = item.title;
-    document.getElementById('reportText').textContent = item.text;
-    document.getElementById('riskCaption').textContent = 'Simulierte Aufmerksamkeit: ' + ['sehr niedrig','niedrig','mittel','erhöht','hoch'][item.level-1];
-    for(let i=1;i<=5;i++) document.getElementById('r'+i).classList.toggle('on', i<=item.level);
-  });
-
-  const questions = [
-    {q:'Ein unbekannter Absender schickt dir unerwartet eine ZIP-Datei. Was ist der sinnvollste nächste Schritt?',a:['Öffnen, um herauszufinden, was es ist','Absender und Anlass über einen unabhängigen, bekannten Weg prüfen','Datei umbenennen und dann öffnen','Den Virenschutz vorübergehend ausschalten'],correct:1,why:'Richtig. Unerwartete Anhänge nicht öffnen. Prüfe Absender und Anlass über einen bekannten Kontaktweg – nicht über die Kontaktdaten in der verdächtigen Nachricht.'},
-    {q:'Ein Dateiscanner findet null Treffer. Was kannst du daraus schließen?',a:['Die Datei ist garantiert sicher','Alle Scanner erkennen jede Malware','Es wurde nichts erkannt; ein Restrisiko bleibt','Du kannst die Datei ohne weitere Prüfung starten'],correct:2,why:'Genau. Scanner können neue oder verschleierte Bedrohungen übersehen. Ein Scan-Ergebnis ist nur ein Teil der Bewertung.'},
-    {q:'Wie kannst du eine Antiviren-Erkennung testen, ohne echte Malware einzusetzen?',a:['Eine echte Malware-Datei aus einem Forum laden','Die Schutzsoftware deaktivieren','Die offizielle EICAR-Testdatei und Anleitung nutzen','Unbekannte Anhänge öffnen'],correct:2,why:'Richtig. EICAR stellt eine standardisierte Testdatei ohne echte Virusfunktion bereit, auf die kompatible Schutzsoftware reagieren kann.'}
+  const baseChecklist = [
+    ['Define scope','Write a focused question, time period and what is out of scope.'],
+    ['Find primary sources','Start with original publications, official pages and directly sourced material.'],
+    ['Corroborate the claim','Look for independent evidence; do not count sites that repeat the same original source as separate confirmation.'],
+    ['Record provenance','Keep source URLs, access dates, context and useful quotations.'],
+    ['State limitations','Separate verified facts, inferences and information that remains unknown.']
   ];
-  let questionIndex=0, correctCount=0, answered=false;
-  const questionText=document.getElementById('questionText'), answerGrid=document.getElementById('answerGrid'), feedback=document.getElementById('quizFeedback'), quizCount=document.getElementById('quizCount'), quizScore=document.getElementById('quizScore'), next=document.getElementById('nextQuestion');
-  function showQuestion(){
-    answered=false;
-    const q=questions[questionIndex];
-    questionText.textContent=q.q;
-    quizCount.textContent='FRAGE '+String(questionIndex+1).padStart(2,'0')+' / '+String(questions.length).padStart(2,'0');
-    feedback.textContent='Wähle eine Antwort, um die Erklärung zu sehen.';
-    answerGrid.replaceChildren();
-    q.a.forEach((answer,i)=>{
-      const button=document.createElement('button');
-      button.type='button';button.className='answer';button.textContent=answer;
-      button.addEventListener('click',()=>chooseAnswer(i));
-      answerGrid.appendChild(button);
-    });
-    next.textContent=questionIndex===questions.length-1?'Erneut versuchen ↻':'Nächste Frage →';
-  }
-  function chooseAnswer(index){
-    if(answered) return;
-    answered=true;
-    const q=questions[questionIndex];
-    Array.from(answerGrid.children).forEach((button,i)=>{
-      button.disabled=true;
-      if(i===q.correct) button.classList.add('correct');
-      else if(i===index) button.classList.add('wrong');
-    });
-    if(index===q.correct) correctCount++;
-    quizScore.textContent='RICHTIG: '+correctCount+' / '+(questionIndex+1);
-    feedback.textContent=(index===q.correct?'Richtig. ':'Nicht ganz. ')+q.why;
-  }
-  next.addEventListener('click',()=>{
-    if(questionIndex===questions.length-1){questionIndex=0;correctCount=0;quizScore.textContent='PUNKTE: 0';showQuestion();return}
-    if(!answered){feedback.textContent='Wähle zuerst eine Antwort.';return}
-    questionIndex++;showQuestion();
+  const extras = {
+    claim:[['Trace the first publication','Find the earliest accessible version and compare wording, date and context.']],
+    site:[['Keep the scope authorised','Review only the site and endpoints you own or have permission to assess.'],['Preserve the baseline','Record observed pages and timestamps before changing anything.']],
+    incident:[['Preserve evidence','Keep logs, timestamps and relevant alerts; avoid making unnecessary changes before an incident responder reviews them.'],['Contain safely','Follow your organisation’s response process and disconnect systems if active harm is suspected.']],
+    archive:[['Compare versions carefully','Record snapshot URLs and dates; archive captures can be incomplete or delayed.']]
+  };
+  document.getElementById('buildPlan').addEventListener('click', function(){
+    const label=document.getElementById('projectName').value.trim()||'Untitled research note';
+    const question=document.getElementById('researchQuestion').value.trim();
+    const type=document.getElementById('researchType').value;
+    const items=[...baseChecklist.slice(0,1),...(extras[type]||[]),...baseChecklist.slice(1)];
+    const list=document.getElementById('planList');list.replaceChildren();
+    items.forEach(([heading,detail])=>{const li=document.createElement('li');const inner=document.createElement('div');const strong=document.createElement('strong');const span=document.createElement('span');strong.textContent=heading;span.textContent=detail;inner.append(strong,span);li.append(inner);list.append(li)});
+    document.getElementById('planTitle').textContent=label.slice(0,80);
+    document.getElementById('workspaceStatus').textContent=question?'Research question: '+question.slice(0,300):'Add a specific research question to keep the task focused.';
   });
-  showQuestion();
+  document.getElementById('copyPlan').addEventListener('click', async function(){
+    const rows=Array.from(document.querySelectorAll('#planList li')).map(li=>'- '+li.innerText.replace(/\n/g,' — '));
+    const text='GEXX FIELDNOTE: '+document.getElementById('planTitle').textContent+'\nResearch question: '+(document.getElementById('researchQuestion').value.trim()||'(not set)')+'\n\n'+rows.join('\n');
+    try{await navigator.clipboard.writeText(text);this.textContent='Copied ✓'}catch(e){document.getElementById('workspaceStatus').textContent='Copy was blocked by browser permissions. You can select and copy the visible checklist.';return}
+    setTimeout(()=>this.textContent='Copy checklist',1800);
+  });
+
+  const questions=[
+    {q:'Two websites repeat the same claim. Does that prove it?',a:['Yes — two URLs always count as independent sources','Not necessarily; both may copy the same original source','Only if the websites use different designs','Yes, if the claim sounds plausible'],correct:1,why:'Correct. Repetition is not independent corroboration. Trace each page back to its source and look for genuinely separate evidence.'},
+    {q:'What does a SHA-256 hash tell you about a file?',a:['It proves the file is harmless','It guarantees who created the file','It gives a fingerprint useful for comparing file identity','It decrypts the file'],correct:2,why:'Correct. A hash helps identify whether file contents match a known value. It does not prove that a file is safe or authentic on its own.'},
+    {q:'You are looking into a published cybercrime case. What is the best starting point?',a:['A screenshot reposted on social media','A private account obtained through a data leak','The original official announcement and clearly attributed records','An anonymous comment with no sources'],correct:2,why:'Correct. Primary, attributed sources provide context and provenance. Still distinguish allegations from established findings and note the date and jurisdiction.'}
+  ];
+  let qi=0,score=0,answered=false;
+  const questionText=document.getElementById('questionText'), answerGrid=document.getElementById('answerGrid'), feedback=document.getElementById('quizFeedback'), count=document.getElementById('quizCount'), scoreEl=document.getElementById('quizScore'), next=document.getElementById('nextQuestion');
+  function renderQuestion(){
+    answered=false;const q=questions[qi];questionText.textContent=q.q;count.textContent='QUESTION '+String(qi+1).padStart(2,'0')+' / '+String(questions.length).padStart(2,'0');feedback.textContent='Choose an answer to see the reasoning.';answerGrid.replaceChildren();
+    q.a.forEach((text,i)=>{const b=document.createElement('button');b.type='button';b.className='answer';b.textContent=text;b.addEventListener('click',()=>chooseAnswer(i));answerGrid.append(b)});
+    next.textContent=qi===questions.length-1?'Restart quiz ↻':'Next question →';
+  }
+  function chooseAnswer(i){
+    if(answered)return;answered=true;const q=questions[qi];Array.from(answerGrid.children).forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});if(i===q.correct)score++;scoreEl.textContent='SCORE: '+score+' / '+(qi+1);feedback.textContent=(i===q.correct?'Correct. ':'Not quite. ')+q.why;
+  }
+  next.addEventListener('click',()=>{if(qi===questions.length-1){qi=0;score=0;scoreEl.textContent='SCORE: 0';renderQuestion();return}if(!answered){feedback.textContent='Choose an answer first.';return}qi++;renderQuestion()});
+  renderQuestion();
 </script>
 </body>
 </html>
