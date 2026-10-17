@@ -3,181 +3,401 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090b13">
-  <meta name="description" content="VIRUS LAB — Lerne Malware zu verstehen, erkenne digitale Bedrohungen und teste Antivirus-Reaktionen mit sicheren Simulationen.">
-  <title>VIRUS LAB — Die Welt der Malware</title>
+  <meta name="theme-color" content="#f4f3ef">
+  <meta name="description" content="Ein verständlicher, praxisorientierter Guide zu Malware: Arten, Infektionswege, Erkennung, sichere Tests und Reaktion auf Vorfälle.">
+  <title>Malware verstehen — Sicherheitswissen, das weiterhilft</title>
   <style>
-    :root{color-scheme:dark;--bg:#090b13;--panel:#101522;--panel2:#151c2d;--ink:#f0f3ff;--muted:#9ca7c1;--line:#283149;--lime:#c7ff5e;--cyan:#6af0e8;--pink:#ff6b9e;--warn:#ffc86b;--max:1200px}
-    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 4%,#2d3b8c30,transparent 33%),radial-gradient(ellipse at 88% 38%,#126b6330,transparent 30%),linear-gradient(180deg,#090b13,#0b101a 70%,#090b13)}a{color:inherit}button,input,select{font:inherit}.wrap{width:min(var(--max),calc(100% - 42px));margin-inline:auto}
-    .top{position:sticky;top:0;z-index:20;background:#090b13eF;backdrop-filter:blur(18px);border-bottom:1px solid #a1b7ff20}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:1000;font-size:21px;letter-spacing:-.06em}.brand-icon{width:33px;height:33px;border:1px solid var(--lime);color:var(--lime);display:grid;place-items:center;border-radius:9px;font-size:17px;box-shadow:0 0 23px #c7ff5e19}.brand span{color:var(--lime)}.links{display:flex;gap:24px}.links a{font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:900;color:var(--muted);text-decoration:none}.links a:hover{color:var(--lime)}.nav-pill{color:var(--cyan);border:1px solid #6af0e84a;background:#6af0e80c;padding:8px 11px;border-radius:5px;text-transform:uppercase;font-size:9px;font-weight:950;letter-spacing:.14em;white-space:nowrap}
-    .hero{position:relative;padding:83px 0 80px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;min-height:650px}.eyebrow{display:flex;gap:10px;align-items:center;color:var(--cyan);font-size:10px;letter-spacing:.2em;font-weight:950;text-transform:uppercase}.eyebrow:before{content:"";width:24px;height:2px;background:var(--cyan)}h1{font-size:clamp(60px,8.8vw,112px);line-height:.82;letter-spacing:-.09em;margin:25px 0 24px;font-weight:1000}h1 span{color:var(--lime);text-shadow:0 0 38px #c7ff5e2c}.hero p{font-size:17px;color:#b4bfd8;max-width:600px;margin:0 0 29px}.hero p strong{color:var(--ink)}.actions{display:flex;flex-wrap:wrap;gap:11px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--lime);color:#11160a;border:1px solid var(--lime);border-radius:5px;padding:13px 16px;text-decoration:none;font-weight:1000;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:transform .16s,background .16s}.btn:hover{transform:translateY(-2px);background:#ddff91}.btn.ghost{background:transparent;color:var(--ink);border-color:#44506e}.btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}.hero-panel{border:1px solid #34405b;border-radius:15px;background:linear-gradient(145deg,#141b2cdd,#0c111ddd);padding:22px;position:relative;overflow:hidden;box-shadow:0 35px 100px #0004}.hero-panel:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 7px,#ffffff04 8px),radial-gradient(circle at 75% 30%,#6af0e81b,transparent 48%)}.terminal-head{position:relative;display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid var(--line);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;font-weight:900}.leds{display:flex;gap:5px}.leds i{width:7px;height:7px;background:var(--pink);border-radius:50%}.leds i:nth-child(2){background:var(--warn)}.leds i:nth-child(3){background:var(--lime)}.scan-art{height:225px;position:relative;display:grid;place-items:center;overflow:hidden}.ring{position:absolute;width:190px;aspect-ratio:1;border:1px solid #6af0e84a;border-radius:50%;box-shadow:0 0 50px #6af0e810,inset 0 0 40px #6af0e80a}.ring:before,.ring:after{content:"";position:absolute;inset:17%;border:1px dashed #6af0e866;border-radius:50%}.ring:after{inset:34%;border-style:solid;border-color:#c7ff5e99}.scanner-sweep{position:absolute;width:190px;height:95px;left:calc(50% - 95px);top:calc(50% - 95px);transform-origin:bottom center;background:linear-gradient(0deg,#6af0e833,transparent);clip-path:polygon(50% 100%,0 0,100% 0);animation:sweep 5s linear infinite}.core{font-size:58px;color:var(--lime);position:relative;text-shadow:0 0 32px #c7ff5e55}.crosshair{position:absolute;inset:30px;background:linear-gradient(90deg,transparent calc(50% - .5px),#6af0e81e 50%,transparent calc(50% + .5px)),linear-gradient(transparent calc(50% - .5px),#6af0e81e 50%,transparent calc(50% + .5px))}.terminal-lines{position:relative;border:1px solid #28344d;background:#080c13;padding:13px 15px;font:11px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;color:#9aaac8}.terminal-lines p{margin:0}.terminal-lines .ok{color:var(--lime)}.terminal-lines .blue{color:var(--cyan)}.hero-foot{position:relative;display:flex;justify-content:space-between;margin-top:16px;color:#7482a1;text-transform:uppercase;letter-spacing:.12em;font-size:8px;font-weight:900}
-    @keyframes sweep{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes glow{0%,100%{box-shadow:0 0 0 #c7ff5e00}50%{box-shadow:0 0 30px #c7ff5e16}}
-    .ticker{border-block:1px solid var(--line);background:#101625}.ticker-inner{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px;white-space:nowrap;overflow:hidden;font-size:9px;font-weight:950;letter-spacing:.17em;color:#b2bdd3;text-transform:uppercase}.ticker b{color:var(--lime)}.dot{color:var(--cyan)}
-    .section{padding:86px 0;border-bottom:1px solid #a1b7ff16}.section-head{display:grid;grid-template-columns:1fr .7fr;gap:35px;align-items:end;margin-bottom:34px}.kicker{font-size:9px;color:var(--cyan);font-weight:950;letter-spacing:.21em;text-transform:uppercase}.title{font-size:clamp(38px,5.4vw,65px);line-height:.9;letter-spacing:-.08em;margin:12px 0 0;font-weight:1000}.intro{color:var(--muted);font-size:13px;line-height:1.8;margin:0;max-width:470px}.intro strong{color:var(--ink)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.threat{border:1px solid var(--line);background:linear-gradient(145deg,#131a2a,#0f1420);border-radius:10px;min-height:205px;padding:22px;position:relative;overflow:hidden}.threat:after{content:attr(data-mark);position:absolute;right:15px;top:20px;font-size:48px;opacity:.17}.threat .num{font-size:9px;color:var(--lime);letter-spacing:.16em;font-weight:950}.threat h3{font-size:21px;letter-spacing:-.045em;margin:19px 0 7px}.threat p{font-size:12px;color:var(--muted);margin:0}.risk{display:inline-block;margin-top:17px;border:1px solid #44506e;color:#b8c5e2;border-radius:4px;padding:4px 7px;text-transform:uppercase;font-size:8px;letter-spacing:.13em;font-weight:950}
-    .lab-layout{display:grid;grid-template-columns:.95fr 1.05fr;gap:17px;align-items:stretch}.lab-card,.result-card{border:1px solid #34405b;border-radius:12px;background:linear-gradient(145deg,#141b2a,#0f1420);padding:25px}.lab-card h3,.result-card h3{margin:8px 0;font-size:25px;letter-spacing:-.06em}.lab-card>p,.result-card>p{font-size:12px;color:var(--muted);margin:0 0 20px}.formrow{margin:16px 0}.formrow label{display:block;color:#c7d0e5;font-size:10px;font-weight:950;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}.formrow input,.formrow select{width:100%;padding:12px 13px;border:1px solid #38445f;background:#090d16;color:var(--ink);border-radius:5px;outline:none}.formrow input:focus,.formrow select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #6af0e814}.lab-note{border-left:2px solid var(--warn);padding:9px 12px;color:#abb7d0;font-size:10px;line-height:1.6;background:#ffc86b0b;margin-top:16px}.results-top{display:flex;align-items:center;justify-content:space-between;gap:15px}.status-pill{font-size:8px;color:var(--warn);border:1px solid #ffc86b55;background:#ffc86b10;padding:6px 8px;border-radius:4px;letter-spacing:.1em;font-weight:950;text-transform:uppercase}.result-screen{min-height:180px;border:1px solid #283650;background:#080c13;padding:17px;margin-top:18px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.result-big{font-size:20px;color:var(--cyan);font-weight:900;letter-spacing:-.03em;margin:3px 0 8px}.result-text{font-family:inherit;color:#a8b5d0;font-size:11px;line-height:1.8}.result-progress{height:5px;background:#252e42;margin:18px 0 9px;overflow:hidden}.result-progress span{display:block;width:0;height:100%;background:var(--lime);transition:width .5s}.result-foot{display:flex;justify-content:space-between;color:#7180a0;font-size:8px;letter-spacing:.1em;text-transform:uppercase}.sim-tip{margin-top:15px;display:flex;gap:10px;font-size:10px;color:var(--muted);align-items:flex-start}.sim-tip b{color:var(--lime)}
-    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{border-top:2px solid var(--cyan);background:#111827;padding:19px}.step .n{font-size:10px;font-weight:1000;color:var(--cyan)}.step h3{font-size:16px;margin:13px 0 6px;letter-spacing:-.035em}.step p{font-size:11px;margin:0;color:var(--muted)}
-    .eicar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:28px;padding:28px;border:1px solid #6b633f;background:linear-gradient(110deg,#201e18,#131822);border-radius:11px}.eicar h3{font-size:25px;letter-spacing:-.055em;margin:8px 0}.eicar p{font-size:12px;color:var(--muted);margin:0;max-width:760px}.eicar .actions{min-width:190px;flex-direction:column}.eicar .btn{width:100%}.fineprint{font-size:10px!important;margin-top:12px!important;color:#c5aa78!important}
-    .quiz{display:grid;grid-template-columns:.7fr 1.3fr;gap:25px;border:1px solid var(--line);border-radius:11px;padding:27px;background:#101625}.quiz-intro h3{font-size:29px;line-height:.98;letter-spacing:-.06em;margin:12px 0}.quiz-intro p{font-size:12px;color:var(--muted)}.question{font-size:16px;font-weight:850;margin-bottom:16px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px}.answer{background:#0a0f19;color:#d7dff2;text-align:left;border:1px solid #303c56;padding:12px 13px;border-radius:5px;font-size:11px;cursor:pointer}.answer:hover{border-color:var(--cyan)}.answer.correct{border-color:var(--lime);background:#c7ff5e12;color:var(--lime)}.answer.wrong{border-color:var(--pink);background:#ff6b9e10;color:#ff9fbb}.quiz-feedback{font-size:11px;color:var(--muted);min-height:43px;margin-top:13px}.quiz-next{margin-top:7px;display:flex;justify-content:space-between;align-items:center;gap:12px}.quiz-count{font-size:9px;color:#8492b0;letter-spacing:.12em;font-weight:900}
-    .resources{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.resource{border:1px solid var(--line);border-radius:9px;background:#101624;padding:21px;display:flex;flex-direction:column;align-items:flex-start}.resource .r-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:8px;color:var(--cyan);background:#6af0e80e;border:1px solid #6af0e82d;font-size:17px}.resource h3{font-size:17px;margin:16px 0 7px}.resource p{color:var(--muted);font-size:11px;margin:0 0 18px;flex:1}.resource a{font-size:9px;color:var(--lime);text-transform:uppercase;letter-spacing:.12em;font-weight:1000;text-decoration:none}.resource a:hover{text-decoration:underline}.privacy{border-left:2px solid var(--pink);padding:10px 13px;background:#ff6b9e0a;color:#c2cadd;font-size:10px;margin-top:16px}
-    details{border-bottom:1px solid var(--line);padding:16px 0}details summary{cursor:pointer;font-size:13px;font-weight:900;list-style:none;display:flex;justify-content:space-between;gap:20px}details summary:after{content:"+";font-size:18px;color:var(--cyan);line-height:1}details[open] summary:after{content:"−"}details p{margin:12px 0 0;color:var(--muted);font-size:12px;max-width:900px}
-    footer{padding:27px 0 37px;color:#7785a4;font-size:10px}.foot{display:flex;justify-content:space-between;align-items:center;gap:18px}.foot strong{color:var(--ink)}.foot a{color:var(--cyan);text-decoration:none}.sources{max-width:850px;font-size:9px;line-height:1.8;color:#667493;margin-top:14px}.sources a{color:#94a5cc;text-decoration:underline}
-    @media(max-width:900px){.hero{grid-template-columns:1fr;gap:35px;padding-top:64px}.hero-panel{max-width:580px}.lab-layout{grid-template-columns:1fr}.section-head{grid-template-columns:1fr .8fr}.grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.resources{grid-template-columns:1fr 1fr}.quiz{grid-template-columns:1fr}.nav{gap:12px}.links{gap:14px}}
-    @media(max-width:620px){.wrap{width:calc(100% - 30px)}.nav{height:67px}.links{display:none}.brand{font-size:18px}.nav-pill{font-size:8px;padding:7px}.hero{padding:58px 0 49px}.hero h1{font-size:clamp(63px,17vw,95px)}.hero p{font-size:15px}.hero-panel{padding:17px}.scan-art{height:190px}.section{padding:63px 0}.section-head{grid-template-columns:1fr;gap:14px}.title{font-size:clamp(40px,12vw,57px)}.grid,.steps,.resources{grid-template-columns:1fr}.threat{min-height:170px}.lab-card,.result-card{padding:18px}.results-top{align-items:flex-start;flex-direction:column}.eicar{grid-template-columns:1fr;padding:21px;gap:20px}.eicar .actions{min-width:0;align-items:flex-start}.eicar .btn{width:auto}.answers{grid-template-columns:1fr}.quiz{padding:20px}.foot{align-items:flex-start;flex-direction:column}.ticker-inner{justify-content:flex-start}.stat-label{display:none}}
+    :root{
+      color-scheme:light;
+      --paper:#f4f3ef;--surface:#fffefa;--ink:#20231f;--muted:#666d65;
+      --line:#dcded6;--soft:#e9ebe4;--blue:#214fe5;--blue-dark:#183bb2;
+      --orange:#d85c33;--green:#336b50;--serif:Georgia,"Times New Roman",serif;
+      --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:86px}
+    body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    button,input,select{font:inherit}
+    .wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:30;background:#f4f3efeF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:14px;font-weight:850;letter-spacing:-.035em;white-space:nowrap}
+    .brand-mark{width:29px;height:29px;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-size:15px;font-weight:700}
+    .nav-links{display:flex;align-items:center;gap:25px}
+    .nav-links a{font-size:11px;color:#555d55;font-weight:700;text-decoration:none}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-action{background:var(--ink);color:white;padding:10px 13px;border-radius:3px;text-decoration:none;font-size:10px;font-weight:800;white-space:nowrap}
+    .hero{padding:76px 0 62px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);gap:64px;align-items:center}
+    .eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--blue)}
+    .eyebrow:before{content:"";width:20px;height:1px;background:currentColor}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-family:var(--serif);font-weight:400;font-size:clamp(50px,6.7vw,86px);letter-spacing:-.065em;line-height:.98;margin:22px 0 24px;max-width:730px}
+    h1 em{font-weight:400;color:var(--blue)}
+    .hero-lead{font-size:17px;color:#565e55;line-height:1.75;max-width:635px;margin-bottom:27px}
+    .hero-lead strong{color:var(--ink);font-weight:750}
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 15px;border:1px solid var(--blue);background:var(--blue);color:white;text-decoration:none;border-radius:3px;font-size:11px;font-weight:800;cursor:pointer;transition:background .15s,border-color .15s}
+    .btn:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+    .btn.secondary{background:transparent;color:var(--ink);border-color:#c8ccc3}
+    .btn.secondary:hover{background:white;border-color:#aeb5aa}
+    .hero-art{min-height:422px;background:#202925;position:relative;overflow:hidden;color:#f9f8f2;padding:26px;display:flex;flex-direction:column;justify-content:space-between}
+    .hero-art:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#2b3730 0%,#202925 56%,#17201b 100%)}
+    .art-top,.art-bottom,.art-main{position:relative;z-index:1}
+    .art-top{display:flex;justify-content:space-between;gap:12px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#c7cec4;font-weight:750}
+    .art-main{padding:36px 0 30px}
+    .art-number{font:clamp(104px,15vw,185px)/.8 var(--serif);letter-spacing:-.11em;color:#d8e5d5}
+    .art-rule{height:1px;background:#d8e5d54b;margin:27px 0 15px}
+    .art-caption{display:flex;justify-content:space-between;gap:14px;align-items:end}
+    .art-caption strong{font-size:15px;font-weight:650;display:block}
+    .art-caption span{color:#b9c3b8;font-size:10px;display:block;margin-top:4px}
+    .art-stamp{border:1px solid #c5d3c4a0;border-radius:50%;width:73px;height:73px;display:grid;place-items:center;text-align:center;font-size:9px;line-height:1.3;transform:rotate(-10deg);color:#dbe8d8}
+    .hero-index{font-size:10px;color:#9aa99a}
+    .proof-strip{border-block:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}
+    .proof{padding:18px 20px;border-right:1px solid var(--line)}
+    .proof:last-child{border-right:0}
+    .proof b{font-size:12px;display:block;font-weight:800}
+    .proof span{display:block;margin-top:4px;font-size:10px;color:var(--muted)}
+    .section{padding:83px 0;border-bottom:1px solid var(--line)}
+    .section-head{display:grid;grid-template-columns:1fr .68fr;gap:38px;align-items:end;margin-bottom:32px}
+    .section-no{font-size:10px;color:var(--blue);font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    h2{font-family:var(--serif);font-size:clamp(37px,4.7vw,59px);line-height:1;letter-spacing:-.06em;font-weight:400;margin:12px 0 0}
+    .intro{font-size:13px;color:var(--muted);line-height:1.85;margin:0;max-width:470px}
+    .intro strong{color:var(--ink)}
+    .definition{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .definition-main{background:var(--blue);color:#fff;padding:29px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+    .definition-main .small{font-size:10px;letter-spacing:.13em;font-weight:800;text-transform:uppercase;color:#dce4ff}
+    .definition-main h3{font-family:var(--serif);font-size:35px;line-height:1.06;letter-spacing:-.04em;font-weight:400;margin:23px 0 14px;max-width:480px}
+    .definition-main p{font-size:12px;color:#e2e8ff;margin:0;max-width:500px}
+    .definition-note{border:1px solid var(--line);background:var(--surface);padding:27px;display:flex;flex-direction:column;justify-content:space-between}
+    .definition-note .big-mark{font-family:var(--serif);font-size:58px;line-height:1;color:var(--orange)}
+    .definition-note h3{font-size:17px;margin:22px 0 7px;letter-spacing:-.025em}
+    .definition-note p{font-size:12px;color:var(--muted);margin:0}
+    .filterbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:32px 0 16px}
+    .filterbar label{font-size:10px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.1em}
+    .filterbar input{width:min(290px,55vw);border:1px solid #cdd1c8;background:var(--surface);padding:10px 12px;border-radius:3px;outline:none;font-size:12px}
+    .filterbar input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #214fe51a}
+    .malware-list{border-top:1px solid var(--line)}
+    .malware-row{display:grid;grid-template-columns:54px 1.1fr 1.5fr .8fr;gap:20px;align-items:start;padding:21px 5px;border-bottom:1px solid var(--line)}
+    .malware-row[hidden]{display:none}
+    .malware-n{font-size:10px;color:var(--blue);font-weight:800;padding-top:3px}
+    .malware-row h3{font-size:16px;letter-spacing:-.025em;margin:0 0 5px}
+    .malware-row .plain{font-size:11px;color:var(--muted);line-height:1.7}
+    .malware-row .behavior{font-size:11px;color:#454e45;line-height:1.7}
+    .badge{display:inline-block;background:#e8eae3;color:#4a5547;padding:5px 7px;font-size:9px;font-weight:800;border-radius:2px;white-space:nowrap}
+    .badge.orange{background:#f5e5db;color:#984321}
+    .badge.blue{background:#e4e9ff;color:#2942a5}
+    .lifecycle{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--surface)}
+    .life-step{padding:21px 19px;position:relative;border-right:1px solid var(--line);min-height:172px}
+    .life-step:last-child{border-right:0}
+    .life-step .n{font-size:10px;color:var(--blue);font-weight:850}
+    .life-step h3{font-size:14px;margin:20px 0 7px}
+    .life-step p{font-size:11px;color:var(--muted);line-height:1.7;margin:0}
+    .callout{margin-top:16px;padding:17px 20px;background:#e8eae3;display:grid;grid-template-columns:125px 1fr;gap:18px;font-size:11px;line-height:1.8;color:#4e594d}
+    .callout strong{color:var(--ink)}
+    .simulator{display:grid;grid-template-columns:.9fr 1.1fr;border:1px solid var(--line);background:var(--surface)}
+    .sim-controls{padding:26px;border-right:1px solid var(--line)}
+    .sim-controls h3,.sim-output h3{font-size:19px;letter-spacing:-.035em;margin:9px 0}
+    .sim-controls p{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+    .field{margin:14px 0}
+    .field label{display:block;font-size:10px;font-weight:800;letter-spacing:.05em;margin-bottom:7px}
+    .field select,.field input{width:100%;padding:11px;border:1px solid #cdd1c8;background:#fffefa;color:var(--ink);font-size:12px;border-radius:2px;outline:none}
+    .field select:focus,.field input:focus{border-color:var(--blue)}
+    .sim-controls .btn{margin-top:5px}
+    .sim-output{padding:26px;display:flex;flex-direction:column}
+    .output-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .output-state{font-size:9px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#686f67}
+    .output-card{margin-top:17px;border-top:2px solid var(--blue);background:#f3f4ef;padding:22px;flex:1}
+    .output-card .overline{font-size:9px;color:var(--blue);font-weight:850;text-transform:uppercase;letter-spacing:.12em}
+    .output-card h4{font-size:22px;font-weight:650;letter-spacing:-.04em;margin:11px 0}
+    .output-card p{font-size:12px;line-height:1.8;color:#5d655b;margin:0}
+    .riskline{margin-top:20px;display:flex;align-items:center;gap:5px}
+    .riskline span{height:4px;flex:1;background:#d7dbd3}
+    .riskline span.on{background:var(--orange)}
+    .risk-caption{margin-top:8px;font-size:9px;color:#7b8177;text-transform:uppercase;letter-spacing:.1em}
+    .note{font-size:10px;color:#686f67;margin-top:14px;line-height:1.7}
+    .signs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .sign{padding:21px;border:1px solid var(--line);background:var(--surface);min-height:170px}
+    .sign .icon{font-size:20px;color:var(--orange)}
+    .sign h3{font-size:14px;margin:14px 0 7px}
+    .sign p{font-size:11px;color:var(--muted);line-height:1.75;margin:0}
+    .response{counter-reset:res;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+    .response-step{counter-increment:res;display:grid;grid-template-columns:35px 1fr;gap:13px;padding:18px 0;border-top:1px solid var(--line)}
+    .response-step:before{content:counter(res,decimal-leading-zero);font-size:10px;color:var(--blue);font-weight:850;padding-top:2px}
+    .response-step h3{font-size:14px;margin:0 0 5px}
+    .response-step p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}
+    .test-panel{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;background:#e6e9df;padding:29px;border-left:3px solid var(--green)}
+    .test-panel h3{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:-.045em;margin:9px 0 8px}
+    .test-panel p{font-size:12px;color:#596256;line-height:1.8;margin:0;max-width:740px}
+    .test-panel .actions{min-width:190px;display:flex;flex-direction:column;align-items:stretch}
+    .test-panel .btn{background:var(--ink);border-color:var(--ink)}
+    .test-panel .btn:hover{background:#363d36;border-color:#363d36}
+    .small-warning{font-size:10px!important;color:#775c3f!important;margin-top:10px!important}
+    .quiz{display:grid;grid-template-columns:.75fr 1.25fr;gap:25px;padding:26px;background:var(--ink);color:white}
+    .quiz h3{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.05;letter-spacing:-.04em;margin:12px 0}
+    .quiz-intro p{font-size:11px;line-height:1.8;color:#bdc4ba}
+    .question{font-size:14px;font-weight:750;margin:0 0 13px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .answer{background:#2d332d;color:#e9eee5;border:1px solid #414a40;text-align:left;padding:12px;font-size:10px;border-radius:2px;cursor:pointer}
+    .answer:hover{border-color:#9dae94}
+    .answer.correct{background:#243d31;border-color:#77c49b;color:#b5f1cb}
+    .answer.wrong{background:#442a25;border-color:#d98568;color:#ffb6a0}
+    .answer:disabled{cursor:default}
+    .quiz-feedback{min-height:40px;margin-top:12px;color:#c2cabf;font-size:10px;line-height:1.7}
+    .quiz-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px}
+    .quiz-score{font-size:9px;letter-spacing:.1em;color:#a9b3a7;font-weight:800}
+    .quiz .btn{background:var(--blue);border-color:var(--blue);color:white}
+    .resources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .resource{padding:22px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start}
+    .resource-top{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%}
+    .resource .rno{font-size:9px;letter-spacing:.1em;color:var(--blue);font-weight:850}
+    .resource h3{font-size:16px;margin:21px 0 8px}
+    .resource p{font-size:11px;color:var(--muted);line-height:1.8;margin:0 0 18px;flex:1}
+    .resource a{font-size:10px;font-weight:850;text-decoration:none;color:var(--blue);border-bottom:1px solid #aab9ff;padding-bottom:3px}
+    .privacy{margin-top:13px;border:1px solid #e6c6b8;background:#f6e9e2;padding:16px 18px;font-size:10px;line-height:1.8;color:#754732}
+    .faq{max-width:930px}
+    details{padding:17px 0;border-bottom:1px solid var(--line)}
+    details summary{display:flex;justify-content:space-between;gap:15px;cursor:pointer;font-size:13px;font-weight:750;list-style:none}
+    details summary::-webkit-details-marker{display:none}
+    details summary:after{content:"+";font-size:17px;color:var(--blue);line-height:1}
+    details[open] summary:after{content:"−"}
+    details p{max-width:800px;margin:12px 0 0;font-size:11px;line-height:1.85;color:var(--muted)}
+    .footer{padding:27px 0 35px}
+    .footer-top{display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:10px;color:var(--muted)}
+    .footer-top strong{color:var(--ink)}
+    .footer-top a{color:var(--blue);text-decoration:none}
+    .source-list{font-size:9px;line-height:1.9;color:#737a70;max-width:970px;margin-top:14px}
+    .source-list a{color:#535d52;text-decoration:underline;text-underline-offset:2px}
+    @media(max-width:900px){.hero{gap:32px;grid-template-columns:1fr .8fr}.hero-art{min-height:370px}.section-head{grid-template-columns:1fr .8fr}.lifecycle{grid-template-columns:repeat(3,1fr)}.life-step:nth-child(3){border-right:0}.life-step:nth-child(-n+3){border-bottom:1px solid var(--line)}.resources{grid-template-columns:1fr 1fr}.resource:last-child{grid-column:1/-1}.malware-row{grid-template-columns:35px 1fr 1.3fr}.malware-row>div:last-child{grid-column:2/-1}.response{gap:0 20px}}
+    @media(max-width:650px){.wrap{width:calc(100% - 30px)}.nav{height:65px}.nav-links{display:none}.brand{font-size:13px}.nav-action{padding:9px;font-size:9px}.hero{padding:50px 0 43px;grid-template-columns:1fr;gap:29px}.hero-art{min-height:330px}.art-number{font-size:130px}h1{font-size:clamp(53px,14.5vw,78px)}.hero-lead{font-size:15px}.proof-strip{grid-template-columns:1fr 1fr}.proof{padding:14px 11px;border-bottom:1px solid var(--line)}.proof:nth-child(2){border-right:0}.proof:nth-child(n+3){border-bottom:0}.section{padding:62px 0}.section-head{grid-template-columns:1fr;gap:14px;margin-bottom:25px}h2{font-size:clamp(38px,10vw,52px)}.definition{grid-template-columns:1fr}.definition-main{min-height:240px}.filterbar{align-items:flex-start;flex-direction:column}.filterbar input{width:100%}.malware-row{grid-template-columns:29px 1fr;gap:8px 12px;padding:18px 2px}.malware-row .behavior,.malware-row>div:last-child{grid-column:2}.lifecycle{grid-template-columns:1fr 1fr}.life-step{padding:16px 13px;min-height:157px}.life-step:nth-child(2n){border-right:0}.life-step:nth-child(3){border-right:1px solid var(--line)}.life-step:nth-child(4){border-right:0}.life-step:nth-child(4){border-bottom:1px solid var(--line)}.callout{grid-template-columns:1fr;gap:5px}.simulator{grid-template-columns:1fr}.sim-controls{border-right:0;border-bottom:1px solid var(--line);padding:20px}.sim-output{padding:20px}.signs-grid{grid-template-columns:1fr}.sign{min-height:0}.response{grid-template-columns:1fr}.test-panel{grid-template-columns:1fr;padding:22px;gap:20px}.test-panel .actions{min-width:0;align-items:flex-start}.quiz{grid-template-columns:1fr;padding:21px;gap:12px}.answers{grid-template-columns:1fr}.resources{grid-template-columns:1fr}.resource:last-child{grid-column:auto}.footer-top{align-items:flex-start;flex-direction:column}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
-  <div class="top"><header class="wrap nav">
-    <a href="#top" class="brand"><span class="brand-icon">⌘</span>VIRUS<span>LAB</span></a>
-    <nav class="links" aria-label="Hauptnavigation"><a href="#wissen">Malware</a><a href="#simulator">Simulations-Lab</a><a href="#schutz">Schutz</a><a href="#quiz">Quiz</a><a href="#quellen">Tools</a></nav>
-    <span class="nav-pill">● EDUCATION MODE</span>
-  </header></div>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="#start"><span class="brand-mark">M</span><span>Malware verstehen</span></a>
+    <nav class="nav-links" aria-label="Hauptnavigation"><a href="#grundlagen">Grundlagen</a><a href="#arten">Malware-Arten</a><a href="#analyse">Simulation</a><a href="#vorfall">Im Ernstfall</a><a href="#quellen">Quellen</a></nav>
+    <a class="nav-action" href="#sicher-testen">Sicher testen ↗</a>
+  </div>
+</header>
 
-  <main id="top">
-    <section class="wrap hero">
-      <div>
-        <div class="eyebrow">Cybersecurity verständlich erklärt</div>
-        <h1>WENN CODE<br><span>GEFÄHRLICH</span><br>WIRD.</h1>
-        <p>Entdecke die Welt der Computerviren und Malware. Lerne, wie digitale Bedrohungen funktionieren, wie du verdächtige Dateien einschätzt und wie du einen Virenschutz <strong>sicher testen kannst – ohne echte Schadsoftware auszuführen.</strong></p>
-        <div class="actions"><a class="btn" href="#simulator">Sichere Simulation starten ↘</a><a class="btn ghost" href="#wissen">Bedrohungen entdecken</a></div>
+<main id="start">
+  <section class="wrap hero">
+    <div>
+      <div class="eyebrow">Ein unabhängiger Sicherheitsguide</div>
+      <h1>Schadsoftware verstehen. <em>Risiken richtig einschätzen.</em></h1>
+      <p class="hero-lead">Was ist ein Virus, wie gelangt Malware auf ein Gerät und was solltest du tun, wenn etwas verdächtig aussieht? Ein praktischer Überblick – <strong>ohne Panik, Mythen oder gefährliche Downloads.</strong></p>
+      <div class="actions"><a class="btn" href="#grundlagen">Zum Guide <span>↓</span></a><a class="btn secondary" href="#analyse">Interaktive Risikosimulation</a></div>
+    </div>
+    <aside class="hero-art" aria-label="Illustration: Bedrohungen, Signale und Schutz">
+      <div class="art-top"><span>Security field notes / 01</span><span>Stand: Grundlagen</span></div>
+      <div class="art-main"><div class="art-number">01<span style="color:#83a4ff">.</span></div><div class="art-rule"></div><div class="art-caption"><div><strong>Erkennen ist nicht dasselbe wie beweisen.</strong><span>Signale bewerten. Quellen prüfen. Überlegt reagieren.</span></div><div class="art-stamp">RESEARCH<br>NOTES<br>DE / 001</div></div></div>
+      <div class="hero-foot"><span class="hero-index">Malware · Analyse · Prävention</span><span class="hero-index">Lernen statt raten</span></div>
+    </aside>
+  </section>
+
+  <div class="wrap proof-strip" aria-label="Seiteninhalte">
+    <div class="proof"><b>01 / Verstehen</b><span>Definitionen und Malware-Kategorien</span></div>
+    <div class="proof"><b>02 / Einordnen</b><span>Angriffswege und Warnsignale</span></div>
+    <div class="proof"><b>03 / Üben</b><span>Lokale Simulation und Wissensquiz</span></div>
+    <div class="proof"><b>04 / Handeln</b><span>Tests, Prävention und Vorfallhilfe</span></div>
+  </div>
+
+  <section class="wrap section" id="grundlagen">
+    <div class="section-head"><div><div class="section-no">01 — Die Grundlagen</div><h2>Virus ist nicht gleich Malware.</h2></div><p class="intro">Malware ist der Oberbegriff für Software, die absichtlich schädliche Funktionen ausführt. Ein <strong>Computervirus</strong> ist nur eine Kategorie davon. Im Alltag werden die Begriffe häufig vermischt – technisch lohnt sich die Unterscheidung.</p></div>
+    <div class="definition">
+      <article class="definition-main"><div class="small">Begriff · Malware</div><div><h3>Software, die gegen die Interessen des Nutzers arbeitet.</h3><p>Zum Beispiel indem sie Daten stiehlt, Dateien verschlüsselt, unerlaubten Zugriff ermöglicht oder ein Gerät für weitere Angriffe missbraucht.</p></div></article>
+      <article class="definition-note"><div class="big-mark">≠</div><div><h3>Verdächtig ist nicht automatisch bösartig.</h3><p>Ungewöhnliches Verhalten kann auch durch legitime Software, Fehler oder aggressive Werbung entstehen. Eine seriöse Bewertung berücksichtigt Belege, Kontext und die Möglichkeit eines Fehlalarms.</p></div></article>
+    </div>
+  </section>
+
+  <section class="wrap section" id="arten">
+    <div class="section-head"><div><div class="section-no">02 — Die wichtigsten Kategorien</div><h2>Sechs Arten, sechs unterschiedliche Verhaltensweisen.</h2></div><p class="intro">Die Einordnung hilft zu verstehen, welches Risiko besteht und welche Schutzmaßnahmen sinnvoll sind. Suche unten nach einer Kategorie oder einem Begriff.</p></div>
+    <div class="filterbar"><label for="malwareSearch">Malware-Arten durchsuchen</label><input id="malwareSearch" type="search" placeholder="Zum Beispiel: Daten stehlen, Wurm, Verschlüsselung …" autocomplete="off"></div>
+    <div class="malware-list" id="malwareList">
+      <article class="malware-row" data-search="virus computervirus datei infizieren host programm verbreitung"><div class="malware-n">01</div><div><h3>Computervirus</h3><div class="plain">Verbindet sich mit einer Wirtsdatei oder einem Programm.</div></div><div class="behavior">Kann sich weiterverbreiten, wenn infizierter Code gestartet oder eine infizierte Datei verwendet wird. Moderne Schutzprogramme prüfen unter anderem bekannte Signaturen und verdächtiges Verhalten.</div><div><span class="badge blue">Datei-Infektion</span></div></article>
+      <article class="malware-row" data-search="wurm worm netzwerk selbstverbreitung schwachstelle"><div class="malware-n">02</div><div><h3>Wurm</h3><div class="plain">Verbreitet sich ohne klassische Wirtsdatei.</div></div><div class="behavior">Kann automatisch weitere erreichbare Systeme angreifen. Ungepatchte Schwachstellen, offene Dienste und unsichere Netzwerkkonfigurationen können die Ausbreitung erleichtern.</div><div><span class="badge orange">Netzwerk-Ausbreitung</span></div></article>
+      <article class="malware-row" data-search="trojaner trojan täuschung fake app downloader zugriff"><div class="malware-n">03</div><div><h3>Trojaner</h3><div class="plain">Tarnt sich als nützliches oder legitimes Programm.</div></div><div class="behavior">Wird häufig durch Täuschung installiert. Abhängig von der Variante kann er weitere Komponenten laden, Informationen sammeln oder Fernzugriff ermöglichen.</div><div><span class="badge orange">Tarnung</span></div></article>
+      <article class="malware-row" data-search="ransomware erpressung verschlüsselung dateien backup lösegeld"><div class="malware-n">04</div><div><h3>Ransomware</h3><div class="plain">Soll Daten sperren oder deren Veröffentlichung androhen.</div></div><div class="behavior">Verschlüsselt häufig Dateien und kann zusätzlich Daten stehlen. Getrennte, regelmäßig getestete Backups helfen bei der Wiederherstellung; Lösegeld garantiert keine Rückgabe.</div><div><span class="badge orange">Daten & Erpressung</span></div></article>
+      <article class="malware-row" data-search="spyware stealer keylogger passwort browser daten spionage"><div class="malware-n">05</div><div><h3>Spyware & Infostealer</h3><div class="plain">Zielen auf Informationen oder Zugangsdaten ab.</div></div><div class="behavior">Können beispielsweise Browserdaten, gespeicherte Sitzungen oder Tastatureingaben abgreifen. Bei Verdacht Passwörter von einem sauberen Gerät ändern und aktive Sitzungen widerrufen.</div><div><span class="badge">Datendiebstahl</span></div></article>
+      <article class="malware-row" data-search="rootkit backdoor botnet remote access fernzugriff verstecken"><div class="malware-n">06</div><div><h3>Rootkit, Backdoor & Botnet</h3><div class="plain">Verbergen oder erhalten unbefugten Zugriff.</div></div><div class="behavior">Rootkits versuchen Aktivitäten zu verstecken; Backdoors ermöglichen einen alternativen Zugang. Ein Botnet besteht aus kompromittierten Geräten, die koordiniert missbraucht werden können.</div><div><span class="badge blue">Verdeckter Zugriff</span></div></article>
+      <article class="malware-row" data-search="pua adware werbung potenziell unerwünscht browser toolbars"><div class="malware-n">07</div><div><h3>Adware & PUA</h3><div class="plain">Unerwünschte Werbung oder fragwürdiges Verhalten.</div></div><div class="behavior">Nicht jede potenziell unerwünschte Anwendung ist Malware. Manche bündelt zusätzliche Programme, ändert Browsereinstellungen oder zeigt aufdringliche Werbung an.</div><div><span class="badge">Graubereich</span></div></article>
+    </div>
+    <p class="note" id="searchStatus" aria-live="polite">7 Kategorien · Suchfilter wirkt direkt auf die Liste.</p>
+  </section>
+
+  <section class="wrap section" id="wege">
+    <div class="section-head"><div><div class="section-no">03 — Wie Infektionen beginnen</div><h2>Der Weg ins System ist oft der entscheidende Teil.</h2></div><p class="intro">Malware kommt nicht einfach „aus dem Internet“. Häufig gibt es einen konkreten Auslöser: eine manipulierte Datei, eine kompromittierte Zugangsdaten-Kombination oder eine ungepatchte Schwachstelle.</p></div>
+    <div class="lifecycle">
+      <article class="life-step"><div class="n">PHASE 01</div><h3>Kontakt</h3><p>Phishing-Mail, gefälschter Download, kompromittierte Website oder USB-Gerät.</p></article>
+      <article class="life-step"><div class="n">PHASE 02</div><h3>Ausführung</h3><p>Eine Datei wird gestartet, ein Makro zugelassen oder eine Schwachstelle ausgenutzt.</p></article>
+      <article class="life-step"><div class="n">PHASE 03</div><h3>Einrichtung</h3><p>Je nach Angriff folgen weitere Komponenten, Berechtigungen oder ein Autostart-Mechanismus.</p></article>
+      <article class="life-step"><div class="n">PHASE 04</div><h3>Aktion</h3><p>Datendiebstahl, Verschlüsselung, Spionage, Fernzugriff oder Missbrauch von Ressourcen.</p></article>
+      <article class="life-step"><div class="n">PHASE 05</div><h3>Reaktion</h3><p>Erkennung, Eindämmung, Bereinigung und Wiederherstellung aus vertrauenswürdigen Quellen.</p></article>
+    </div>
+    <div class="callout"><strong>Wichtiger Kontext</strong><span>Ein Besuch auf einer Website führt nicht automatisch zu einer Infektion. Risiken können dennoch durch Browser-Schwachstellen, täuschende Downloads, unsichere Plugins oder Phishing entstehen. Updates und vorsichtiges Verhalten reduzieren das Risiko deutlich.</span></div>
+  </section>
+
+  <section class="wrap section" id="analyse">
+    <div class="section-head"><div><div class="section-no">04 — Lern-Simulation</div><h2>Übe, Risiken richtig einzuschätzen.</h2></div><p class="intro">Wähle ein Beispiel und vergleiche die typischen Warnzeichen. Der Bericht ist absichtlich nur eine Lehrsimulation – kein echter Scan und keine Aussage über eine konkrete Datei.</p></div>
+    <div class="simulator">
+      <div class="sim-controls"><div class="section-no">Fallanalyse / lokal</div><h3>Was liegt vor?</h3><p>Wähle die Situation, die du beurteilen möchtest. Die Website lädt oder startet dabei nichts und fordert keine Dateien an.</p>
+        <div class="field"><label for="caseName">Beispiel / Notiz</label><input id="caseName" maxlength="80" value="Unbekannter E-Mail-Anhang" autocomplete="off"></div>
+        <div class="field"><label for="caseType">Situation</label><select id="caseType"><option value="attachment">Unerwarteter Anhang von unbekanntem Absender</option><option value="macro">Dokument fordert aktivierte Makros</option><option value="login">Link verlangt plötzlich Login-Daten</option><option value="official">Update aus der offiziellen App heraus</option><option value="scanner">Ein Scanner meldet null Treffer</option><option value="slow">PC ist langsamer als sonst</option></select></div>
+        <button type="button" class="btn" id="analyseBtn">Beispiel auswerten →</button>
+        <p class="note">Die Risikostufe beschreibt nur das gewählte Szenario. Der eingegebene Text beeinflusst den Bericht nicht technisch.</p>
       </div>
-      <div class="hero-panel" aria-label="Dekoratives Cybersecurity-Terminal">
-        <div class="terminal-head"><span>VLAB // SCANNER CONSOLE</span><span class="leds"><i></i><i></i><i></i></span></div>
-        <div class="scan-art"><div class="crosshair"></div><div class="ring"></div><div class="scanner-sweep"></div><div class="core">⌁</div></div>
-        <div class="terminal-lines"><p><span class="blue">[INIT]</span> VIRUS LAB EDUCATION MODULE</p><p><span class="ok">[READY]</span> Safe simulation environment loaded</p><p><span class="blue">[MODE]</span> NO REAL FILES / NO MALWARE EXECUTION</p><p><span class="ok">[INFO]</span> Knowledge is your first defense.</p></div>
-        <div class="hero-foot"><span>Threat awareness / 001</span><span>Safe by design</span></div>
+      <div class="sim-output" aria-live="polite"><div class="output-top"><div><div class="section-no">Einschätzung</div><h3 id="reportHeading">Noch keine Auswahl analysiert</h3></div><span class="output-state" id="reportState">Demo-Modus</span></div>
+        <div class="output-card"><div class="overline" id="reportCategory">Ergebnis erscheint hier</div><h4 id="reportTitle">Wähle einen Fall.</h4><p id="reportText">Klicke auf „Beispiel auswerten“, um Hinweise und sinnvolle nächste Schritte für die gewählte Situation zu sehen.</p><div class="riskline" aria-label="Simulierte Risikostufe"><span id="r1"></span><span id="r2"></span><span id="r3"></span><span id="r4"></span><span id="r5"></span></div><div class="risk-caption" id="riskCaption">Noch keine Bewertung</div></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <div class="ticker" aria-hidden="true"><div class="wrap ticker-inner"><span><b>VIRUS</b> ≠ ALL MALWARE</span><span class="dot">✳</span><span>THINK BEFORE YOU CLICK</span><span class="dot">✳</span><span>PATCH YOUR SYSTEM</span><span class="dot">✳</span><span><b>TEST SAFELY</b></span><span class="dot">✳</span><span>BACK UP YOUR DATA</span></div></div>
+  <section class="wrap section" id="signale">
+    <div class="section-head"><div><div class="section-no">05 — Signale richtig lesen</div><h2>Was kann auffällig sein – und was beweist es nicht?</h2></div><p class="intro">Einzelne Symptome sind selten eindeutig. Die Bewertung wird besser, wenn mehrere Signale zusammenkommen und zeitlich mit einem Download, Update oder Login-Ereignis übereinstimmen.</p></div>
+    <div class="signs-grid">
+      <article class="sign"><div class="icon">↗</div><h3>Ungewöhnliche Anmeldung</h3><p>Unbekannte Login-Benachrichtigungen, neue Geräte oder Passwort-Resets können auf kompromittierte Zugangsdaten hindeuten. Prüfe den Kontoverlauf direkt beim Anbieter.</p></article>
+      <article class="sign"><div class="icon">⌁</div><h3>Neue Apps oder Autostarts</h3><p>Programme, Browser-Erweiterungen oder Startobjekte, die du nicht zuordnen kannst, sollten geprüft werden. Nicht jede unbekannte Komponente ist schädlich.</p></article>
+      <article class="sign"><div class="icon">◷</div><h3>Ungewöhnliche Systemlast</h3><p>Hohe CPU- oder Netzwerkauslastung kann viele Ursachen haben: Updates, Browser-Tabs, Backups, Hardwareprobleme – oder unerwünschte Software.</p></article>
+      <article class="sign"><div class="icon">⊘</div><h3>Schutzprogramm deaktiviert</h3><p>Wenn Schutzfunktionen unerwartet aus sind oder Einstellungen verändert wurden, aktiviere nicht blind zusätzliche Tools. Prüfe zuerst Windows-Sicherheit und den Änderungsverlauf.</p></article>
+      <article class="sign"><div class="icon">▤</div><h3>Dateien plötzlich unlesbar</h3><p>Ungewöhnliche Dateiendungen, Lösegeldnotizen oder viele verschlüsselte Dateien sind ernste Warnzeichen. Trenne das betroffene Gerät bei Verdacht vom Netzwerk.</p></article>
+      <article class="sign"><div class="icon">◎</div><h3>Scanner meldet einen Fund</h3><p>Notiere Fundname, Pfad und Aktion des Schutzprogramms. Fehlalarme sind möglich, aber die Meldung sollte nicht ignoriert oder sofort als harmlos abgetan werden.</p></article>
+    </div>
+  </section>
 
-    <section class="wrap section" id="wissen">
-      <div class="section-head"><div><div class="kicker">01 / Threat library</div><h2 class="title">KENNE DEINEN<br>GEGNER.</h2></div><p class="intro">„Virus“ wird oft als Sammelbegriff benutzt. Technisch gibt es mehrere Arten von Malware – sie unterscheiden sich darin, wie sie eindringen, sich verbreiten und Schaden anrichten.</p></div>
-      <div class="grid">
-        <article class="threat" data-mark="↗"><div class="num">THREAT TYPE / 01</div><h3>Computervirus</h3><p>Hängt sich an Dateien oder Programme und verbreitet sich, wenn infizierter Code ausgeführt wird. Nicht jeder Virus verbreitet sich automatisch übers Netzwerk.</p><span class="risk">Datei-Infektion</span></article>
-        <article class="threat" data-mark="⇢"><div class="num">THREAT TYPE / 02</div><h3>Wurm</h3><p>Kann sich selbstständig über Systeme oder Netzwerke ausbreiten, oft indem Schwachstellen oder unsichere Konfigurationen ausgenutzt werden.</p><span class="risk">Selbstverbreitung</span></article>
-        <article class="threat" data-mark="⌁"><div class="num">THREAT TYPE / 03</div><h3>Trojaner</h3><p>Gibt sich als legitime Anwendung oder Datei aus. Beim Start kann er weitere Schadfunktionen nachladen oder Angreifern Zugriff ermöglichen.</p><span class="risk">Tarnung</span></article>
-        <article class="threat" data-mark="▦"><div class="num">THREAT TYPE / 04</div><h3>Ransomware</h3><p>Verschlüsselt oft Dateien oder sperrt Systeme und fordert Lösegeld. Offline-Backups helfen, die Folgen eines Angriffs zu begrenzen.</p><span class="risk">Datenverlust</span></article>
-        <article class="threat" data-mark="◎"><div class="num">THREAT TYPE / 05</div><h3>Spyware & Stealer</h3><p>Versucht Informationen wie Zugangsdaten, Browserdaten oder andere persönliche Informationen zu sammeln und zu stehlen.</p><span class="risk">Datendiebstahl</span></article>
-        <article class="threat" data-mark="⌘"><div class="num">THREAT TYPE / 06</div><h3>Rootkit & Botnet</h3><p>Ein Rootkit versucht seine Präsenz zu verbergen; ein Botnet verbindet kompromittierte Geräte, die aus der Ferne missbraucht werden können.</p><span class="risk">Versteckter Zugriff</span></article>
-      </div>
-    </section>
+  <section class="wrap section" id="vorfall">
+    <div class="section-head"><div><div class="section-no">06 — Wenn du Malware vermutest</div><h2>Ein klarer Ablauf ist besser als hektisches Ausprobieren.</h2></div><p class="intro">Die nächsten Schritte hängen vom Gerät und vom möglichen Schaden ab. Bei einem Arbeitsgerät sollte auch die zuständige IT informiert werden.</p></div>
+    <div class="response">
+      <article class="response-step"><div><h3>Risiko begrenzen</h3><p>Bei einem aktiven Verdacht wie laufender Verschlüsselung oder unbekanntem Fernzugriff das Gerät vom WLAN/LAN trennen. Verdächtige Dateien nicht weiter öffnen.</p></div></article>
+      <article class="response-step"><div><h3>Keine „Cleaner“ aus Werbung installieren</h3><p>Nutze das bereits installierte Schutzprogramm oder bekannte offizielle Systemfunktionen. Zusätzliche Downloads aus Pop-ups können das Problem verschlimmern.</p></div></article>
+      <article class="response-step"><div><h3>Scan über Windows-Sicherheit starten</h3><p>Unter Windows: Windows-Sicherheit → Viren- & Bedrohungsschutz → Schnellüberprüfung oder Scanoptionen. Bei begründetem Verdacht kann eine Offlineüberprüfung sinnvoll sein.</p></div></article>
+      <article class="response-step"><div><h3>Wichtige Konten absichern</h3><p>Von einem sauberen Gerät aus Passwörter ändern, Mehr-Faktor-Authentifizierung aktivieren und unbekannte Sessions widerrufen – besonders nach einem vermuteten Stealer.</p></div></article>
+      <article class="response-step"><div><h3>Beweise und Warnungen notieren</h3><p>Halte Fundname, Uhrzeit und angezeigte Aktion fest. Bei Erpressung oder einem größeren Vorfall nicht vorschnell Dateien löschen; professionelle Hilfe hinzuziehen.</p></div></article>
+      <article class="response-step"><div><h3>Wiederherstellen und nachprüfen</h3><p>Nutze vertrauenswürdige Backups und bestätige, dass System und Programme aktualisiert sind. Ein sauberer Scan allein garantiert nicht, dass jedes Problem beseitigt ist.</p></div></article>
+    </div>
+  </section>
 
-    <section class="wrap section" id="simulator">
-      <div class="section-head"><div><div class="kicker">02 / Interactive lab</div><h2 class="title">TESTE DEINEN<br>INSTINKT.</h2></div><p class="intro">Wähle ein Szenario und starte eine <strong>lokale Simulation</strong>. Sie zeigt, wie eine Sicherheitsbewertung aussehen könnte. Sie scannt keine echten Dateien und ist kein Virenscanner.</p></div>
-      <div class="lab-layout">
-        <div class="lab-card">
-          <div class="eyebrow">Simulations-Eingabe</div><h3>Was würdest du prüfen?</h3><p>Teste typische Situationen aus dem digitalen Alltag.</p>
-          <div class="formrow"><label for="sampleName">Beispielname</label><input id="sampleName" type="text" maxlength="90" value="rechnung_unbekannt.zip" autocomplete="off" spellcheck="false"></div>
-          <div class="formrow"><label for="sampleType">Szenario auswählen</label><select id="sampleType"><option value="archive">Unbekanntes ZIP / EXE aus einer E-Mail</option><option value="macro">Office-Dokument mit aktivierten Makros</option><option value="link">Link fordert Login oder Passwort</option><option value="update">Update direkt von Herstellerseite</option><option value="plain">Normale Textdatei ohne ausführbaren Inhalt</option></select></div>
-          <button class="btn" id="runScan" type="button">Simulation analysieren ↗</button>
-          <div class="lab-note"><strong>Wichtig:</strong> Die Auswertung basiert nur auf deiner Szenario-Auswahl. Kein Upload, kein echter Scan, kein Programm wird gestartet.</div>
-        </div>
-        <div class="result-card" aria-live="polite">
-          <div class="results-top"><div><div class="eyebrow">Analyse-Report / lokal</div><h3>Scanner-Bericht</h3></div><span class="status-pill" id="statusPill">WARTET AUF START</span></div>
-          <div class="result-screen"><div style="font-size:9px;letter-spacing:.12em;color:#6d7e9f">TARGET</div><div class="result-big" id="resultTitle">Noch nicht analysiert</div><div class="result-text" id="resultText">Wähle links ein Szenario und klicke auf „Simulation analysieren“. Der Bericht ist eine Lehr-Demo, kein echtes Sicherheitsurteil.</div><div class="result-progress"><span id="progressBar"></span></div><div class="result-foot"><span id="riskLabel">Risikoeinschätzung: —</span><span>SIMULATION ONLY</span></div></div>
-          <div class="sim-tip"><span style="color:var(--cyan);font-size:16px">ⓘ</span><span><b>Merke:</b> Ein sauberer Dateiname beweist nichts. Quelle, Dateityp, Signatur, Verhalten und unabhängige Prüfergebnisse sind zusammen aussagekräftiger.</span></div>
-        </div>
-      </div>
-    </section>
+  <section class="wrap section" id="sicher-testen">
+    <div class="section-head"><div><div class="section-no">07 — Antivirenschutz kontrolliert testen</div><h2>Ein Testsignal statt echter Schadsoftware.</h2></div><p class="intro">Die EICAR-Testdatei wurde für kontrollierte Erkennungstests entwickelt. Sie enthält keinen echten Virus, kann von kompatiblen Schutzprodukten aber als Testfund gemeldet oder blockiert werden.</p></div>
+    <div class="test-panel">
+      <div><div class="section-no">Standardisierte Testdatei</div><h3>EICAR Anti-Malware Testfile</h3><p>Nutze die offizielle EICAR-Seite und beachte deren Anleitung. Der Test kann zeigen, ob bestimmte Schutzfunktionen reagieren; er beweist nicht, dass dein Gerät gegen echte Malware geschützt ist. Schutzsoftware nicht deaktivieren, um den Test zu erzwingen.</p><p class="small-warning">Lade Testdateien nur herunter, wenn du weißt, wie dein Schutzprogramm mit Erkennungen und Quarantäne umgeht.</p></div>
+      <div class="actions"><a class="btn" href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Offizielle EICAR-Seite ↗</a><a class="btn secondary" href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Windows-Schutz-Hilfe ↗</a></div>
+    </div>
+  </section>
 
-    <section class="wrap section" id="schutz">
-      <div class="section-head"><div><div class="kicker">03 / Defense protocol</div><h2 class="title">SICHER BLEIBEN.<br>JEDEN TAG.</h2></div><p class="intro">Kein einzelnes Tool fängt alles ab. Die besten Grundlagen sind aktuelle Software, vorsichtiges Verhalten, sichere Konten und Backups. Diese Basics empfiehlt auch die US-Cybersicherheitsbehörde CISA.</p></div>
-      <div class="steps">
-        <article class="step"><div class="n">STEP 01</div><h3>Updates installieren</h3><p>Betriebssystem, Browser und Programme aktuell halten. Updates möglichst aus offiziellen Quellen beziehen.</p></article>
-        <article class="step"><div class="n">STEP 02</div><h3>Absender prüfen</h3><p>Unerwartete Anhänge und Login-Links hinterfragen. Lieber direkt die offizielle Website öffnen.</p></article>
-        <article class="step"><div class="n">STEP 03</div><h3>Schutz aktiv lassen</h3><p>Echtzeitschutz und Firewall nicht abschalten, um eine unbekannte Datei „mal kurz“ zu testen.</p></article>
-        <article class="step"><div class="n">STEP 04</div><h3>Backups machen</h3><p>Wichtige Daten zusätzlich sichern. Mindestens eine Sicherung sollte nicht ständig mit dem PC verbunden sein.</p></article>
-      </div>
-    </section>
+  <section class="wrap section" id="quiz">
+    <div class="section-head"><div><div class="section-no">08 — Wissenscheck</div><h2>Wie würdest du entscheiden?</h2></div><p class="intro">Kurze Übung mit drei Fragen. Die Auflösung erklärt nicht nur, welche Antwort stimmt, sondern auch warum.</p></div>
+    <div class="quiz">
+      <div class="quiz-intro"><div class="section-no" style="color:#a9baff">Wissen anwenden</div><h3>Erst prüfen. Dann klicken.</h3><p>Es gibt keine Punkte für blindes Vertrauen in eine Datei oder einen Scanner. Gute Sicherheitsentscheidungen basieren auf Herkunft, Kontext und überprüfbaren Hinweisen.</p><div id="quizCount" class="quiz-score">FRAGE 01 / 03</div></div>
+      <div><div id="questionText" class="question">Du bekommst einen unerwarteten Anhang von einer unbekannten Adresse. Was ist der beste nächste Schritt?</div><div id="answerGrid" class="answers"></div><div id="quizFeedback" class="quiz-feedback" aria-live="polite">Wähle eine Antwort, um das Feedback zu sehen.</div><div class="quiz-bottom"><span id="quizScore" class="quiz-score">PUNKTE: 0</span><button type="button" id="nextQuestion" class="btn">Nächste Frage →</button></div></div>
+    </div>
+  </section>
 
-    <section class="wrap section" id="safe-test">
-      <div class="section-head"><div><div class="kicker">04 / Antivirus testen</div><h2 class="title">SICHER TESTEN.<br>OHNE ECHTEN VIRUS.</h2></div><p class="intro">Für einen kontrollierten Test gibt es die EICAR-Testdatei. Sie enthält keinen echten Virus, ist aber speziell dafür entwickelt, dass kompatible Antivirenprogramme eine Erkennung melden.</p></div>
-      <div class="eicar">
-        <div><div class="eyebrow">Standard-Testdatei</div><h3>EICAR Anti-Malware Testfile</h3><p>Nutze ausschließlich die offizielle Quelle und lies die dortigen Hinweise. Je nach Schutzsoftware kann die Datei direkt blockiert oder in Quarantäne verschoben werden. Das ist bei einem solchen Test erwartbar.</p><p class="fineprint">Die EICAR-Datei ist ein Testsignal, kein echter Malware-Test und kein Nachweis, dass dein System gegen echte Schadsoftware geschützt ist. Schutzsoftware niemals deaktivieren, um sie herunterzuladen.</p></div>
-        <div class="actions"><a class="btn" href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Offizielle EICAR-Seite ↗</a><a class="btn ghost" href="https://support.microsoft.com/windows" target="_blank" rel="noopener noreferrer">Schutz-Hilfe ↗</a></div>
-      </div>
-    </section>
+  <section class="wrap section" id="quellen">
+    <div class="section-head"><div><div class="section-no">09 — Weiterführende Quellen</div><h2>Verlässliche Informationen und passende Tools.</h2></div><p class="intro">Hier findest du die offiziellen Anlaufstellen, die zu den Schutzempfehlungen dieser Seite passen. Prüfe bei externen Diensten immer, welche Daten du übermittelst.</p></div>
+    <div class="resources">
+      <article class="resource"><div class="resource-top"><span class="section-no">OFFIZIELLE ANLEITUNG</span><span class="badge">Windows</span></div><h3>Windows-Sicherheit</h3><p>Erklärt Schnellscan, vollständige und benutzerdefinierte Überprüfung sowie die Offlineüberprüfung von Microsoft Defender.</p><a href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Anleitung lesen ↗</a></article>
+      <article class="resource"><div class="resource-top"><span class="section-no">MEHRERE SCANNER</span><span class="badge blue">Analyse</span></div><h3>VirusTotal</h3><p>Analysiert Dateien und URLs mit zahlreichen Sicherheitsdiensten. Ergebnisse können Hinweise liefern, sind aber kein endgültiges Sicherheitsurteil.</p><a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer">Datei oder URL prüfen ↗</a></article>
+      <article class="resource"><div class="resource-top"><span class="section-no">SICHERER TEST</span><span class="badge">EICAR</span></div><h3>Erkennung testen</h3><p>Die standardisierte Testdatei ermöglicht eine kontrollierte Prüfung kompatibler Antivirenprodukte ohne echten Virus.</p><a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Test & Dokumentation ↗</a></article>
+    </div>
+    <div class="privacy"><strong>Datenschutz vor Uploads:</strong> Normale VirusTotal-Einsendungen werden laut Dokumentation mit einreichenden Nutzern und Analysepartnern geteilt. Lade keine privaten Dokumente, Ausweise, persönlichen Fotos, Zugangsdaten oder vertraulichen Unternehmensdateien hoch. VirusTotal dokumentiert auch eine separate Private-Scanning-Funktion, deren Voraussetzungen und Funktionsumfang sich von der öffentlichen Analyse unterscheiden.</div>
+  </section>
 
-    <section class="wrap section" id="quiz">
-      <div class="section-head"><div><div class="kicker">05 / Knowledge check</div><h2 class="title">BIST DU<br>CYBER-SMART?</h2></div><p class="intro">Drei kurze Fragen testen dein Wissen. Du bekommst sofort Feedback – und kannst danach direkt noch einmal spielen.</p></div>
-      <div class="quiz">
-        <div class="quiz-intro"><div class="eyebrow">Mini-Quiz / 3 Fragen</div><h3>Level up your security.</h3><p>Es geht nicht darum, jede Bedrohung auswendig zu kennen. Entscheidend ist, Risiken zu erkennen und sicher zu reagieren.</p><div class="quiz-count" id="quizCount">FRAGE 01 / 03</div></div>
-        <div><div class="question" id="questionText">Du erhältst eine unerwartete ZIP-Datei von einem unbekannten Absender. Was ist am sichersten?</div><div class="answers" id="answerGrid"><button class="answer" type="button" data-answer="0">Sofort öffnen, um zu sehen, was drin ist</button><button class="answer" type="button" data-answer="1">Nicht öffnen; Absender und Anlass unabhängig prüfen</button><button class="answer" type="button" data-answer="2">Datei umbenennen und dann öffnen</button><button class="answer" type="button" data-answer="3">Antivirus kurz ausschalten</button></div><div class="quiz-feedback" id="quizFeedback" aria-live="polite">Wähle eine Antwort, um das Feedback zu sehen.</div><div class="quiz-next"><span class="quiz-count" id="quizScore">PUNKTE: 0</span><button class="btn ghost" id="nextQuestion" type="button">Nächste Frage →</button></div></div>
-      </div>
-    </section>
+  <section class="wrap section" id="faq">
+    <div class="section-head"><div><div class="section-no">10 — Häufige Fragen</div><h2>Was du dir merken solltest.</h2></div><p class="intro">Die wichtigsten Aussagen in kurzer Form.</p></div>
+    <div class="faq">
+      <details><summary>Kann ein einzelner Virenscan Sicherheit garantieren?</summary><p>Nein. Scanner erkennen bekannte Muster und verdächtiges Verhalten, können aber neue oder gezielt verschleierte Bedrohungen übersehen. Mehrere Signale und die Herkunft einer Datei sind wichtig.</p></details>
+      <details><summary>Warum zeigen verschiedene Scanner unterschiedliche Ergebnisse?</summary><p>Produkte nutzen unterschiedliche Signaturen, Modelle, Regeln und Analyseverfahren. Manche Treffer sind Fehlalarme; andere Scanner erkennen eine neue Bedrohung noch nicht. Ein einzelner Wert ist daher nicht die ganze Geschichte.</p></details>
+      <details><summary>Ist eine Datei mit der Endung .pdf oder .jpg automatisch sicher?</summary><p>Nein. Endungen und Dateinamen können irreführend sein, und auch Dokumente können riskante Inhalte enthalten. Öffne unerwartete Dateien nicht allein deshalb, weil der Name harmlos wirkt.</p></details>
+      <details><summary>Ist die Simulation ein echter Virenscanner?</summary><p>Nein. Sie bewertet ausschließlich ein ausgewähltes Lehrszenario und sendet keine Datei an einen Server. Für reale Dateien verwende ein vertrauenswürdiges lokales Schutzprogramm oder einen passenden professionellen Analysedienst.</p></details>
+      <details><summary>Was ist beim Upload zu VirusTotal zu beachten?</summary><p>Standardmäßig eingereichte Dateien und URLs können mit Analysepartnern geteilt werden. Prüfe die Datenschutzbedingungen und lade keine vertraulichen Daten hoch, wenn du nicht zur Weitergabe berechtigt bist.</p></details>
+    </div>
+  </section>
+</main>
 
-    <section class="wrap section" id="quellen">
-      <div class="section-head"><div><div class="kicker">06 / Tools & research</div><h2 class="title">GUTE TOOLS.<br>KLARE GRENZEN.</h2></div><p class="intro">Diese externen Seiten helfen bei der Recherche und beim Testen. Achte immer darauf, welche Daten du übermittelst und ob du zum Teilen der Datei berechtigt bist.</p></div>
-      <div class="resources">
-        <article class="resource"><div class="r-icon">⌕</div><h3>VirusTotal</h3><p>Kann Dateien und URLs mit mehreren Sicherheitsdiensten prüfen. Ein Treffer ist nicht automatisch ein endgültiger Beweis; kein Treffer garantiert keine Gefahr.</p><a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer">Datei / URL prüfen ↗</a></article>
-        <article class="resource"><div class="r-icon">✓</div><h3>EICAR</h3><p>Offizielle harmlose Testdatei zum Überprüfen, ob kompatible Antivirenprodukte eine Test-Erkennung auslösen.</p><a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">Testdatei & Hinweise ↗</a></article>
-        <article class="resource"><div class="r-icon">⌂</div><h3>CISA Security Basics</h3><p>Grundlegende Empfehlungen zum Schutz von Daten und Geräten, darunter Updates, Phishing-Erkennung und Backups.</p><a href="https://www.cisa.gov/resources-tools/training/how-protect-data-stored-your-devices" target="_blank" rel="noopener noreferrer">Schutzmaßnahmen lesen ↗</a></article>
-      </div>
-      <div class="privacy"><strong>Datenschutz-Hinweis zu VirusTotal:</strong> Standard-Einsendungen können mit der Sicherheits-Community und Partnern geteilt werden. Lade dort keine persönlichen Dokumente, privaten Fotos, Zugangsdaten, vertraulichen Dateien oder internen Firmenunterlagen hoch. Bei sensiblen Dateien zuerst die Datenschutzbedingungen und passende private Scan-Angebote prüfen.</div>
-    </section>
+<footer class="wrap footer">
+  <div class="footer-top"><span><strong>Malware verstehen</strong> · Ein unabhängiger Bildungs-Guide</span><a href="#start">Zurück nach oben ↑</a></div>
+  <div class="source-list">Quellen: <a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">EICAR — Anti-Malware Testfile</a> · <a href="https://support.microsoft.com/de-de/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app" target="_blank" rel="noopener noreferrer">Microsoft — Viren- und Bedrohungsschutz</a> · <a href="https://docs.virustotal.com/docs/how-it-works" target="_blank" rel="noopener noreferrer">VirusTotal — How it works</a> · <a href="https://docs.virustotal.com/docs/private-scanning" target="_blank" rel="noopener noreferrer">VirusTotal — Private Scanning</a>. Informationsseite zu Bildungszwecken, kein Ersatz für eine professionelle Incident-Response-Analyse.</div>
+</footer>
 
-    <section class="wrap section" id="faq">
-      <div class="section-head"><div><div class="kicker">07 / Quick answers</div><h2 class="title">MYTHEN VS.<br>FAKTEN.</h2></div><p class="intro">Die wichtigsten Missverständnisse rund um Viren in aller Kürze.</p></div>
-      <details><summary>Kann ein Virus allein durch das Öffnen einer Website kommen?</summary><p>Das bloße Besuchen einer Website führt nicht automatisch zu einer Infektion. Trotzdem können manipulierte Seiten, Browser-Schwachstellen, betrügerische Downloads oder gefälschte Login-Seiten Risiken darstellen. Browser aktuell halten und verdächtige Downloads vermeiden.</p></details>
-      <details><summary>Bedeutet „0 Erkennungen“, dass eine Datei sicher ist?</summary><p>Nein. Scanner können neue, maßgeschneiderte oder gut getarnte Bedrohungen übersehen. Ergebnisse sind Hinweise und müssen im Kontext betrachtet werden; auch Fehlalarme kommen vor.</p></details>
-      <details><summary>Ist jede Malware ein Computervirus?</summary><p>Nein. Malware ist der Oberbegriff für schädliche Software. Viren, Würmer, Trojaner, Ransomware und Spyware sind unterschiedliche Kategorien mit unterschiedlichen Eigenschaften.</p></details>
-      <details><summary>Was soll ich tun, wenn ich einen echten Verdacht habe?</summary><p>Öffne die verdächtige Datei nicht weiter. Bei einem möglichen aktiven Vorfall trenne das betroffene Gerät bei Bedarf vom Netzwerk, nutze die Sicherheitsfunktion des installierten Schutzprogramms und hole vertrauenswürdige Hilfe. Ändere Passwörter von einem sauberen Gerät, wenn Zugangsdaten betroffen sein könnten.</p></details>
-    </section>
-  </main>
-  <footer><div class="wrap"><div class="foot"><span>© <span id="year"></span> <strong>VIRUS LAB</strong> · Cybersecurity education</span><span><a href="#top">Zurück nach oben ↑</a></span></div><div class="sources">Quellen & weiterführende Informationen: <a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank" rel="noopener noreferrer">EICAR Anti-Malware Testfile</a> · <a href="https://docs.virustotal.com/docs/how-it-works" target="_blank" rel="noopener noreferrer">VirusTotal: How it works</a> · <a href="https://www.cisa.gov/resources-tools/training/how-protect-data-stored-your-devices" target="_blank" rel="noopener noreferrer">CISA: Protect data on devices</a>. VIRUS LAB ist eine Bildungsdemo und kein Antivirus-Produkt; die Simulation bietet keine echte Datei- oder Systemanalyse.</div></div></footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const scenarios = {
-      archive: {pill:'HOHES RISIKO', title:'Verdächtiger Anhang', text:'Archive oder ausführbare Dateien aus unerwarteten E-Mails können Malware enthalten. Öffne sie nicht allein, um nachzusehen. Prüfe den Absender über einen bekannten Kontaktweg und verwende Schutzsoftware.', score:86, risk:'HOCH · SIMULIERT'},
-      macro: {pill:'VORSICHT', title:'Makro-Risiko erkannt', text:'Office-Makros können legitime Aufgaben automatisieren, werden aber auch missbraucht. Aktiviere keine Inhalte nur, weil ein Dokument dazu auffordert. Bestätige Herkunft und Notwendigkeit.', score:72, risk:'ERHÖHT · SIMULIERT'},
-      link: {pill:'PHISHING-VERDACHT', title:'Login-Link prüfen', text:'Ein Link, der plötzlich Zugangsdaten fordert, kann zu einer gefälschten Anmeldeseite führen. Öffne den bekannten Dienst selbst über ein Lesezeichen oder eine manuell eingegebene Adresse.', score:80, risk:'HOCH · SIMULIERT'},
-      update: {pill:'BESSERE QUELLE', title:'Offizieller Update-Pfad', text:'Ein Update direkt über die offizielle Website oder die integrierte Update-Funktion ist in der Regel sicherer als ein Download von einer Werbeanzeige oder einer Drittseite. Prüfe trotzdem die genaue Domain.', score:24, risk:'NIEDRIGER · SIMULIERT'},
-      plain: {pill:'GERINGERES RISIKO', title:'Nur Dateiendung reicht nicht', text:'Eine normale Textdatei ist typischerweise weniger riskant als ein ausführbares Programm, aber Kontext zählt weiterhin. Dateinamen und Endungen können täuschen; vertraue nicht allein auf den Namen.', score:15, risk:'NIEDRIGER · SIMULIERT'}
-    };
-    document.getElementById('runScan').addEventListener('click', function(){
-      const kind = document.getElementById('sampleType').value;
-      const name = (document.getElementById('sampleName').value || 'Unbenanntes Beispiel').trim().slice(0,90);
-      const s = scenarios[kind];
-      document.getElementById('statusPill').textContent = s.pill;
-      document.getElementById('resultTitle').textContent = name || 'Unbenanntes Beispiel';
-      document.getElementById('resultText').textContent = s.text;
-      document.getElementById('progressBar').style.width = s.score + '%';
-      document.getElementById('riskLabel').textContent = s.risk;
+<script>
+  document.getElementById('malwareSearch').addEventListener('input', function(){
+    const query = this.value.trim().toLocaleLowerCase('de');
+    const rows = Array.from(document.querySelectorAll('.malware-row'));
+    let visible = 0;
+    rows.forEach(row => {
+      const content = (row.innerText + ' ' + row.dataset.search).toLocaleLowerCase('de');
+      const match = content.includes(query);
+      row.hidden = !match;
+      if(match) visible++;
     });
+    document.getElementById('searchStatus').textContent = visible + ' von ' + rows.length + ' Kategorien sichtbar.';
+  });
 
-    const quizQuestions = [
-      {q:'Du erhältst eine unerwartete ZIP-Datei von einem unbekannten Absender. Was ist am sichersten?',a:['Sofort öffnen, um zu sehen, was drin ist','Nicht öffnen; Absender und Anlass unabhängig prüfen','Datei umbenennen und dann öffnen','Antivirus kurz ausschalten'],correct:1,explain:'Richtig. Öffne unerwartete Anhänge nicht. Prüfe den Absender separat und bestätige den Anlass über einen bekannten Kommunikationsweg.'},
-      {q:'Ein öffentlicher Scanner meldet für eine Datei 0 Erkennungen. Was bedeutet das?',a:['Die Datei ist garantiert sicher','Sie hat keine unbekannten Funktionen','Es wurde nichts erkannt; ein Restrisiko bleibt','Die Datei darf immer ausgeführt werden'],correct:2,explain:'Genau. Kein Treffer ist keine Sicherheitsgarantie. Neue oder gut getarnte Malware kann unentdeckt bleiben.'},
-      {q:'Wie testet man eine Antivirus-Erkennung ohne echten Virus?',a:['Eine echte Malware-Datei ausprobieren','Antivirus ausschalten und öffnen','Die offizielle EICAR-Testdatei nach Anleitung nutzen','Unbekannte Dateien aus Foren laden'],correct:2,explain:'Richtig. Die EICAR-Testdatei enthält keinen echten Virus und wurde entwickelt, damit kompatible Schutzsoftware darauf reagiert.'}
-    ];
-    let qi=0, score=0, answered=false;
-    const qText=document.getElementById('questionText'), answerGrid=document.getElementById('answerGrid'), feedback=document.getElementById('quizFeedback'), count=document.getElementById('quizCount'), scoreEl=document.getElementById('quizScore'), next=document.getElementById('nextQuestion');
-    function renderQuestion(){
-      answered=false;
-      const q=quizQuestions[qi];
-      qText.textContent=q.q;count.textContent='FRAGE '+String(qi+1).padStart(2,'0')+' / '+String(quizQuestions.length).padStart(2,'0');
-      feedback.textContent='Wähle eine Antwort, um das Feedback zu sehen.';
-      answerGrid.innerHTML='';
-      q.a.forEach((label,i)=>{
-        const b=document.createElement('button');b.type='button';b.className='answer';b.textContent=label;b.addEventListener('click',()=>pickAnswer(i));answerGrid.appendChild(b);
-      });
-      next.textContent=qi===quizQuestions.length-1?'Quiz neu starten ↻':'Nächste Frage →';
-    }
-    function pickAnswer(i){
-      if(answered)return;answered=true;const q=quizQuestions[qi];const buttons=answerGrid.querySelectorAll('button');
-      buttons.forEach((b,index)=>{b.disabled=true;if(index===q.correct)b.classList.add('correct');else if(index===i)b.classList.add('wrong')});
-      if(i===q.correct)score++;
-      scoreEl.textContent='PUNKTE: '+score+' / '+(qi+1);
-      feedback.textContent=(i===q.correct?'✓ Richtig! ':'✕ Nicht ganz. ')+q.explain;
-    }
-    next.addEventListener('click',()=>{
-      if(qi===quizQuestions.length-1){qi=0;score=0;scoreEl.textContent='PUNKTE: 0';renderQuestion();return}
-      if(!answered){feedback.textContent='Wähle zuerst eine Antwort.';return}
-      qi++;renderQuestion();
+  const cases = {
+    attachment:{level:4,state:'Hohes Risiko · Beispiel',category:'Unerwartete Datei',title:'Nicht öffnen, Herkunft prüfen.',text:'Ein unerwarteter Anhang kann legitim sein oder Schadsoftware enthalten. Öffne ihn nicht, um „mal nachzusehen“. Prüfe den Absender über einen bekannten Kontaktweg, bestätige den Anlass und verwende den Schutzscanner, den du bereits kennst.'},
+    macro:{level:4,state:'Erhöhte Vorsicht · Beispiel',category:'Aktive Inhalte',title:'Makros nicht auf Aufforderung aktivieren.',text:'Dokumente können dazu drängen, Makros oder andere aktive Inhalte zuzulassen. Solche Inhalte werden auch bei Angriffen missbraucht. Öffne nichts weiter, bis Absender und Zweck unabhängig bestätigt sind.'},
+    login:{level:4,state:'Phishing-Verdacht · Beispiel',category:'Anmeldedaten',title:'Link umgehen und Dienst selbst öffnen.',text:'Ein plötzlich angeforderter Login kann zu einer gefälschten Seite führen. Klicke nicht weiter. Öffne den Dienst über ein bekanntes Lesezeichen oder tippe seine Adresse selbst ein und prüfe aktive Sitzungen.'},
+    official:{level:1,state:'Günstigerer Kontext · Beispiel',category:'Update-Quelle',title:'Offizielle Quelle ist besser – aber keine Garantie.',text:'Ein Update direkt aus der integrierten App oder vom echten Hersteller ist in der Regel besser als ein Download über eine Werbeanzeige. Prüfe die Domain und die Signatur, sofern verfügbar. Die Simulation kann die konkrete Datei nicht verifizieren.'},
+    scanner:{level:2,state:'Kein abschließender Befund',category:'Scanner-Ergebnis',title:'Null Treffer bedeutet nicht risikofrei.',text:'Ein Scan ohne Erkennung ist ein nützlicher Hinweis, aber keine Garantie. Neue oder gezielt verschleierte Malware kann unentdeckt bleiben. Berücksichtige Quelle, erwartetes Verhalten und andere unabhängige Informationen.'},
+    slow:{level:2,state:'Unspezifisches Signal',category:'Systemverhalten',title:'Langsamkeit allein beweist keine Infektion.',text:'Prüfe Ressourcenverbrauch, kürzlich installierte Programme und Updates. Wenn weitere Signale dazukommen, führe einen Scan mit deinem vertrauenswürdigen Schutzprogramm aus. Vermeide unbekannte „PC-Cleaner“ aus Pop-ups.'}
+  };
+  document.getElementById('analyseBtn').addEventListener('click', function(){
+    const key = document.getElementById('caseType').value;
+    const item = cases[key];
+    const label = document.getElementById('caseName').value.trim() || 'Ausgewähltes Szenario';
+    document.getElementById('reportHeading').textContent = label;
+    document.getElementById('reportState').textContent = item.state;
+    document.getElementById('reportCategory').textContent = item.category;
+    document.getElementById('reportTitle').textContent = item.title;
+    document.getElementById('reportText').textContent = item.text;
+    document.getElementById('riskCaption').textContent = 'Simulierte Aufmerksamkeit: ' + ['sehr niedrig','niedrig','mittel','erhöht','hoch'][item.level-1];
+    for(let i=1;i<=5;i++) document.getElementById('r'+i).classList.toggle('on', i<=item.level);
+  });
+
+  const questions = [
+    {q:'Ein unbekannter Absender schickt dir unerwartet eine ZIP-Datei. Was ist der sinnvollste nächste Schritt?',a:['Öffnen, um herauszufinden, was es ist','Absender und Anlass über einen unabhängigen, bekannten Weg prüfen','Datei umbenennen und dann öffnen','Den Virenschutz vorübergehend ausschalten'],correct:1,why:'Richtig. Unerwartete Anhänge nicht öffnen. Prüfe Absender und Anlass über einen bekannten Kontaktweg – nicht über die Kontaktdaten in der verdächtigen Nachricht.'},
+    {q:'Ein Dateiscanner findet null Treffer. Was kannst du daraus schließen?',a:['Die Datei ist garantiert sicher','Alle Scanner erkennen jede Malware','Es wurde nichts erkannt; ein Restrisiko bleibt','Du kannst die Datei ohne weitere Prüfung starten'],correct:2,why:'Genau. Scanner können neue oder verschleierte Bedrohungen übersehen. Ein Scan-Ergebnis ist nur ein Teil der Bewertung.'},
+    {q:'Wie kannst du eine Antiviren-Erkennung testen, ohne echte Malware einzusetzen?',a:['Eine echte Malware-Datei aus einem Forum laden','Die Schutzsoftware deaktivieren','Die offizielle EICAR-Testdatei und Anleitung nutzen','Unbekannte Anhänge öffnen'],correct:2,why:'Richtig. EICAR stellt eine standardisierte Testdatei ohne echte Virusfunktion bereit, auf die kompatible Schutzsoftware reagieren kann.'}
+  ];
+  let questionIndex=0, correctCount=0, answered=false;
+  const questionText=document.getElementById('questionText'), answerGrid=document.getElementById('answerGrid'), feedback=document.getElementById('quizFeedback'), quizCount=document.getElementById('quizCount'), quizScore=document.getElementById('quizScore'), next=document.getElementById('nextQuestion');
+  function showQuestion(){
+    answered=false;
+    const q=questions[questionIndex];
+    questionText.textContent=q.q;
+    quizCount.textContent='FRAGE '+String(questionIndex+1).padStart(2,'0')+' / '+String(questions.length).padStart(2,'0');
+    feedback.textContent='Wähle eine Antwort, um die Erklärung zu sehen.';
+    answerGrid.replaceChildren();
+    q.a.forEach((answer,i)=>{
+      const button=document.createElement('button');
+      button.type='button';button.className='answer';button.textContent=answer;
+      button.addEventListener('click',()=>chooseAnswer(i));
+      answerGrid.appendChild(button);
     });
-    renderQuestion();
-  </script>
+    next.textContent=questionIndex===questions.length-1?'Erneut versuchen ↻':'Nächste Frage →';
+  }
+  function chooseAnswer(index){
+    if(answered) return;
+    answered=true;
+    const q=questions[questionIndex];
+    Array.from(answerGrid.children).forEach((button,i)=>{
+      button.disabled=true;
+      if(i===q.correct) button.classList.add('correct');
+      else if(i===index) button.classList.add('wrong');
+    });
+    if(index===q.correct) correctCount++;
+    quizScore.textContent='RICHTIG: '+correctCount+' / '+(questionIndex+1);
+    feedback.textContent=(index===q.correct?'Richtig. ':'Nicht ganz. ')+q.why;
+  }
+  next.addEventListener('click',()=>{
+    if(questionIndex===questions.length-1){questionIndex=0;correctCount=0;quizScore.textContent='PUNKTE: 0';showQuestion();return}
+    if(!answered){feedback.textContent='Wähle zuerst eine Antwort.';return}
+    questionIndex++;showQuestion();
+  });
+  showQuestion();
+</script>
 </body>
 </html>
