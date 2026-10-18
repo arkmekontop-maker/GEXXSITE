@@ -32,9 +32,8 @@ export async function createApp(options={}) {
   if(production&&!configuredOrigin.startsWith('https://')){db.close();throw new Error('Im Produktionsbetrieb muss PUBLIC_ORIGIN mit https:// beginnen.');}
   const trustProxy=options.trustProxy??(process.env.TRUST_PROXY==='1');
   const configuredAdmin=(options.adminUsername||process.env.ADMIN_USERNAME||'').toLowerCase();
-  // Admin rights are assigned only to an existing account explicitly selected by the operator.
   if(configuredAdmin)db.prepare("UPDATE users SET role='admin' WHERE username=?").run(configuredAdmin);
-  const assets=new Map(await Promise.all(['index.html','styles.css','content.js','app.js'].map(async name=>[name,await readFile(join(here,name))])));
+  const assets=new Map(await Promise.all(['index.html','styles.css','content.js','app.js','auth.js'].map(async name=>[name,await readFile(join(here,name))])));
   const rates=new Map(),streams=new Set();
   let activeHashes=0;
   const cleanup=setInterval(()=>{const now=Date.now();for(const [k,v] of rates)if(v.until<now)rates.delete(k);db.prepare('DELETE FROM sessions WHERE expires<?').run(now);},60000);cleanup.unref();
@@ -46,7 +45,7 @@ export async function createApp(options={}) {
   function cookie(value,age=SESSION_AGE){return `athar_session=${value}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${age}${secure?'; Secure':''}`;}
   function session(res,u,req){const old=token(req);if(old)db.prepare('DELETE FROM sessions WHERE token_hash=?').run(digest(old));const value=randomBytes(32).toString('hex');db.prepare('INSERT INTO sessions VALUES(?,?,?)').run(digest(value),u.id,Date.now()+SESSION_AGE*1000);res.setHeader('Set-Cookie',cookie(value));}
   function send(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));}
-  function broadcast(){for(const peer of streams)if(!peer.res.write('event: change\ndata: {}\n\n'))peer.res.destroy();}
+  function broadcast(){for(const peer of streams)if(!peer.res.write('event: change\\ndata: {}\\n\\n'))peer.res.destroy();}
   async function body(req){if(!String(req.headers['content-type']||'').startsWith('application/json'))throw error(415,'JSON erwartet.');if(Number(req.headers['content-length'])>16384)throw error(413,'Die Anfrage ist zu groß.');const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;if(length>16384)throw error(413,'Die Anfrage ist zu groß.');chunks.push(chunk)}try{const result=JSON.parse(Buffer.concat(chunks).toString('utf8'));if(!result||Array.isArray(result)||typeof result!=='object')throw new Error();return result}catch{throw error(400,'Ungültige JSON-Daten.');}}
   async function hash(password,salt){if(activeHashes>=4)throw error(503,'Die Anmeldung ist ausgelastet. Bitte gleich erneut versuchen.');activeHashes++;try{return Buffer.from(await scrypt(password,salt,64))}finally{activeHashes--;}}
   function ownOrigin(req){const expected=configuredOrigin||`http://${req.headers.host}`;if(req.headers.origin!==expected||req.headers['sec-fetch-site']==='cross-site')throw error(403,'Diese Anfrage stammt nicht von der ATHAR-Website.');}
@@ -105,8 +104,8 @@ export async function createApp(options={}) {
       if(method==='GET'&&path==='/api/events'){
         if(req.headers['sec-fetch-site']==='cross-site'||(req.headers.origin&&req.headers.origin!==(configuredOrigin||`http://${req.headers.host}`)))throw error(403,'Fremder Ursprung.');
         rate('stream:'+address,30,60000);if(streams.size>=200||[...streams].filter(p=>p.address===address).length>=8)throw error(429,'Zu viele offene Verbindungen.');
-        res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','Connection':'keep-alive','X-Accel-Buffering':'no'});res.write('retry: 5000\n: connected\n\n');
-        const peer={res,address};streams.add(peer);const heartbeat=setInterval(()=>res.write(': heartbeat\n\n'),20000);heartbeat.unref();res.on('close',()=>{clearInterval(heartbeat);streams.delete(peer)});return;
+        res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','Connection':'keep-alive','X-Accel-Buffering':'no'});res.write('retry: 5000\\n: connected\\n\\n');
+        const peer={res,address};streams.add(peer);const heartbeat=setInterval(()=>res.write(': heartbeat\\n\\n'),20000);heartbeat.unref();res.on('close',()=>{clearInterval(heartbeat);streams.delete(peer)});return;
       }
       throw error(404,'Nicht gefunden.');
     } catch(err){if(res.headersSent){res.end();return;}if(!err.status)console.error('ATHAR request error:',err.message);if(err.status===429)res.setHeader('Retry-After','60');send(res,err.status||500,{error:err.status?err.message:'Interner Serverfehler. Bitte später erneut versuchen.'});}
