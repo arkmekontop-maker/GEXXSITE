@@ -1,0 +1,3 @@
+{$ATHAR_DOMAIN} {
+  reverse_proxy athar:3000
+}

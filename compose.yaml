@@ -1,0 +1,30 @@
+services:
+  athar:
+    build: .
+    restart: unless-stopped
+    environment:
+      PUBLIC_ORIGIN: https://${ATHAR_DOMAIN:?Set ATHAR_DOMAIN in .env}
+      TRUST_PROXY: '1'
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+    volumes:
+      - athar-data:/app/data
+    expose:
+      - '3000'
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      ATHAR_DOMAIN: ${ATHAR_DOMAIN:?Set ATHAR_DOMAIN in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - athar
+volumes:
+  athar-data:
+  caddy-data:
+  caddy-config:
