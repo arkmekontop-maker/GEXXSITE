@@ -1,6 +1,0 @@
-data
-.git
-.env
-node_modules
-test
-*.sqlite*
