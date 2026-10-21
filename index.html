@@ -1,115 +1,96 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101411">
-  <meta name="description" content="Dein kompakter Fieldguide für ARK Official PvP: Einsatzplanung, Tribe-Board, Raid-Checkliste und verlässliche Community-Tools.">
-  <title>ARK Field Ops — Official PvP Fieldguide</title>
+  <meta name="theme-color" content="#f8f8f6">
+  <meta name="description" content="GEXX — a personal space for technology, knowledge and the things I enjoy.">
+  <title>GEXX — Personal Website</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <header class="topbar">
-    <a class="brand" href="#top" aria-label="ARK Field Ops Start">
-      <span class="brand-mark"><span></span><span></span><span></span></span>
-      <span class="brand-name">FIELD<span>OPS</span><small>ARK SURVIVOR NETWORK</small></span>
-    </a>
-    <nav class="main-nav" aria-label="Hauptnavigation">
-      <a class="active" href="#intel">INTEL</a><a href="#operations">OPERATIONS</a><a href="#tribe">TRIBE</a><a href="#fieldkit">FIELD KIT</a>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="siteHeader">
+    <a class="wordmark" href="#home" aria-label="GEXX home">GEXX<span class="wordmark-period">.</span></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav"><span></span><span></span></button>
+    <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#cybersecurity">Cybersecurity</a><a href="#aqidah">Aqidah</a><a href="#ark">ARK</a><a href="#projects">Projects</a>
     </nav>
-    <div class="top-actions"><span class="mode-tag"><i></i> ASA · OFFICIAL PVP</span><a class="discord-link" href="https://discord.com/invite/playark" target="_blank" rel="noreferrer">COMMUNITY <span>↗</span></a></div>
-    <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
   </header>
 
-  <main id="top">
-    <section class="hero" id="intel">
-      <div class="hero-backdrop" aria-hidden="true"><div class="contour contour-a"></div><div class="contour contour-b"></div><div class="crosshair">+</div><div class="coord">LAT 31.8 / LON 72.4</div></div>
-      <div class="hero-content">
-        <div class="eyebrow"><span class="eyebrow-line"></span> SURVIVAL INTELLIGENCE <span class="eyebrow-date">FIELD NOTES / 001</span></div>
-        <h1>SPIEL DEN<br><em>GRIND.</em><br>GEWINN DEN RAID.</h1>
-        <p class="hero-copy">Der kompakte Fieldguide für Official-PvP-Survivor.<br>Weniger suchen. Besser vorbereiten. Länger halten.</p>
-        <div class="hero-actions"><a class="button button-primary" href="#operations">EINSATZ PLANEN <span>↘</span></a><a class="text-link" href="#fieldkit">TOOLS & KARTEN <span>→</span></a></div>
-        <div class="hero-foot"><span><b class="live-dot"></b> FIELDGUIDE ONLINE</span><span>BUILT FOR THE ARK GRIND</span></div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="scan-ring ring-outer"></div><div class="scan-ring ring-middle"></div><div class="scan-ring ring-inner"></div>
-        <div class="dino-silhouette"><svg viewBox="0 0 470 440" role="presentation"><path d="M57 344c20-21 48-38 85-49l43-20 24-48 33-23 18-49 38-29 30 7 12 22-17 18-23-8-16 35 27 15 18 48 47 17 37 34 29 14-6 17-43-5-51-23-35-7-12 48 10 61-13 9-24-5-18-59-11-55-55 7-16 45 4 61-13 9-24-4-18-58-3-43-54 3-36-2-32-20-38 14-24 33-22-4 14-47 38-42-28-2-25 22-24 17-23-1 13-30 33-27 46-10 26 8 27-20-6-26 19-23 20 1 6 28 23 10 18-18-7-29 15-23 20 11 4 31-10 24 17 24 35-9 11-32 25-13 24 12-5 35-27 27-14 39 2 47 18 33 27 15 27 4 25 28 31 15-3 15-42-2-25-14-30 4-33 18-42-9-31 6-19 31 7 54-15 7-21-5-15-63-4-36-31 2-30 23-6 43 4 59-14 8-22-4-16-60-7-25-31-1-37 13-20 30-20-4 9-38 31-44 42-16z"/></svg></div>
-        <div class="visual-label label-top"><span>THREAT LEVEL</span><strong>HOSTILE</strong></div><div class="visual-label label-bottom"><span>FIELD ZONE</span><strong>THE ISLAND / ASA</strong></div>
-        <div class="target-mark">◎</div>
-      </div>
-      <div class="hero-side-index">01 — 04 <span></span> SURVIVOR FIELD MANUAL</div>
-    </section>
-
-    <section class="signal-strip" aria-label="Schnellübersicht">
-      <div class="signal-heading"><span class="signal-icon">◈</span><div><small>NETWORK BRIEF</small><strong>VOR DEM LOG-IN</strong></div></div>
-      <a class="signal" href="https://arkstatus.com/rates/?lang=en" target="_blank" rel="noreferrer"><span class="signal-kicker">STANDARD RATES</span><strong>1× <small>BASELINE</small></strong><span class="signal-note">Event-Booster prüfen <b>↗</b></span></a>
-      <a class="signal" href="https://arkstatus.com/servers/official-servers/" target="_blank" rel="noreferrer"><span class="signal-kicker">SERVER NETWORK</span><strong>STATUS <small>LIVE CHECK</small></strong><span class="signal-note">Official-Server durchsuchen <b>↗</b></span></a>
-      <a class="signal" href="https://survivetheark.com/index.php?/articles.html/" target="_blank" rel="noreferrer"><span class="signal-kicker">PATCH INTEL</span><strong>OFFICIAL <small>NEWS</small></strong><span class="signal-note">Patchnotes & Ankündigungen <b>↗</b></span></a>
-      <p class="signal-disclaimer">Raten und Netzwerkstatus ändern sich. Links öffnen externe Quellen.</p>
-    </section>
-
-    <section class="section operations-section" id="operations">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT MOVE</div><h2>OPERATIONS BOARD</h2></div><div class="heading-note">01 / PREPARE BEFORE YOU DEPLOY</div></div>
-      <div class="ops-grid">
-        <article class="ops-card ops-feature">
-          <div class="card-topline"><span>01 — RAID PREP</span><span class="status-pill"><i></i> CHECKLIST</span></div>
-          <div class="ops-feature-copy"><h3>Kein Raid ohne<br><em>Rückweg.</em></h3><p>Arbeite die Basics ab, bevor ihr eure Position verratet.</p></div>
-          <div class="progress-row"><span id="checkProgress">0 / 8 COMPLETE</span><div class="progress-track"><i id="progressBar"></i></div></div>
-          <ul class="checklist" id="raidChecklist"></ul>
-          <button class="reset-link" id="resetChecklist">CHECKLISTE ZURÜCKSETZEN ↺</button>
-        </article>
-        <article class="ops-card route-card">
-          <div class="card-topline"><span>02 — FIELD ROUTES</span><span>ASA / PVP</span></div>
-          <h3>Die ersten<br>72 Stunden</h3>
-          <p class="route-intro">Ein klarer Start hält euch aus dem Respawn-Loop.</p>
-          <div class="route-list">
-            <div class="route-step"><b>01</b><div><strong>SCOUT & SPAWN</strong><span>Spawn wählen, Wasser und Metall sichern. Nicht am ersten Strand bauen.</span></div><i>↗</i></div>
-            <div class="route-step"><b>02</b><div><strong>HIDE THE CORE</strong><span>Kleine versteckte Stashes, getrennte Kits, keine ganze Base in einer Kiste.</span></div><i>↗</i></div>
-            <div class="route-step"><b>03</b><div><strong>HOLD & SCALE</strong><span>Defendbare Position, Ammo-Nachschub und Ausweichroute zuerst.</span></div><i>↗</i></div>
-          </div>
-          <a class="card-link" href="https://ark.wiki.gg/wiki/Getting_started" target="_blank" rel="noreferrer">SURVIVAL GUIDE ÖFFNEN <span>↗</span></a>
-        </article>
-        <article class="ops-card map-card">
-          <div class="card-topline"><span>03 — MAP INTEL</span><span>FIELD MAPS</span></div>
-          <div class="map-art" aria-hidden="true"><svg viewBox="0 0 500 270"><path d="m38 69 37-26 39 9 22-24 41 11 26-15 36 25 41-8 29 20 39-1 31 23 42-7 35 20-13 28 22 21-20 28 5 34-34 15-5 30-36 4-31 29-35-12-29 12-28-19-34 11-32-22-29 6-18-27-39-8-13-31-35-9-15-28-34-12-14-28z"/><path d="m109 56 44 18 26 37 58 11 21 43 61-22 46 18m-198 54 33-45 42-18 16-50m115 118-25-47 28-48m-236 3 51 12 26 35"/></svg><span class="map-coord c1">LAT 14.2 / LON 82.4</span><span class="map-coord c2">SECTOR 04</span><span class="map-pin">⌖</span><span class="map-grid"></span></div>
-          <h3>Jede Map. Ein Plan.</h3><p>Spawn, Ressourcen, Höhlen und Explorer Notes auf dem Wiki gegenchecken.</p>
-          <div class="map-links"><a href="https://ark.wiki.gg/wiki/The_Island" target="_blank" rel="noreferrer">THE ISLAND <span>↗</span></a><a href="https://ark.wiki.gg/wiki/Maps" target="_blank" rel="noreferrer">ALLE MAPS <span>↗</span></a></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="tribe-section section" id="tribe">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> SQUAD MANAGEMENT</div><h2>TRIBE BOARD</h2></div><div class="heading-note">LOCAL ONLY / SAVED ON THIS DEVICE</div></div>
-      <div class="tribe-layout">
-        <div class="tribe-panel">
-          <div class="panel-head"><div><span class="panel-label">YOUR FIRETEAM</span><h3>Stammübersicht</h3></div><span class="member-count"><b id="memberCount">0</b> SURVIVORS</span></div>
-          <form id="memberForm" class="member-form"><label class="sr-only" for="memberName">Survivor-Name</label><input id="memberName" maxlength="28" placeholder="Survivor hinzufügen …" required><label class="sr-only" for="memberRole">Rolle</label><select id="memberRole"><option>Flex</option><option>Builder</option><option>Farmer</option><option>Breeder</option><option>Scout</option><option>Shotcaller</option></select><button class="add-button" type="submit">ADD +</button></form>
-          <div class="roster-list" id="rosterList"></div><p class="privacy-note"><span>◉</span> Diese Liste bleibt in deinem Browser. Keine Konten, kein Server-Sync.</p>
+  <main id="main">
+    <section class="hero" id="home" aria-labelledby="heroTitle">
+      <div class="hero-inner">
+        <p class="eyebrow hero-eyebrow">PERSONAL SPACE <span>—</span> 2026</p>
+        <h1 id="heroTitle">GEXX</h1>
+        <p class="hero-topics">Cybersecurity <i>·</i> Linux <i>·</i> Aqidah <i>·</i> ARK</p>
+        <div class="hero-bottom">
+          <p class="hero-statement">Technology, knowledge<br>and the things I enjoy.</p>
+          <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><b aria-hidden="true">↓</b></a>
         </div>
-        <aside class="tribe-aside"><div class="aside-index">FIELD NOTE 02</div><h3>Offizielle<br>Tribe-Limits<br>checken.</h3><p>Tribe-Größe hängt vom offiziellen Modus ab. Prüfe die aktuellen Regeln direkt beim Spielbetreiber, bevor ihr euch organisiert.</p><a class="card-link" href="https://support.survivetheark.com/hc/en-us/articles/18374796351767-Different-types-of-game-modes" target="_blank" rel="noreferrer">MODI & LIMITS <span>↗</span></a><div class="warning-stamp">TRUST<br>YOUR<br>TRIBE</div></aside>
+      </div>
+      <div class="hero-index" aria-hidden="true">01 <span></span> 06</div>
+    </section>
+
+    <section class="about section-shell" id="about" aria-labelledby="aboutTitle">
+      <div class="section-meta"><span>01 / ABOUT</span><span>A LITTLE CONTEXT</span></div>
+      <div class="about-grid reveal">
+        <h2 id="aboutTitle">One place for<br>what I <em>build,</em><br>learn and enjoy.</h2>
+        <div class="about-copy"><p class="large-copy">A personal space connecting technology, knowledge and play.</p><p>Explore the topics I care about — from cybersecurity and Linux to Aqidah and ARK. Each has a place here, all part of one identity.</p><a class="under-link" href="#cybersecurity">EXPLORE THE SITE <span>↘</span></a></div>
       </div>
     </section>
 
-    <section class="section fieldkit-section" id="fieldkit">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> SURVIVOR TOOLBOX</div><h2>FIELD KIT</h2></div><div class="heading-note">EXTERNAL TOOLS / CURATED SHORTCUTS</div></div>
-      <div class="tool-filters" role="group" aria-label="Tools filtern"><button class="filter-chip selected" data-filter="all">ALL INTEL</button><button class="filter-chip" data-filter="creatures">CREATURES</button><button class="filter-chip" data-filter="maps">MAPS</button><button class="filter-chip" data-filter="crafting">CRAFT & BUILD</button></div>
-      <div class="tools-grid" id="toolsGrid">
-        <a class="tool-card" data-category="creatures" href="https://www.dododex.com/" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 01</span><span class="tool-glyph">⌁</span><strong>TAME INTEL</strong><p>Futter, Torpor, Betäubung und Taming-Planung.</p><span class="tool-open">DODODEX <b>↗</b></span></a>
-        <a class="tool-card" data-category="creatures" href="https://www.dododex.com/breeding" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 02</span><span class="tool-glyph">◌</span><strong>BREEDING CALC</strong><p>Brut- und Aufzuchtzeiten für dein Setup kalkulieren.</p><span class="tool-open">DODODEX BREEDING <b>↗</b></span></a>
-        <a class="tool-card" data-category="creatures" href="https://ark.wiki.gg/wiki/Breeding" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 03</span><span class="tool-glyph">⌬</span><strong>STAT & MUTATION</strong><p>Vererbung, Mutationen und Wild-Stats verstehen.</p><span class="tool-open">ARK WIKI <b>↗</b></span></a>
-        <a class="tool-card" data-category="maps" href="https://ark.wiki.gg/wiki/Explorer_Map_(The_Island)" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 04</span><span class="tool-glyph">⌖</span><strong>RESOURCE MAP</strong><p>Spawns, Ressourcen, Artefakte und Höhlen finden.</p><span class="tool-open">EXPLORER MAP <b>↗</b></span></a>
-        <a class="tool-card" data-category="crafting" href="https://ark.wiki.gg/wiki/Category:Crafting" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 05</span><span class="tool-glyph">⛭</span><strong>CRAFTING TREE</strong><p>Rezepte und Materialketten für den nächsten Push.</p><span class="tool-open">CRAFTING WIKI <b>↗</b></span></a>
-        <a class="tool-card" data-category="crafting" href="https://ark.wiki.gg/wiki/Building" target="_blank" rel="noreferrer"><span class="tool-no">TOOL / 06</span><span class="tool-glyph">▦</span><strong>BUILD INTEL</strong><p>Strukturtypen, Bauregeln und Grundlagen nachschlagen.</p><span class="tool-open">BUILDING WIKI <b>↗</b></span></a>
+    <section class="interest-section section-shell" id="cybersecurity" aria-labelledby="cyberTitle">
+      <div class="section-meta"><span>02 / TECHNOLOGY</span><span>AREAS OF INTEREST</span></div>
+      <div class="interest-head reveal"><h2 id="cyberTitle">Cybersecurity<span class="muted-period">.</span></h2><p>Security, systems and the details that make technology work.</p></div>
+      <div class="topic-grid reveal" aria-label="Cybersecurity topics">
+        <a class="topic-item" href="#projects"><span class="topic-num">01</span><span class="topic-name">Security</span><span class="topic-arrow">↗</span></a>
+        <a class="topic-item" href="#projects"><span class="topic-num">02</span><span class="topic-name">OSINT</span><span class="topic-arrow">↗</span></a>
+        <a class="topic-item" href="#projects"><span class="topic-num">03</span><span class="topic-name">Linux</span><span class="topic-arrow">↗</span></a>
+        <a class="topic-item" href="#projects"><span class="topic-num">04</span><span class="topic-name">Networking</span><span class="topic-arrow">↗</span></a>
       </div>
-      <div class="source-note"><span>DATA NOTE</span><p>Diese Seite ist ein unabhängiger Spieler-Fieldguide, kein offizielles ARK-Angebot. Tool-Inhalte, Raten und Links werden von den jeweiligen Anbietern gepflegt.</p></div>
     </section>
 
-    <footer class="footer"><a class="brand" href="#top"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">FIELD<span>OPS</span><small>ARK SURVIVOR NETWORK</small></span></a><div class="footer-mid">SURVIVE THE GRIND. STAY READY.</div><div class="footer-right">UNOFFICIAL COMMUNITY PROJECT <span>© 2026</span></div></footer>
+    <section class="aqidah-section section-shell" id="aqidah" aria-labelledby="aqidahTitle">
+      <div class="section-meta"><span>03 / KNOWLEDGE</span><span>A QUIET READING SPACE</span></div>
+      <div class="aqidah-layout reveal">
+        <div><p class="eyebrow">STUDY · REFLECT · LEARN</p><h2 id="aqidahTitle">Aqidah<span class="muted-period">.</span></h2><p class="aqidah-copy">A calm place for learning and keeping notes. Religious content will be added with care and clear references.</p></div>
+        <div class="aqidah-list" aria-label="Aqidah topics"><div><span>01</span><strong>Quran</strong></div><div><span>02</span><strong>Hadith</strong></div><div><span>03</span><strong>Knowledge</strong></div><div><span>04</span><strong>Notes</strong></div></div>
+      </div>
+    </section>
+
+    <section class="ark-section section-shell" id="ark" aria-labelledby="arkTitle">
+      <div class="section-meta"><span>04 / PLAY</span><span>ARK: SURVIVAL EVOLVED</span></div>
+      <div class="ark-layout reveal">
+        <div class="ark-heading"><p class="eyebrow">SURVIVE · BUILD · COMPETE</p><h2 id="arkTitle">ARK<span class="muted-period">.</span></h2><p>Official PvP and the worlds around it.</p></div>
+        <div class="ark-list">
+          <a href="https://survivetheark.com/" target="_blank" rel="noreferrer"><span>01</span><strong>ARK: Survival Evolved</strong><span class="ark-detail">THE GAME</span><b>↗</b></a>
+          <a href="https://ark.wiki.gg/wiki/Server_Browser" target="_blank" rel="noreferrer"><span>02</span><strong>Official PvP</strong><span class="ark-detail">SERVER BROWSER</span><b>↗</b></a>
+          <div class="ark-static"><span>03</span><strong>PvP</strong><span class="ark-detail">FIELD NOTES</span><span class="ark-soon">SOON</span></div>
+          <div class="ark-static"><span>04</span><strong>Servers & clips</strong><span class="ark-detail">ARCHIVE</span><span class="ark-soon">SOON</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects-section section-shell" id="projects" aria-labelledby="projectsTitle">
+      <div class="section-meta"><span>05 / SELECTED WORK</span><span>PROJECTS & EXPERIMENTS</span></div>
+      <div class="projects-heading reveal"><h2 id="projectsTitle">Projects<span class="muted-period">.</span></h2><p>A small archive of things made along the way.</p></div>
+      <a class="project-card reveal" href="#home">
+        <div class="project-index">01</div><div class="project-main"><h3>GEXX / Personal Site</h3><p>A home for technology, knowledge and the things I enjoy.</p><div class="tech-list"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div></div><span class="project-link">VIEW PROJECT <b>↗</b></span>
+      </a>
+      <p class="project-footnote">More work will find its place here over time.</p>
+    </section>
+
+    <footer class="site-footer">
+      <a class="footer-mark" href="#home">GEXX<span>.</span></a>
+      <p>Technology, knowledge and the things I enjoy.</p>
+      <a class="back-top" href="#home">BACK TO TOP <span>↑</span></a>
+      <small>© 2026 GEXX</small>
+    </footer>
   </main>
 </body>
 </html>
