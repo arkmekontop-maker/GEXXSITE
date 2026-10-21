@@ -1,22 +1,15 @@
-# ARK Field Ops
+# GEXX — Personal Website
 
-Static player portal for ARK: Survival Ascended official PvP. It combines a persistent raid checklist, a local-only tribe roster, quick official-network links and a curated field kit of external ARK tools.
+A responsive, typography-led personal website for Cybersecurity, Linux, Aqidah and ARK.
 
-## Run it
+## Run locally
 
-Open `index.html` in a browser, or serve this directory with any static file server. No build step, account, backend or API key is required. The checklist and tribe board are saved in that browser's `localStorage` only.
+Open `index.html` in a browser or serve this directory with any static file server. It uses no build step, backend or account. Google Fonts are optional; the CSS includes system font fallbacks.
 
-## Research notes
+## Design and content
 
-The information hierarchy follows recurring patterns on ARK community-server sites: make status, rates, maps, events, rules and tribe activity quick to scan. For official PvP, the portal points to live rate and network trackers instead of presenting community-server settings as official data. It links to established taming, breeding and wiki resources rather than duplicating their changing game databases.
-
-The baseline-rate label is not a live feed. Official event boosts may change rates; always check the linked tracker before committing to a long tame or breeding cycle.
-
-## Sources reviewed
-
-- [Studio Wildcard support: game modes](https://support.survivetheark.com/hc/en-us/articles/18374796351767-Different-types-of-game-modes)
-- [ARK Status: current official rates and network status](https://arkstatus.com/)
-- [Dododex: taming and breeding tools](https://www.dododex.com/)
-- [ARK Official Community Wiki](https://ark.wiki.gg/)
-- [#JABBA community portal](https://jabbaark.com/) and [NO BS ARK](https://www.nobsark.com/) as examples of community-server portals
+- Monochrome black, white and gray palette with generous whitespace and fine rules.
+- One editorial system across all topics, with restrained motion and a reduced-motion fallback.
+- The Aqidah section contains only the user's named topics: Quran, Hadith, Knowledge and Notes. It does not present invented religious claims or quotations.
+- The ARK section distinguishes personal topic placeholders from external references.
 
