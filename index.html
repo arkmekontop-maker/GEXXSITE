@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f8f8f6">
-  <meta name="description" content="GEXX — a personal space for technology, knowledge and the things I enjoy.">
+  <meta name="theme-color" content="#fafaf9">
+  <meta name="description" content="GEXX — technology, knowledge and the things I enjoy.">
   <title>GEXX — Personal Website</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,82 +15,82 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header" id="siteHeader">
-    <a class="wordmark" href="#home" aria-label="GEXX home">GEXX<span class="wordmark-period">.</span></a>
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav"><span></span><span></span></button>
+    <a class="wordmark" href="#home" aria-label="GEXX home">GEXX</a>
     <nav class="site-nav" id="siteNav" aria-label="Main navigation">
       <a href="#home">Home</a><a href="#about">About</a><a href="#cybersecurity">Cybersecurity</a><a href="#aqidah">Aqidah</a><a href="#ark">ARK</a><a href="#projects">Projects</a>
     </nav>
+    <span class="nav-note">PERSONAL WEBSITE <i>·</i> 2026</span>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav"><span></span><span></span></button>
   </header>
 
   <main id="main">
     <section class="hero" id="home" aria-labelledby="heroTitle">
       <div class="hero-inner">
-        <p class="eyebrow hero-eyebrow">PERSONAL SPACE <span>—</span> 2026</p>
-        <h1 id="heroTitle">GEXX</h1>
-        <p class="hero-topics">Cybersecurity <i>·</i> Linux <i>·</i> Aqidah <i>·</i> ARK</p>
-        <div class="hero-bottom">
+        <div class="hero-kicker"><span>INDEPENDENT INTERESTS</span><span>01 — 05</span></div>
+        <h1 id="heroTitle">GEXX<span class="hero-period">.</span></h1>
+        <div class="hero-lower">
+          <p class="hero-topics">Cybersecurity <i>·</i> Linux <i>·</i> Aqidah <i>·</i> ARK</p>
           <p class="hero-statement">Technology, knowledge<br>and the things I enjoy.</p>
-          <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><b aria-hidden="true">↓</b></a>
+        </div>
+        <div class="hero-base"><span>PERSONAL SPACE / 2026</span><a href="#about">SCROLL TO EXPLORE <b aria-hidden="true">↓</b></a></div>
+      </div>
+      <span class="hero-side-note" aria-hidden="true">A PERSONAL INDEX, IN PROGRESS</span>
+    </section>
+
+    <section class="about section" id="about" aria-labelledby="aboutTitle">
+      <div class="section-index"><span>01</span><span>ABOUT</span></div>
+      <div class="section-content about-content">
+        <p class="section-kicker">A PERSONAL SPACE</p>
+        <h2 id="aboutTitle">Different interests.<br><span>One place.</span></h2>
+        <div class="about-bottom"><p>This is where technology, learning and play meet. A simple home for the subjects I return to, and the projects that come from them.</p><a class="inline-link" href="#cybersecurity">EXPLORE THE INDEX <span>↘</span></a></div>
+      </div>
+    </section>
+
+    <section class="cyber section" id="cybersecurity" aria-labelledby="cyberTitle">
+      <div class="section-index"><span>02</span><span>TECHNOLOGY</span></div>
+      <div class="section-content">
+        <div class="section-title-row"><div><p class="section-kicker">SYSTEMS / SECURITY / RESEARCH</p><h2 id="cyberTitle">Cybersecurity<span class="period">.</span></h2></div><p class="section-deck">The systems behind the screen — how they work, how they fail, and how to understand them.</p></div>
+        <div class="topic-list" aria-label="Cybersecurity interests">
+          <div class="topic-row"><span>01</span><h3>Security</h3><span class="topic-caption">PRACTICE & PRINCIPLES</span></div>
+          <div class="topic-row"><span>02</span><h3>OSINT</h3><span class="topic-caption">OPEN SOURCE INTELLIGENCE</span></div>
+          <div class="topic-row"><span>03</span><h3>Linux</h3><span class="topic-caption">SYSTEMS & WORKFLOWS</span></div>
+          <div class="topic-row"><span>04</span><h3>Networking</h3><span class="topic-caption">PROTOCOLS & INFRASTRUCTURE</span></div>
         </div>
       </div>
-      <div class="hero-index" aria-hidden="true">01 <span></span> 06</div>
     </section>
 
-    <section class="about section-shell" id="about" aria-labelledby="aboutTitle">
-      <div class="section-meta"><span>01 / ABOUT</span><span>A LITTLE CONTEXT</span></div>
-      <div class="about-grid reveal">
-        <h2 id="aboutTitle">One place for<br>what I <em>build,</em><br>learn and enjoy.</h2>
-        <div class="about-copy"><p class="large-copy">A personal space connecting technology, knowledge and play.</p><p>Explore the topics I care about — from cybersecurity and Linux to Aqidah and ARK. Each has a place here, all part of one identity.</p><a class="under-link" href="#cybersecurity">EXPLORE THE SITE <span>↘</span></a></div>
-      </div>
-    </section>
-
-    <section class="interest-section section-shell" id="cybersecurity" aria-labelledby="cyberTitle">
-      <div class="section-meta"><span>02 / TECHNOLOGY</span><span>AREAS OF INTEREST</span></div>
-      <div class="interest-head reveal"><h2 id="cyberTitle">Cybersecurity<span class="muted-period">.</span></h2><p>Security, systems and the details that make technology work.</p></div>
-      <div class="topic-grid reveal" aria-label="Cybersecurity topics">
-        <a class="topic-item" href="#projects"><span class="topic-num">01</span><span class="topic-name">Security</span><span class="topic-arrow">↗</span></a>
-        <a class="topic-item" href="#projects"><span class="topic-num">02</span><span class="topic-name">OSINT</span><span class="topic-arrow">↗</span></a>
-        <a class="topic-item" href="#projects"><span class="topic-num">03</span><span class="topic-name">Linux</span><span class="topic-arrow">↗</span></a>
-        <a class="topic-item" href="#projects"><span class="topic-num">04</span><span class="topic-name">Networking</span><span class="topic-arrow">↗</span></a>
-      </div>
-    </section>
-
-    <section class="aqidah-section section-shell" id="aqidah" aria-labelledby="aqidahTitle">
-      <div class="section-meta"><span>03 / KNOWLEDGE</span><span>A QUIET READING SPACE</span></div>
-      <div class="aqidah-layout reveal">
-        <div><p class="eyebrow">STUDY · REFLECT · LEARN</p><h2 id="aqidahTitle">Aqidah<span class="muted-period">.</span></h2><p class="aqidah-copy">A calm place for learning and keeping notes. Religious content will be added with care and clear references.</p></div>
+    <section class="aqidah section" id="aqidah" aria-labelledby="aqidahTitle">
+      <div class="section-index"><span>03</span><span>KNOWLEDGE</span></div>
+      <div class="section-content aqidah-content">
+        <div><p class="section-kicker">STUDY / REFLECTION</p><h2 id="aqidahTitle">Aqidah<span class="period">.</span></h2><p class="section-deck">A quiet index for learning, reading and keeping notes. Any material added here will be handled with care and clear references.</p></div>
         <div class="aqidah-list" aria-label="Aqidah topics"><div><span>01</span><strong>Quran</strong></div><div><span>02</span><strong>Hadith</strong></div><div><span>03</span><strong>Knowledge</strong></div><div><span>04</span><strong>Notes</strong></div></div>
       </div>
     </section>
 
-    <section class="ark-section section-shell" id="ark" aria-labelledby="arkTitle">
-      <div class="section-meta"><span>04 / PLAY</span><span>ARK: SURVIVAL EVOLVED</span></div>
-      <div class="ark-layout reveal">
-        <div class="ark-heading"><p class="eyebrow">SURVIVE · BUILD · COMPETE</p><h2 id="arkTitle">ARK<span class="muted-period">.</span></h2><p>Official PvP and the worlds around it.</p></div>
+    <section class="ark section" id="ark" aria-labelledby="arkTitle">
+      <div class="section-index"><span>04</span><span>PLAY</span></div>
+      <div class="section-content ark-content">
+        <div class="section-title-row"><div><p class="section-kicker">SURVIVE / BUILD / COMPETE</p><h2 id="arkTitle">ARK<span class="period">.</span></h2></div><p class="section-deck">ARK: Survival Evolved, Official PvP, and the people and stories around the game.</p></div>
         <div class="ark-list">
-          <a href="https://survivetheark.com/" target="_blank" rel="noreferrer"><span>01</span><strong>ARK: Survival Evolved</strong><span class="ark-detail">THE GAME</span><b>↗</b></a>
-          <a href="https://ark.wiki.gg/wiki/Server_Browser" target="_blank" rel="noreferrer"><span>02</span><strong>Official PvP</strong><span class="ark-detail">SERVER BROWSER</span><b>↗</b></a>
-          <div class="ark-static"><span>03</span><strong>PvP</strong><span class="ark-detail">FIELD NOTES</span><span class="ark-soon">SOON</span></div>
-          <div class="ark-static"><span>04</span><strong>Servers & clips</strong><span class="ark-detail">ARCHIVE</span><span class="ark-soon">SOON</span></div>
+          <a href="https://survivetheark.com/" target="_blank" rel="noreferrer"><span>01</span><strong>ARK: Survival Evolved</strong><small>THE GAME</small><b>↗</b></a>
+          <a href="https://ark.wiki.gg/wiki/Server_Browser" target="_blank" rel="noreferrer"><span>02</span><strong>Official PvP</strong><small>SERVER BROWSER</small><b>↗</b></a>
+          <div><span>03</span><strong>PvP</strong><small>FIELD NOTES</small><b class="quiet-mark">—</b></div>
+          <div><span>04</span><strong>Servers & clips</strong><small>PERSONAL ARCHIVE</small><b class="quiet-mark">—</b></div>
         </div>
       </div>
     </section>
 
-    <section class="projects-section section-shell" id="projects" aria-labelledby="projectsTitle">
-      <div class="section-meta"><span>05 / SELECTED WORK</span><span>PROJECTS & EXPERIMENTS</span></div>
-      <div class="projects-heading reveal"><h2 id="projectsTitle">Projects<span class="muted-period">.</span></h2><p>A small archive of things made along the way.</p></div>
-      <a class="project-card reveal" href="#home">
-        <div class="project-index">01</div><div class="project-main"><h3>GEXX / Personal Site</h3><p>A home for technology, knowledge and the things I enjoy.</p><div class="tech-list"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div></div><span class="project-link">VIEW PROJECT <b>↗</b></span>
-      </a>
-      <p class="project-footnote">More work will find its place here over time.</p>
+    <section class="projects section" id="projects" aria-labelledby="projectsTitle">
+      <div class="section-index"><span>05</span><span>SELECTED WORK</span></div>
+      <div class="section-content">
+        <div class="section-title-row"><div><p class="section-kicker">MADE ALONG THE WAY</p><h2 id="projectsTitle">Projects<span class="period">.</span></h2></div><p class="section-deck">A growing archive of ideas, experiments and finished work.</p></div>
+        <a class="project-row" href="https://github.com/arkmekontop-maker/GEXXSITE" target="_blank" rel="noreferrer">
+          <span class="project-index">01</span><div class="project-description"><h3>GEXX / Personal Site</h3><p>A home for technology, knowledge and the things I enjoy.</p><div class="tech-list"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div></div><span class="project-action">VIEW PROJECT <b>↗</b></span>
+        </a>
+      </div>
     </section>
 
-    <footer class="site-footer">
-      <a class="footer-mark" href="#home">GEXX<span>.</span></a>
-      <p>Technology, knowledge and the things I enjoy.</p>
-      <a class="back-top" href="#home">BACK TO TOP <span>↑</span></a>
-      <small>© 2026 GEXX</small>
-    </footer>
+    <footer class="site-footer"><a class="footer-wordmark" href="#home">GEXX<span>.</span></a><p>Technology, knowledge and the things I enjoy.</p><a class="back-top" href="#home">BACK TO TOP <span>↑</span></a><small>© 2026 GEXX</small></footer>
   </main>
 </body>
 </html>
